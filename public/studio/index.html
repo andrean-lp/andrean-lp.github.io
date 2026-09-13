@@ -4,11 +4,20 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Studio Content Manager</title>
-  <link rel="stylesheet" href="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.css" />
-  <link href="/studio/config.yml" type="text/yaml" rel="cms-config-url" />
 </head>
 <body>
-  <!-- Decap CMS Script -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+    CMS.init({
+      config: {
+        backend: {
+          name: 'github',
+          repo: 'andrean-lp/andrean-lp.github.io',
+          branch: 'main'
+        },
+        load_config_file: true
+      }
+    });
+  </script>
 </body>
 </html>
