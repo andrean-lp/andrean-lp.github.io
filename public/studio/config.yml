@@ -2,8 +2,7 @@ backend:
   name: github
   repo: andrean-lp/andrean-lp.github.io
   branch: main
-  base_url: https://decap-bridge.onrender.com
-  auth_endpoint: auth
+  auth_type: implicit
 
 media_folder: "public/images"
 public_folder: "/images"
