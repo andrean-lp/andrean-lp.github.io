@@ -13,6 +13,7 @@ export interface ProfileData {
 	instagram?: string;
 	facebook?: string;
 	linkedin?: string;
+	pinterest?: string;
 	[key: string]: any;
 }
 

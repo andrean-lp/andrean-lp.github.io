@@ -60,4 +60,5 @@ collections:
           - { label: "Link Instagram (Ikon Footer)", name: "instagram", widget: "string", required: false, hint: "Contoh: https://instagram.com/username" }
           - { label: "Link Facebook (Ikon Footer)", name: "facebook", widget: "string", required: false, hint: "Contoh: https://facebook.com/username" }
           - { label: "Link LinkedIn (Ikon Footer)", name: "linkedin", widget: "string", required: false, hint: "Contoh: https://linkedin.com/in/username" }
+          - { label: "Link Pinterest (Ikon Footer)", name: "pinterest", widget: "string", required: false, hint: "Contoh: https://pinterest.com/username" }
 
