@@ -98,11 +98,18 @@ collections:
             summary: "{{fields.title}}"
             fields:
               - { label: "Judul Project", name: "title", widget: "string" }
-              - { label: "Gambar Cover", name: "coverImage", widget: "image", required: false, hint: "Upload gambar cover project" }
-              - { label: "Link Details (Tombol Putih)", name: "detailsLink", widget: "string", required: false, hint: "Link saat tombol Details diklik (contoh: /posts/nama-artikel atau URL eksternal)" }
-              - { label: "Link Live Preview (Tombol Hitam)", name: "previewLink", widget: "string", required: false, hint: "Link saat tombol Live Preview diklik (contoh: https://domain-project.com)" }
-              - { label: "Problem", name: "problem", widget: "markdown", required: false }
-              - { label: "Solution", name: "solution", widget: "markdown", required: false }
-              - { label: "Impact", name: "impact", widget: "markdown", required: false }
+              - { label: "Slug URL (Halaman Detail)", name: "slug", widget: "string", hint: "Contoh: storiq. Menentukan alamat URL detail: /side-projects/storiq/" }
+              - { label: "Kategori Proyek", name: "category", widget: "string", required: false, hint: "Contoh: Portfolio & CMS Platform atau Learning Management System" }
+              - { label: "Tagline / Slogan", name: "tagline", widget: "string", required: false, hint: "Kalimat ringkas di bawah judul" }
+              - { label: "Tipe Proyek", name: "type", widget: "string", default: "Side Project", required: false, hint: "Contoh: Side Project, Web Application, SaaS" }
+              - { label: "Gambar Cover / Mockup", name: "coverImage", widget: "image", required: false, hint: "Upload gambar cover / mockup showcase proyek" }
+              - { label: "Link Live Preview (Tombol Hitam / Lihat Website)", name: "previewLink", widget: "string", required: false, hint: "Link website live, contoh: https://domain-project.com" }
+              - { label: "Custom Link Details", name: "detailsLink", widget: "string", required: false, hint: "Kosongkan untuk otomatis menggunakan /side-projects/[slug]/" }
+              - { label: "Tentang Proyek (About)", name: "about", widget: "markdown", required: false, hint: "Deskripsi umum tentang proyek" }
+              - { label: "Tantangan (Problem)", name: "problem", widget: "markdown", required: false }
+              - { label: "Solusi (Solution)", name: "solution", widget: "markdown", required: false }
+              - { label: "Fitur Utama (Key Features)", name: "features", widget: "list", required: false, hint: "Daftar fitur unggulan. Contoh: **Real-time Sync** — sinkronisasi data instan" }
+              - { label: "Hasil (Impact)", name: "impact", widget: "markdown", required: false }
+              - { label: "Deskripsi Tech Stack", name: "techStackDescription", widget: "markdown", required: false, hint: "Penjelasan mendalam mengapa teknologi tersebut dipilih" }
               - { label: "Technologies / Tools", name: "technologies", widget: "list", required: false }
 

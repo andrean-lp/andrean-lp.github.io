@@ -1,0 +1,385 @@
+﻿---
+import { createMarkdownProcessor } from '@astrojs/markdown-remark';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Schema from '../../components/Schema.astro';
+import featuredData from '../../data/featured_case_study.json';
+import profile from '../../data/profile.json';
+import site from '../../data/site.json';
+import { SITE_TITLE } from '../../consts';
+
+export async function getStaticPaths() {
+  const rawProjects: any[] = (featuredData as any).projects || ((featuredData as any).title ? [featuredData] : []);
+  
+  return rawProjects.map((p: any, index: number) => {
+    const slug = p.slug || (p.title ? p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') : `project-${index + 1}`);
+    const nextProject = rawProjects.length > 1 ? rawProjects[(index + 1) % rawProjects.length] : null;
+    return {
+      params: { slug },
+      props: { project: p, nextProject },
+    };
+  });
+}
+
+interface Props {
+  project: any;
+  nextProject: any;
+}
+
+const { project, nextProject } = Astro.props as Props;
+
+const mdProcessor = await createMarkdownProcessor();
+
+const title: string = project.title || 'Side Project';
+const category: string = project.category || 'Side Project';
+const tagline: string = project.tagline || '';
+const coverImage: string = project.coverImage || '';
+const previewLink: string = project.previewLink || '';
+const type: string = project.type || 'Side Project';
+
+// Process markdown contents
+const aboutHtml = project.about ? (await mdProcessor.render(project.about)).code : '';
+const problemHtml = project.problem ? (await mdProcessor.render(project.problem)).code : '';
+const solutionHtml = project.solution ? (await mdProcessor.render(project.solution)).code : '';
+const impactHtml = project.impact ? (await mdProcessor.render(project.impact)).code : '';
+const techStackHtml = project.techStackDescription ? (await mdProcessor.render(project.techStackDescription)).code : '';
+
+// Features
+const rawFeatures: string[] = project.features || [];
+const features = await Promise.all(
+  rawFeatures.map(async (feat: string) => {
+    return (await mdProcessor.render(feat)).code;
+  })
+);
+
+const technologies: string[] = (project.technologies || [])
+  .map((t: any) => (typeof t === 'string' ? t : t?.name || ''))
+  .filter(Boolean);
+
+// Next project data
+const nextSlug: string = nextProject
+  ? (nextProject.slug || (nextProject.title ? nextProject.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') : ''))
+  : '';
+
+// Contact links
+const whatsappNumber = (site.whatsapp || '').replace(/[^0-9]/g, '');
+const whatsappUrl = whatsappNumber ? `https://wa.me/${whatsappNumber}` : null;
+const linkedinUrl = profile.linkedin || null;
+const githubUrl = profile.github || null;
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') || 'https://andrean-lp.github.io';
+const currentSlug = project.slug || Astro.params.slug || '';
+const pageUrl = `${siteUrl}/side-projects/${currentSlug}/`;
+const ogImage = coverImage ? (coverImage.startsWith('http') ? coverImage : `${siteUrl}${coverImage}`) : undefined;
+
+// SEO Schemas
+const creativeWorkSchema = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "@id": pageUrl,
+  "name": title,
+  "headline": tagline || title,
+  "description": project.about || project.problem || tagline,
+  "image": ogImage,
+  "url": previewLink || pageUrl,
+  "creator": {
+    "@type": "Person",
+    "name": profile.name || SITE_TITLE,
+    "url": siteUrl,
+  },
+  "keywords": technologies.join(', '),
+  "genre": category,
+  "inLanguage": "id",
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Beranda",
+      "item": siteUrl,
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Side Project",
+      "item": `${siteUrl}/#side-projects`,
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": title,
+      "item": pageUrl,
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={`${title} — ${category} | ${profile.name || SITE_TITLE}`}
+  description={tagline || project.about || project.problem || title}
+  image={ogImage}
+>
+  <Schema item={creativeWorkSchema} />
+  <Schema item={breadcrumbSchema} />
+
+  <div class="container max-w-5xl mx-auto px-4 sm:px-6">
+    <!-- Breadcrumb -->
+    <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mb-8 sm:mb-10">
+      <a href="/" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Beranda</a>
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-40">
+        <path d="m9 18 6-6-6-6"/>
+      </svg>
+      <a href="/#side-projects" class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Side Project</a>
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-40">
+        <path d="m9 18 6-6-6-6"/>
+      </svg>
+      <span class="text-zinc-900 dark:text-zinc-100 font-medium truncate">{title}</span>
+    </nav>
+
+    <!-- Hero Header -->
+    <header class="mb-8 sm:mb-12">
+      {category && (
+        <p class="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-3 sm:mb-4">
+          {category}
+        </p>
+      )}
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 mb-4 sm:mb-5">
+        {title}
+      </h1>
+      {tagline && (
+        <p class="text-lg sm:text-xl md:text-2xl text-zinc-500 dark:text-zinc-400 font-medium leading-relaxed max-w-3xl">
+          {tagline}
+        </p>
+      )}
+    </header>
+
+    <!-- Cover Image Showcase -->
+    {coverImage && (
+      <div class="rounded-2xl sm:rounded-3xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-800/40 shadow-xl aspect-video sm:aspect-[16/10] w-full mb-12 sm:mb-16">
+        <img 
+          src={coverImage} 
+          alt={`${title} Cover Showcase`} 
+          class="w-full h-full object-cover" 
+          loading="eager"
+        />
+      </div>
+    )}
+
+    <!-- Main Content & Sidebar Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
+      <!-- Left Column: Content (8 Cols) -->
+      <main class="lg:col-span-8 space-y-10">
+        <div>
+          <h2 class="text-xs font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-4">
+            Tentang Proyek
+          </h2>
+
+          {aboutHtml && (
+            <div class="mb-10">
+              <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-4">
+                Tentang Proyek
+              </h3>
+              <div class="prose prose-zinc dark:prose-invert max-w-none text-zinc-700 dark:text-zinc-300 leading-relaxed" set:html={aboutHtml} />
+            </div>
+          )}
+
+          {problemHtml && (
+            <div class="mb-10">
+              <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-4">
+                Tantangan
+              </h3>
+              <div class="prose prose-zinc dark:prose-invert max-w-none text-zinc-700 dark:text-zinc-300 leading-relaxed" set:html={problemHtml} />
+            </div>
+          )}
+
+          {solutionHtml && (
+            <div class="mb-10">
+              <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-4">
+                Solusi
+              </h3>
+              <div class="prose prose-zinc dark:prose-invert max-w-none text-zinc-700 dark:text-zinc-300 leading-relaxed" set:html={solutionHtml} />
+            </div>
+          )}
+
+          {features.length > 0 && (
+            <div class="mb-10">
+              <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-4">
+                Fitur Utama
+              </h3>
+              <ul class="space-y-3.5 pl-0 list-none my-5">
+                {features.map((featHtml: string) => (
+                  <li class="flex items-start gap-3.5 text-zinc-700 dark:text-zinc-300 leading-relaxed text-[1.03rem]">
+                    <span class="mt-2.5 shrink-0 w-2 h-2 rounded-full bg-blue-600 dark:bg-blue-400"></span>
+                    <div class="prose prose-zinc dark:prose-invert max-w-none prose-p:my-0 prose-strong:font-bold prose-strong:text-zinc-900 dark:prose-strong:text-zinc-100" set:html={featHtml} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {impactHtml && (
+            <div class="mb-10">
+              <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-4">
+                Hasil
+              </h3>
+              <div class="prose prose-zinc dark:prose-invert max-w-none text-zinc-700 dark:text-zinc-300 leading-relaxed" set:html={impactHtml} />
+            </div>
+          )}
+
+          {(techStackHtml || technologies.length > 0) && (
+            <div class="mb-10">
+              <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-4">
+                Tech Stack
+              </h3>
+              {techStackHtml ? (
+                <div class="prose prose-zinc dark:prose-invert max-w-none text-zinc-700 dark:text-zinc-300 leading-relaxed" set:html={techStackHtml} />
+              ) : (
+                <p class="text-zinc-700 dark:text-zinc-300 leading-relaxed">
+                  Dibangun menggunakan {technologies.join(', ')} untuk performa optimal dan reliabilitas sistem.
+                </p>
+              )}
+            </div>
+          )}
+
+          {previewLink && (
+            <div class="pt-4">
+              <a 
+                href={previewLink} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="inline-flex items-center gap-2.5 px-8 py-3.5 bg-zinc-900 text-white rounded-full font-semibold hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100 active:scale-[0.98] transition-all shadow-md text-sm sm:text-base"
+              >
+                <span>Lihat Website</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 3h6v6"></path>
+                  <path d="M10 14 21 3"></path>
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                </svg>
+              </a>
+            </div>
+          )}
+        </div>
+      </main>
+
+      <!-- Right Column: Sidebar (4 Cols) -->
+      <aside class="lg:col-span-4 space-y-8">
+        <!-- Tech & Kategori -->
+        {technologies.length > 0 && (
+          <div>
+            <h3 class="text-xs font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-3">
+              Tech & Kategori
+            </h3>
+            <div class="flex flex-wrap gap-2">
+              {technologies.map((tech: string) => (
+                <span class="px-3 py-1.5 bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200/80 dark:border-zinc-700/60 rounded-full text-xs sm:text-sm font-medium">
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <!-- Tipe -->
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
+            Tipe
+          </h3>
+          <span class="capitalize text-base font-semibold text-zinc-900 dark:text-zinc-100">
+            {type}
+          </span>
+        </div>
+
+        <!-- Contact / CTA Card -->
+        <div class="p-6 bg-zinc-50 dark:bg-zinc-800/40 rounded-2xl border border-zinc-200 dark:border-zinc-700/70">
+          <h4 class="text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 mb-1">
+            Tertarik website serupa?
+          </h4>
+          <p class="text-xs text-zinc-500 dark:text-zinc-400 mb-4 leading-relaxed">
+            Hubungi {profile.name || 'saya'} untuk diskusi gratis.
+          </p>
+          <div class="flex flex-col gap-2.5">
+            {whatsappUrl && (
+              <a 
+                href={whatsappUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="inline-flex items-center justify-between text-sm font-bold text-blue-600 dark:text-blue-400 hover:underline group"
+              >
+                <span>WhatsApp</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform">
+                  <path d="M5 12h14"></path>
+                  <path d="m12 5 7 7-7 7"></path>
+                </svg>
+              </a>
+            )}
+            {linkedinUrl && (
+              <a 
+                href={linkedinUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="inline-flex items-center justify-between text-sm font-bold text-blue-600 dark:text-blue-400 hover:underline group"
+              >
+                <span>LinkedIn</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform">
+                  <path d="M5 12h14"></path>
+                  <path d="m12 5 7 7-7 7"></path>
+                </svg>
+              </a>
+            )}
+            {githubUrl && (
+              <a 
+                href={githubUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="inline-flex items-center justify-between text-sm font-bold text-blue-600 dark:text-blue-400 hover:underline group"
+              >
+                <span>GitHub</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform">
+                  <path d="M5 12h14"></path>
+                  <path d="m12 5 7 7-7 7"></path>
+                </svg>
+              </a>
+            )}
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Bottom Navigation: Back & Next Project -->
+    <section class="border-t border-zinc-200 dark:border-zinc-800 pt-8 mt-16 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <a 
+        href="/#side-projects" 
+        class="inline-flex items-center gap-2 text-sm font-medium text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m12 19-7-7 7-7"/>
+          <path d="M19 12H5"/>
+        </svg>
+        <span>Semua Side Project</span>
+      </a>
+
+      {nextProject && nextSlug && (
+        <a 
+          href={`/side-projects/${nextSlug}/`} 
+          class="group flex flex-col items-end gap-1 p-4 rounded-2xl hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors text-right ml-auto"
+        >
+          <span class="text-xs font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500 flex items-center gap-1">
+            Berikutnya
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </span>
+          <span class="text-base font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+            {nextProject.title}
+          </span>
+          <span class="text-xs text-zinc-500 dark:text-zinc-400">
+            {nextProject.category || nextProject.type || 'Side Project'}
+          </span>
+        </a>
+      )}
+    </section>
+  </div>
+</BaseLayout>

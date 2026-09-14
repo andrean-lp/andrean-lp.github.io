@@ -4,23 +4,49 @@
   "projects": [
     {
       "title": "STORIQ",
+      "slug": "storiq",
+      "category": "Portfolio & CMS Platform",
+      "tagline": "Showcase Portofolio Dinamis dengan Manajemen Konten Terintegrasi.",
+      "about": "STORIQ adalah platform web portfolio dan showcase studi kasus modern yang dirancang untuk membantu profesional memamerkan karya dengan performa tinggi, tampilan interaktif, dan kemudahan pengelolaan konten secara dinamis.",
       "coverImage": "/blog-placeholder-1.jpg",
-      "detailsLink": "#",
+      "detailsLink": "",
       "previewLink": "https://andrean-lp.github.io",
-      "problem": "We needed a way to dynamically showcase projects with a modern aesthetic, maintaining accessibility without sacrificing performance.",
-      "solution": "Developed a custom Astro layout using Tailwind CSS, incorporating responsive grid designs and modular components for easy CMS management.",
-      "impact": "Increased user engagement and provided a seamless editing experience through Decap CMS.",
-      "technologies": ["Astro", "Tailwind CSS", "Decap CMS", "TypeScript"]
+      "problem": "Banyak profesional kreatif dan developer kesulitan menjaga portofolio mereka tetap terbarui karena proses upload proyek membutuhkan perubahan kode secara manual atau CMS konvensional yang terlalu lambat dan berat.",
+      "solution": "STORIQ mengintegrasikan arsitektur Static Site Generation (SSG) modern berbasis Astro dengan Decap CMS berbasis Git. Seluruh data proyek, artikel, dan pengaturan dapat dikelola secara instan melalui dashboard studio visual tanpa perlu menyentuh kode program sama sekali.",
+      "features": [
+        "**Manajemen Konten Visual** — Edit teks, gambar, dan studi kasus langsung dari browser via Decap CMS.",
+        "**Performa Ultra Cepat** — Rendering statis dengan zero-JS runtime secara default untuk loading instan.",
+        "**Dukungan Dark Mode Halus** — Desain adaptif dengan transisi warna tema yang nyaman di mata.",
+        "**SEO & Schema Teroptimasi** — Dilengkapi metadata otomatis dan JSON-LD terstruktur untuk mesin pencari.",
+        "**Pembersihan Media Otomatis** — Gambar lama otomatis terhapus saat aset diperbarui untuk menghemat penyimpanan."
+      ],
+      "impact": "Mempercepat waktu pembaruan portofolio hingga 80%, meningkatkan skor Core Web Vitals menjadi 100/100, dan memberikan pengalaman visual yang memukau bagi calon klien.",
+      "techStackDescription": "Dibangun menggunakan **Astro** untuk kecepatan rendering maksimal, **Tailwind CSS** untuk tata letak modern dan responsif, **TypeScript** untuk keandalan kode, serta **Decap CMS** untuk manajemen data terdesentralisasi berbasis Git.",
+      "technologies": ["Astro", "Tailwind CSS", "Decap CMS", "TypeScript"],
+      "type": "Side Project"
     },
     {
       "title": "erni",
+      "slug": "erni",
+      "category": "Financial Management & Bookkeeping",
+      "tagline": "Dashboard Keuangan Bisnis yang Presisi, Cepat, dan Real-Time.",
+      "about": "erni adalah aplikasi web manajemen pembukuan dan keuangan operasional yang dirancang untuk mempermudah pencatatan transaksi kas, rekonsiliasi arus modal, dan visualisasi laba-rugi bisnis secara real-time.",
       "coverImage": "/blog-placeholder-2.jpg",
-      "detailsLink": "#",
+      "detailsLink": "",
       "previewLink": "https://andrean-lp.github.io",
-      "problem": "Managing multiple business financial records manually was prone to human calculation errors, delayed reporting, and lacked visual cash flow insights.",
-      "solution": "Engineered an intuitive, responsive web application featuring automated journal entries, instant financial statement generation, and visual analytics.",
-      "impact": "Reduced bookkeeping turnaround time by 65% and eliminated ledger discrepancy for active business operations.",
-      "technologies": ["React", "Tailwind CSS", "TypeScript", "Node.js"]
+      "problem": "Mengelola pembukuan berbagai cabang bisnis secara manual dengan spreadsheet sering kali menimbulkan selisih angka akibat human error, pelaporan yang terlambat, serta tidak adanya gambaran visual arus kas yang cepat dipahami oleh pemilik usaha.",
+      "solution": "erni menghadirkan antarmuka berbasis web yang intuitif dengan pencatatan jurnal transaksi otomatis, kalkulasi saldo dinamis, serta analitik visual yang menyajikan kesehatan keuangan bisnis dalam satu layar ringkas.",
+      "features": [
+        "**Pencatatan Jurnal Otomatis** — Input transaksi cepat dengan kategorisasi pos pemasukan dan pengeluaran otomatis.",
+        "**Laporan Laba Rugi Real-Time** — Perhitungan neraca dan performa keuangan yang langsung ter-update seketika.",
+        "**Visualisasi Arus Kas** — Grafik interaktif untuk memantau tren pendapatan dan biaya operasional.",
+        "**Rekonsiliasi Kas Multi-Akun** — Pantau saldo rekening bank dan kas kecil tanpa risiko selisih pembukuan.",
+        "**Export Data Fleksibel** — Ekspor laporan keuangan ke format PDF dan Excel hanya dengan satu klik."
+      ],
+      "impact": "Mengurangi waktu rekapitulasi bulanan hingga 65% dan mengeliminasi kesalahan perhitungan ledger pada operasional bisnis aktif.",
+      "techStackDescription": "Dikembangkan dengan arsitektur **React** dan **TypeScript** untuk interaktivitas dinamis, **Tailwind CSS** untuk antarmuka clean & minimalist, serta sistem state management terpusat untuk performa komputasi data yang cepat.",
+      "technologies": ["React", "Tailwind CSS", "TypeScript", "Node.js"],
+      "type": "Side Project"
     }
   ]
 }

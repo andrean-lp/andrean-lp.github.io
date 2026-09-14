@@ -16,10 +16,13 @@ const mdProcessor = await createMarkdownProcessor();
 
 const projects = await Promise.all(
   rawProjects.map(async (p: any) => {
+    const slug = p.slug || (p.title ? p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') : '');
+    const detailsUrl = p.detailsLink && p.detailsLink.trim() !== '' && p.detailsLink !== '#' ? p.detailsLink : `/side-projects/${slug}/`;
     return {
       title: p.title || '',
+      slug,
       coverImage: p.coverImage || '',
-      detailsLink: p.detailsLink || '#',
+      detailsUrl,
       previewLink: p.previewLink || '',
       problemHtml: p.problem ? (await mdProcessor.render(p.problem)).code : '',
       solutionHtml: p.solution ? (await mdProcessor.render(p.solution)).code : '',
@@ -32,7 +35,7 @@ const projects = await Promise.all(
 );
 ---
 
-<div class="mt-6 mb-14">
+<div id="side-projects" class="mt-6 mb-14 scroll-mt-20">
   <div class="flex justify-between gap-2 mb-6">
     <h2 class="text-lg font-bold">{sectionTitle}</h2>
   </div>
@@ -101,7 +104,7 @@ const projects = await Promise.all(
           <!-- Action Buttons: Details (Putih) & Live Preview (Hitam) -->
           <div class="pt-6 mt-6 border-t border-zinc-200/80 dark:border-zinc-800 flex items-center gap-3">
             <a 
-              href={proj.detailsLink || '#'} 
+              href={proj.detailsUrl} 
               class="flex-1 text-center py-2.5 px-4 rounded-xl font-semibold text-sm bg-white text-zinc-900 border border-zinc-300/90 shadow-xs hover:bg-zinc-100 hover:border-zinc-400 active:scale-[0.98] transition-all duration-200 dark:bg-zinc-800 dark:text-white dark:border-zinc-700 dark:hover:bg-zinc-700 inline-flex items-center justify-center"
             >
               Details
