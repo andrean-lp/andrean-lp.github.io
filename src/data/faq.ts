@@ -6,6 +6,7 @@ export interface FaqItem {
 }
 
 export interface FaqData {
+  show?: boolean;
   title?: string;
   subtitle?: string;
   items: FaqItem[];

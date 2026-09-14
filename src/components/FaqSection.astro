@@ -1,14 +1,33 @@
 ﻿---
 import faq from '../data/faq';
 import type { FaqItem } from '../data/faq';
+import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 
 interface Props {
+  show?: boolean;
   title?: string;
   subtitle?: string;
   items?: FaqItem[];
 }
 
-const { title = faq.title || "Got Questions? We've Got Answers.", subtitle = faq.subtitle, items = faq.items || [] } = Astro.props;
+const { 
+  show = faq.show !== false, 
+  title = faq.title || "Got Questions? We've Got Answers.", 
+  subtitle = faq.subtitle, 
+  items = faq.items || [] 
+} = Astro.props;
+
+// Render markdown for each answer so bold/links from CMS work seamlessly
+const mdProcessor = await createMarkdownProcessor();
+const processedItems = await Promise.all(
+  items.map(async (item: FaqItem) => {
+    const rawHtml = (await mdProcessor.render(item.answer || '')).code;
+    return {
+      question: item.question,
+      htmlAnswer: rawHtml
+    };
+  })
+);
 
 // Schema.org FAQPage structured data for Google & AI Search Engines (AEO/GEO)
 const faqSchema = {
@@ -25,7 +44,7 @@ const faqSchema = {
 };
 ---
 
-{items.length > 0 && (
+{show && items.length > 0 && (
   <section class="mb-14 pt-4" id="faq">
     <!-- Schema.org JSON-LD Structured Data for FAQPage -->
     <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} />
@@ -44,7 +63,7 @@ const faqSchema = {
 
     <!-- Accordion List Card -->
     <div class="max-w-3xl mx-auto border border-zinc-200/90 dark:border-zinc-800 rounded-2xl overflow-hidden divide-y divide-zinc-200/80 dark:divide-zinc-800/80 bg-white dark:bg-zinc-900/50 shadow-xs">
-      {items.map((item: FaqItem) => (
+      {processedItems.map((item) => (
         <details class="group transition-colors duration-200">
           <summary class="flex items-center justify-between gap-4 py-4 sm:py-5 px-5 sm:px-6 cursor-pointer list-none select-none [&::-webkit-details-marker]:hidden hover:bg-zinc-50/80 dark:hover:bg-zinc-800/40 transition-colors">
             <span class="font-semibold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
@@ -56,8 +75,7 @@ const faqSchema = {
               </svg>
             </span>
           </summary>
-          <div class="px-5 sm:px-6 pb-5 pt-1 text-sm sm:text-[15px] text-zinc-600 dark:text-zinc-400 leading-relaxed border-t border-zinc-100/60 dark:border-zinc-800/40">
-            <p>{item.answer}</p>
+          <div class="px-5 sm:px-6 pb-5 pt-1 text-sm sm:text-[15px] text-zinc-600 dark:text-zinc-400 leading-relaxed border-t border-zinc-100/60 dark:border-zinc-800/40 prose dark:prose-invert max-w-none prose-p:my-1 prose-a:text-blue-600 dark:prose-a:text-blue-400" set:html={item.htmlAnswer}>
           </div>
         </details>
       ))}
