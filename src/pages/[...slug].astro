@@ -2,6 +2,7 @@
 import { type CollectionEntry, getCollection } from 'astro:content';
 import Prose from '../components/Prose.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Schema from '../components/Schema.astro';
 import { Image } from 'astro:assets';
 import FormattedDate from '../components/FormattedDate.astro';
 import AboutTheAuthor from '../components/widgets/AboutTheAuthor.astro';
@@ -9,6 +10,8 @@ import TableOfContent from '../components/widgets/TableOfContent.astro';
 import { slugify } from '../utils';
 import { loadEnv } from 'vite';
 import { render } from 'astro:content';
+import profile from '../data/profile';
+import { SITE_TITLE } from '../consts';
 
 const { GISCUS_REPO, GISCUS_REPO_ID, GISCUS_CATEGORY, GISCUS_CATEGORY_ID } = loadEnv(process.env.NODE_ENV || 'production', process.cwd(), '');
 
@@ -26,9 +29,79 @@ const {
 } = post;
 const ogImage = typeof coverImage === 'string' ? coverImage : (coverImage?.src || undefined);
 const { Content, headings } = await render(post);
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') || 'https://andrean-lp.github.io';
+const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
+// Schema.org: BlogPosting
+const blogPostingSchema = {
+	"@context": "https://schema.org",
+	"@type": "BlogPosting",
+	"headline": title,
+	"description": description,
+	"image": ogImage ? new URL(ogImage, Astro.site).toString() : undefined,
+	"datePublished": pubDate.toISOString(),
+	"dateModified": (updatedDate || pubDate).toISOString(),
+	"author": {
+		"@type": "Person",
+		"name": profile.name || SITE_TITLE,
+		"url": `${siteUrl}/about/`,
+		"sameAs": [
+			profile.github,
+			profile.linkedin,
+		].filter(Boolean),
+	},
+	"publisher": {
+		"@type": "Person",
+		"name": profile.name || SITE_TITLE,
+		"url": siteUrl,
+	},
+	"mainEntityOfPage": {
+		"@type": "WebPage",
+		"@id": pageUrl,
+	},
+	"keywords": tags?.join(', ') || undefined,
+	"inLanguage": "id",
+};
+
+// Schema.org: BreadcrumbList
+const breadcrumbSchema = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	"itemListElement": [
+		{
+			"@type": "ListItem",
+			"position": 1,
+			"name": "Home",
+			"item": siteUrl,
+		},
+		{
+			"@type": "ListItem",
+			"position": 2,
+			"name": "Posts",
+			"item": `${siteUrl}/posts/`,
+		},
+		{
+			"@type": "ListItem",
+			"position": 3,
+			"name": title,
+			"item": pageUrl,
+		}
+	]
+};
 ---
 
-<BaseLayout title={seoTitle || title} description={description} image={ogImage}>
+<BaseLayout
+	title={seoTitle || title}
+	description={description}
+	image={ogImage}
+	articleDate={pubDate}
+	updatedDate={updatedDate}
+	type="article"
+	tags={tags}
+>
+	<Schema item={blogPostingSchema} />
+	<Schema item={breadcrumbSchema} />
 	<div class='container lg:flex gap-10'>
 		<main
 			class='overflow-hidden grow'
@@ -47,7 +120,7 @@ const { Content, headings } = await render(post);
                           text-sm text-zinc-700 dark:text-zinc-300 no-underline px-2 py-0.5
                           transition-all duration-700
                         hover:border-zinc-700 dark:hover:border-zinc-300'
-                        href={`/tags/${slugify(tag)}`}>
+                        href={`/tags/${slugify(tag)}/`}>
                         {tag}
                       </a>
                     ))

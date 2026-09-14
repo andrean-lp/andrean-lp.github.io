@@ -1,0 +1,11 @@
+---
+/**
+ * Reusable JSON-LD Structured Data Component
+ * Usage: <Schema item={schemaObject} />
+ */
+interface Props {
+  item: Record<string, any>;
+}
+const { item } = Astro.props;
+---
+<script is:inline type="application/ld+json" set:html={JSON.stringify(item)} />

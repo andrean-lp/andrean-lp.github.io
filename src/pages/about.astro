@@ -3,18 +3,73 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Ava from '@src/assets/img/ava.jpg';
 import Prose from '../components/Prose.astro';
+import Schema from '../components/Schema.astro';
 import profile from '../data/profile';
+import { SITE_TITLE } from '../consts';
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 
 const mdProcessor = await createMarkdownProcessor();
 const rawBioHtml = (await mdProcessor.render(profile.bio || '')).code;
 const bioHtml = rawBioHtml.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') || 'https://andrean-lp.github.io';
+const aboutDescription = profile.role
+	? `${profile.name || SITE_TITLE} — ${profile.role}. Portfolio dan blog personal.`
+	: `Tentang ${profile.name || SITE_TITLE}. Portfolio dan blog personal.`;
+
+// Schema.org: Person (ProfilePage)
+const sameAs = [
+	profile.github,
+	profile.linkedin,
+	profile.youtube,
+	profile.instagram,
+	profile.facebook,
+	profile.twitter,
+	profile.pinterest,
+].filter(Boolean);
+
+const personSchema = {
+	"@context": "https://schema.org",
+	"@type": "Person",
+	"name": profile.name || SITE_TITLE,
+	"url": `${siteUrl}/about/`,
+	"image": profile.avatar ? new URL(profile.avatar, Astro.site).toString() : undefined,
+	"jobTitle": profile.role || undefined,
+	"description": aboutDescription,
+	"sameAs": sameAs.length > 0 ? sameAs : undefined,
+	"mainEntityOfPage": {
+		"@type": "ProfilePage",
+		"@id": `${siteUrl}/about/`,
+	},
+};
+
+// Schema.org: BreadcrumbList
+const breadcrumbSchema = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	"itemListElement": [
+		{
+			"@type": "ListItem",
+			"position": 1,
+			"name": "Home",
+			"item": siteUrl,
+		},
+		{
+			"@type": "ListItem",
+			"position": 2,
+			"name": "About",
+			"item": `${siteUrl}/about/`,
+		}
+	]
+};
 ---
 
 <BaseLayout
 	title="About Me"
-	description="Lorem ipsum dolor sit amet"
+	description={aboutDescription}
 >
+	<Schema item={personSchema} />
+	<Schema item={breadcrumbSchema} />
   <div class='container'>
 		<main class='prose text-lg dark:prose-invert'>
       <article>

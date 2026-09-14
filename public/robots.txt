@@ -1,6 +1,36 @@
+# =============================================================================
+# robots.txt — andrean-lp.github.io
+# =============================================================================
+
+# Semua crawler web search diizinkan
 User-agent: *
 Allow: /
 Disallow: /studio/
 Disallow: /studio/*
 
+# -------------------------------------------------------------------
+# AI Search Engines (Izinkan — memberikan traffic & citasi ke website)
+# -------------------------------------------------------------------
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# -------------------------------------------------------------------
+# AI Model Training Scrapers (Blokir — scraping tanpa memberikan traffic)
+# -------------------------------------------------------------------
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+# Sitemap
 Sitemap: https://andrean-lp.github.io/sitemap-index.xml

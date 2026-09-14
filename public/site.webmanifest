@@ -1,0 +1,21 @@
+{
+  "name": "Andre Wahyu Hermawan — Portfolio & Blog",
+  "short_name": "Andre W.H.",
+  "description": "Portfolio dan blog personal Andre Wahyu Hermawan — Landing Page Strategist",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#18181b",
+  "icons": [
+    {
+      "src": "/images/andre-wahyu-hermawan-github.webp",
+      "sizes": "512x512",
+      "type": "image/webp"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ]
+}

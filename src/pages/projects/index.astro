@@ -1,18 +1,55 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProjectList from '../../components/ProjectList.astro';
+import Schema from '../../components/Schema.astro';
 import { projects } from '../../data/projects';
 
+const title = "All My Projects";
+const description = "All my project portfolio from real projects to open source projects.";
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') || 'https://andrean-lp.github.io';
+
+// Schema.org: CollectionPage
+const collectionSchema = {
+	"@context": "https://schema.org",
+	"@type": "CollectionPage",
+	"name": title,
+	"description": description,
+	"url": `${siteUrl}/projects/`,
+	"inLanguage": "id",
+};
+
+// Schema.org: BreadcrumbList
+const breadcrumbSchema = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	"itemListElement": [
+		{
+			"@type": "ListItem",
+			"position": 1,
+			"name": "Home",
+			"item": siteUrl,
+		},
+		{
+			"@type": "ListItem",
+			"position": 2,
+			"name": "Projects",
+			"item": `${siteUrl}/projects/`,
+		}
+	]
+};
 ---
 
 <BaseLayout
-	title="All My Projects"
-	description="All my project portfolio from real projects to open source projects."
+	title={title}
+	description={description}
 >
+	<Schema item={collectionSchema} />
+	<Schema item={breadcrumbSchema} />
   <div class='container'>
     <div class="mb-10">
-      <h1 class="text-3xl font-bold mb-2">All My Projects</h1>
-      <p class="text-zinc-700 dark:text-zinc-300 text-lg">All my project portfolio from real projects to open source projects.</p>
+      <h1 class="text-3xl font-bold mb-2">{title}</h1>
+      <p class="text-zinc-700 dark:text-zinc-300 text-lg">{description}</p>
     </div>
     <ProjectList projects={projects}/>
   </div>

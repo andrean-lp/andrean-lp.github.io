@@ -1,5 +1,6 @@
 ---
 import Author from '../Author.astro';
+import profile from '@src/data/profile';
 ---
 
 <div
@@ -8,14 +9,10 @@ import Author from '../Author.astro';
 	<h3 class='font-extrabold uppercase mb-4 text-sm'>About the Author</h3>
 	<Author picSize='md' />
 	<div class='author-desc text-[.825rem] my-4'>
-		<p class='mb-3'>
-			Syakir (Sha·keer) is a Front-end Engineer with experiences building SaaS and enterprise level products. He is actively writing on{
-				' '
-			}
-			<a href='https://devaradise.com' target='_blank' rel='noopener noreferrer' class="underline">Devaradise.com</a>
-		</p>
-		<p>He will be happy to work and collaborate in any project as a Front-end engineer. His main stacks are React and Vue 3.</p>
+		{profile.bio ? (
+			<p>{profile.bio.split('\n')[0]}</p>
+		) : (
+			<p>{profile.name || 'Author'} is a {profile.role || 'Developer'}.</p>
+		)}
 	</div>
 </div>
-
-

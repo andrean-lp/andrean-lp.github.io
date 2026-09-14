@@ -10,11 +10,26 @@ interface Props {
 	title: string;
 	description: string;
 	image?: string;
+	articleDate?: Date;
+	updatedDate?: Date;
+	type?: 'website' | 'article';
+	tags?: string[];
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = profile.avatar || '/syakir.webp' } = Astro.props;
+const {
+	title,
+	description,
+	image = profile.avatar || '/syakir.webp',
+	articleDate,
+	updatedDate,
+	type = 'website',
+	tags = [],
+} = Astro.props;
+
+const ogImageURL = new URL(image, Astro.site);
+const siteName = site.title || 'Andre Wahyu Hermawan';
 ---
 
 <!-- Global Metadata -->
@@ -41,24 +56,55 @@ const { title, description, image = profile.avatar || '/syakir.webp' } = Astro.p
 <meta http-equiv='Content-Security-Policy' content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://giscus.app https://unpkg.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:; frame-src https://giscus.app; object-src 'none'; base-uri 'self';" />
 <meta name='referrer' content='strict-origin-when-cross-origin' />
 
+<!-- Robots Directive -->
+<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+
 <!-- Canonical URL -->
 <link rel='canonical' href={canonicalURL} />
+
+<!-- RSS Auto-Discovery -->
+<link rel='alternate' type='application/rss+xml' title={`${siteName} RSS Feed`} href={new URL('/rss.xml', Astro.site)} />
+
+<!-- Web App Manifest -->
+<link rel='manifest' href='/site.webmanifest' />
+<meta name='theme-color' content='#18181b' />
 
 <!-- Primary Meta Tags -->
 <title>{title}</title>
 <meta name='title' content={title} />
 <meta name='description' content={description} />
+<meta name='author' content={profile.name || siteName} />
 
 <!-- Open Graph / Facebook -->
-<meta property='og:type' content='website' />
-<meta property='og:url' content={Astro.url} />
+<meta property='og:type' content={type} />
+<meta property='og:url' content={canonicalURL} />
 <meta property='og:title' content={title} />
 <meta property='og:description' content={description} />
-<meta property='og:image' content={new URL(image, Astro.url)} />
+<meta property='og:image' content={ogImageURL} />
+<meta property='og:image:width' content='1200' />
+<meta property='og:image:height' content='630' />
+<meta property='og:site_name' content={siteName} />
+<meta property='og:locale' content='id_ID' />
+
+{type === 'article' && articleDate && (
+	<meta property='article:published_time' content={articleDate.toISOString()} />
+)}
+{type === 'article' && updatedDate && (
+	<meta property='article:modified_time' content={updatedDate.toISOString()} />
+)}
+{type === 'article' && profile.name && (
+	<meta property='article:author' content={profile.name} />
+)}
+{type === 'article' && tags && tags.map((tag: string) => (
+	<meta property='article:tag' content={tag} />
+))}
 
 <!-- Twitter -->
-<meta property='twitter:card' content='summary_large_image' />
-<meta property='twitter:url' content={Astro.url} />
-<meta property='twitter:title' content={title} />
-<meta property='twitter:description' content={description} />
-<meta property='twitter:image' content={new URL(image, Astro.url)} />
+<meta name='twitter:card' content='summary_large_image' />
+<meta name='twitter:url' content={canonicalURL} />
+<meta name='twitter:title' content={title} />
+<meta name='twitter:description' content={description} />
+<meta name='twitter:image' content={ogImageURL} />
+{profile.twitter && (
+	<meta name='twitter:site' content={profile.twitter.includes('twitter.com/') ? `@${profile.twitter.split('/').pop()}` : profile.twitter} />
+)}

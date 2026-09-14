@@ -7,11 +7,21 @@ import { autoNewTabExternalLinks } from './src/autoNewTabExternalLinks';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://andrean-lp.github.io',
+  trailingSlash: 'always',
   compressHTML: true,
   build: {
     inlineStylesheets: 'always'
   },
-  integrations: [mdx(), sitemap(), tailwind()],
+  integrations: [
+    mdx(),
+    sitemap({
+      filter: (page) => !page.includes('/studio/'),
+      changefreq: 'weekly',
+      priority: 0.7,
+      lastmod: new Date(),
+    }),
+    tailwind(),
+  ],
   markdown: {
     extendDefaultPlugins: true,
     rehypePlugins: [[autoNewTabExternalLinks, {

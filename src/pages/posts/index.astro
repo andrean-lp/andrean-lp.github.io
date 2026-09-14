@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Schema from '../../components/Schema.astro';
 import PostsByYear from '../../components/PostsByYear.astro';
 
 type BlogPost = CollectionEntry<'blog'>;
@@ -9,12 +10,46 @@ const title = 'All posts'
 const description = 'Articles, guides, tutorials about front-end development.'
 
 const posts = (await getCollection('blog')).sort((a: BlogPost, b: BlogPost) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') || 'https://andrean-lp.github.io';
+
+// Schema.org: CollectionPage
+const collectionSchema = {
+	"@context": "https://schema.org",
+	"@type": "CollectionPage",
+	"name": title,
+	"description": description,
+	"url": `${siteUrl}/posts/`,
+	"inLanguage": "id",
+};
+
+// Schema.org: BreadcrumbList
+const breadcrumbSchema = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	"itemListElement": [
+		{
+			"@type": "ListItem",
+			"position": 1,
+			"name": "Home",
+			"item": siteUrl,
+		},
+		{
+			"@type": "ListItem",
+			"position": 2,
+			"name": "Posts",
+			"item": `${siteUrl}/posts/`,
+		}
+	]
+};
 ---
 
 <BaseLayout
 	title={title}
 	description={description}
 >
+	<Schema item={collectionSchema} />
+	<Schema item={breadcrumbSchema} />
   <div class='container'>
     <div class="mb-10">
       <h1 class="text-3xl font-bold mb-2">{title}</h1>

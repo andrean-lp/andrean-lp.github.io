@@ -10,6 +10,7 @@ import { projects } from '../data/projects';
 import ProjectList from '../components/ProjectList.astro'
 import PostItem from '../components/PostItem.astro';
 import profile from '../data/profile';
+import Schema from '../components/Schema.astro';
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 
 type BlogPost = CollectionEntry<'blog'>;
@@ -21,9 +22,49 @@ const mdProcessor = await createMarkdownProcessor();
 const rawBioHtml = (await mdProcessor.render(profile.bio || '')).code;
 const bioHtml = rawBioHtml.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
 const siteTitle = SITE_TAGLINE ? `${SITE_TITLE} - ${SITE_TAGLINE}` : SITE_TITLE;
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') || 'https://andrean-lp.github.io';
+
+// Schema.org: WebSite
+const websiteSchema = {
+	"@context": "https://schema.org",
+	"@type": "WebSite",
+	"name": SITE_TITLE,
+	"description": SITE_DESCRIPTION,
+	"url": siteUrl,
+	"inLanguage": "id",
+	"publisher": {
+		"@type": "Person",
+		"name": profile.name || SITE_TITLE,
+		"url": `${siteUrl}/about/`,
+	}
+};
+
+// Schema.org: Person (pemilik website)
+const sameAs = [
+	profile.github,
+	profile.linkedin,
+	profile.youtube,
+	profile.instagram,
+	profile.facebook,
+	profile.twitter,
+	profile.pinterest,
+].filter(Boolean);
+
+const personSchema = {
+	"@context": "https://schema.org",
+	"@type": "Person",
+	"name": profile.name || SITE_TITLE,
+	"url": `${siteUrl}/about/`,
+	"image": profile.avatar ? new URL(profile.avatar, Astro.site).toString() : undefined,
+	"jobTitle": profile.role || undefined,
+	"sameAs": sameAs.length > 0 ? sameAs : undefined,
+};
 ---
 
 <BaseLayout title={siteTitle} description={SITE_DESCRIPTION}>
+	<Schema item={websiteSchema} />
+	<Schema item={personSchema} />
 	<div class='container'>
 		<div class='w-full md:flex md:items-center gap-16 mb-10'>
       <div class="text-pretty leading-9">
