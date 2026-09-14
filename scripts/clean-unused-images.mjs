@@ -21,6 +21,8 @@ const IMAGES_DIR = path.resolve('public/images');
 const MEDIA_EXTS = new Set(['.png', '.jpg', '.jpeg', '.webp', '.svg', '.gif', '.ico', '.avif']);
 const PROTECTED_FILES = new Set([
   'pagespeed-score.png',
+  'storiq-cover.webp',
+  'erni-cover.webp',
 ]);
 
 function getFilesRecursively(dir) {

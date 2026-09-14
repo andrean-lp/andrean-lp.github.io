@@ -85,7 +85,63 @@ async function run() {
     console.warn('[Image Optimizer] Site check error:', e.message);
   }
 
-  // 3. Scan all public/images for general oversized images (max 1200x1200)
+  // 3. Generate and optimize responsive WebP covers for featured projects (max 680x383 WebP)
+  try {
+    const imagesDir = path.resolve('public/images');
+    if (!fs.existsSync(imagesDir)) {
+      fs.mkdirSync(imagesDir, { recursive: true });
+    }
+
+    const coverMappings = [
+      { target: 'storiq-cover.webp', fallbackSource: 'public/blog-placeholder-1.jpg' },
+      { target: 'erni-cover.webp', fallbackSource: 'public/blog-placeholder-2.jpg' },
+    ];
+
+    for (const mapping of coverMappings) {
+      const targetPath = path.resolve(imagesDir, mapping.target);
+      const fallbackPath = path.resolve(mapping.fallbackSource);
+
+      const srcToUse = fs.existsSync(targetPath) ? targetPath : (fs.existsSync(fallbackPath) ? fallbackPath : null);
+      if (srcToUse) {
+        const buf = fs.readFileSync(srcToUse);
+        const optimizedBuf = await sharp(buf)
+          .resize({ width: 680, height: 383, fit: 'cover', position: 'center' })
+          .webp({ quality: 80 })
+          .toBuffer();
+        fs.writeFileSync(targetPath, optimizedBuf);
+        console.log(`[Image Optimizer] ✓ Generated responsive cover: public/images/${mapping.target} (${(optimizedBuf.length / 1024).toFixed(1)} KiB)`);
+      }
+    }
+  } catch (e) {
+    console.warn('[Image Optimizer] Featured cover generation error:', e.message);
+  }
+
+  // 4. Compact root placeholder images in public/
+  try {
+    const publicDir = path.resolve('public');
+    const rootFiles = fs.readdirSync(publicDir);
+    for (const file of rootFiles) {
+      if (/^blog-placeholder-.*\.jpe?g$/i.test(file)) {
+        const fp = path.join(publicDir, file);
+        try {
+          const buf = fs.readFileSync(fp);
+          const meta = await sharp(buf).metadata();
+          if (meta.width > 680 || buf.length > 20 * 1024) {
+            const opt = await sharp(buf)
+              .resize({ width: 680, height: 383, fit: 'cover', position: 'center' })
+              .jpeg({ quality: 78, mozjpeg: true })
+              .toBuffer();
+            fs.writeFileSync(fp, opt);
+            console.log(`[Image Optimizer] ✓ Compacted root placeholder: public/${file} (${(opt.length / 1024).toFixed(1)} KiB)`);
+          }
+        } catch {}
+      }
+    }
+  } catch (e) {
+    console.warn('[Image Optimizer] Root placeholders check error:', e.message);
+  }
+
+  // 5. Scan all public/images for general oversized images (max 1000x1000)
   try {
     const imagesDir = path.resolve('public/images');
     if (fs.existsSync(imagesDir)) {
@@ -93,7 +149,7 @@ async function run() {
       for (const file of files) {
         if (/\.(png|jpe?g|webp)$/i.test(file)) {
           const filePath = path.join(imagesDir, file);
-          await optimizeFile(filePath, { maxWidth: 1200, maxHeight: 1200, fit: 'inside', quality: 82 });
+          await optimizeFile(filePath, { maxWidth: 1000, maxHeight: 1000, fit: 'inside', quality: 82 });
         }
       }
     }
