@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Ava from '@src/assets/img/ava.jpg';
 import Prose from '../components/Prose.astro';
-import profile from '../data/profile.json';
+import profile from '../data/profile';
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 
 const mdProcessor = await createMarkdownProcessor();
