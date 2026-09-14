@@ -1,95 +1,104 @@
 ---
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
-import featuredCaseStudy from '../data/featured_case_study.json';
+import featuredData from '../data/featured_case_study.json';
 
-const {
-  show,
-  title,
-  coverImage,
-  intro,
-  problem,
-  solution,
-  impact,
-  technologies
-} = featuredCaseStudy;
+const show = featuredData.show ?? true;
+const sectionTitle = featuredData.sectionTitle || 'Featured Case Studies';
 
-// Don't render anything if 'show' is false
-if (!show) {
+// Mendukung format list baru maupun format single object lama
+const rawProjects = (featuredData as any).projects || ((featuredData as any).title ? [featuredData] : []);
+
+if (!show || rawProjects.length === 0) {
   return;
 }
 
 const mdProcessor = await createMarkdownProcessor();
 
-const problemHtml = problem ? (await mdProcessor.render(problem)).code : '';
-const solutionHtml = solution ? (await mdProcessor.render(solution)).code : '';
-const impactHtml = impact ? (await mdProcessor.render(impact)).code : '';
+const projects = await Promise.all(
+  rawProjects.map(async (p: any) => {
+    return {
+      title: p.title || '',
+      coverImage: p.coverImage || '',
+      intro: p.intro || '',
+      problemHtml: p.problem ? (await mdProcessor.render(p.problem)).code : '',
+      solutionHtml: p.solution ? (await mdProcessor.render(p.solution)).code : '',
+      impactHtml: p.impact ? (await mdProcessor.render(p.impact)).code : '',
+      technologies: (p.technologies || [])
+        .map((t: any) => (typeof t === 'string' ? t : t?.name || ''))
+        .filter(Boolean),
+    };
+  })
+);
 ---
 
-<div class="mt-12 mb-12">
+<div class="mt-14 mb-14">
   <div class="flex justify-between gap-2 mb-6">
-    <h2 class="text-lg font-bold">Featured Case Study</h2>
+    <h2 class="text-lg font-bold">{sectionTitle}</h2>
   </div>
 
-  <div class="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 md:p-10 overflow-hidden">
-    <!-- Header -->
-    <div class="mb-8">
-      <h3 class="text-3xl md:text-5xl font-bold mb-4">{title}</h3>
-      {intro && <p class="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 max-w-3xl leading-relaxed">{intro}</p>}
-    </div>
+  <div class={`grid grid-cols-1 ${projects.length > 1 ? 'lg:grid-cols-2' : ''} gap-6 lg:gap-8`}>
+    {projects.map((proj) => (
+      <div class="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 flex flex-col justify-between transition-all duration-200 hover:border-zinc-300 dark:hover:border-zinc-700">
+        <div>
+          <!-- Header -->
+          <div class="mb-6">
+            <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-3">{proj.title}</h3>
+            {proj.intro && (
+              <p class="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">{proj.intro}</p>
+            )}
+          </div>
 
-    <!-- Cover Image -->
-    {coverImage && (
-      <div class="mb-12 rounded-2xl overflow-hidden bg-zinc-200 dark:bg-zinc-800 aspect-video w-full">
-        <img 
-          src={coverImage} 
-          alt={`${title} Cover`} 
-          class="w-full h-full object-cover" 
-          loading="lazy" 
-        />
-      </div>
-    )}
+          <!-- Cover Image -->
+          {proj.coverImage && (
+            <div class="mb-6 rounded-2xl overflow-hidden bg-zinc-200 dark:bg-zinc-800 aspect-video w-full">
+              <img 
+                src={proj.coverImage} 
+                alt={`${proj.title} Cover`} 
+                class="w-full h-full object-cover" 
+                loading="lazy" 
+              />
+            </div>
+          )}
 
-    <!-- Content Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-      <!-- Main Content (Problem, Solution, Impact) -->
-      <div class="md:col-span-2 space-y-10">
-        {problem && (
-          <section>
-            <h4 class="text-sm font-semibold tracking-widest text-zinc-500 dark:text-zinc-400 uppercase mb-3">Problem</h4>
-            <div class="prose prose-zinc dark:prose-invert max-w-none prose-p:leading-relaxed" set:html={problemHtml} />
-          </section>
-        )}
+          <!-- Content Sections: Problem, Solution, Impact -->
+          <div class="space-y-6">
+            {proj.problemHtml && (
+              <section>
+                <h4 class="text-xs font-bold tracking-widest text-zinc-500 dark:text-zinc-400 uppercase mb-2">Problem</h4>
+                <div class="prose prose-sm prose-zinc dark:prose-invert max-w-none prose-p:leading-relaxed" set:html={proj.problemHtml} />
+              </section>
+            )}
 
-        {solution && (
-          <section>
-            <h4 class="text-sm font-semibold tracking-widest text-zinc-500 dark:text-zinc-400 uppercase mb-3">Solution</h4>
-            <div class="prose prose-zinc dark:prose-invert max-w-none prose-p:leading-relaxed" set:html={solutionHtml} />
-          </section>
-        )}
+            {proj.solutionHtml && (
+              <section>
+                <h4 class="text-xs font-bold tracking-widest text-zinc-500 dark:text-zinc-400 uppercase mb-2">Solution</h4>
+                <div class="prose prose-sm prose-zinc dark:prose-invert max-w-none prose-p:leading-relaxed" set:html={proj.solutionHtml} />
+              </section>
+            )}
 
-        {impact && (
-          <section>
-            <h4 class="text-sm font-semibold tracking-widest text-zinc-500 dark:text-zinc-400 uppercase mb-3">Impact</h4>
-            <div class="prose prose-zinc dark:prose-invert max-w-none prose-p:leading-relaxed" set:html={impactHtml} />
-          </section>
-        )}
-      </div>
+            {proj.impactHtml && (
+              <section>
+                <h4 class="text-xs font-bold tracking-widest text-zinc-500 dark:text-zinc-400 uppercase mb-2">Impact</h4>
+                <div class="prose prose-sm prose-zinc dark:prose-invert max-w-none prose-p:leading-relaxed" set:html={proj.impactHtml} />
+              </section>
+            )}
+          </div>
+        </div>
 
-      <!-- Sidebar (Technologies) -->
-      <div>
-        {technologies && technologies.length > 0 && (
-          <section class="bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-200 dark:border-zinc-800">
-            <h4 class="text-sm font-semibold tracking-widest text-zinc-500 dark:text-zinc-400 uppercase mb-4">Technologies / Tools</h4>
+        <!-- Technologies / Tools -->
+        {proj.technologies.length > 0 && (
+          <div class="pt-6 mt-6 border-t border-zinc-200/80 dark:border-zinc-800">
+            <h4 class="text-xs font-bold tracking-widest text-zinc-500 dark:text-zinc-400 uppercase mb-3">Technologies / Tools</h4>
             <ul class="flex flex-wrap gap-2">
-              {technologies.map((tech) => (
-                <li class="px-3 py-1.5 bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-300 text-sm rounded-lg font-medium">
-                  {tech.name}
+              {proj.technologies.map((tech: string) => (
+                <li class="px-2.5 py-1 bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700/60 text-xs rounded-lg font-medium shadow-xs">
+                  {tech}
                 </li>
               ))}
             </ul>
-          </section>
+          </div>
         )}
       </div>
-    </div>
+    ))}
   </div>
 </div>
