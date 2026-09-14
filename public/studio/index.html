@@ -109,6 +109,22 @@
     } catch (e) {
       console.error(e);
     }
+
+    // Validasi ukuran upload file maksimal 1 MB
+    window.addEventListener('change', (e) => {
+      const target = e.target;
+      if (target && target.type === 'file' && target.files && target.files.length > 0) {
+        const MAX_SIZE_BYTES = 1048576; // 1 MB
+        for (const file of target.files) {
+          if (file.size > MAX_SIZE_BYTES) {
+            const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
+            alert(`Peringatan: Ukuran file "${file.name}" (${sizeMb} MB) melebihi batas maksimal 1 MB!\n\nSilakan kompres gambar terlebih dahulu atau pilih gambar berukuran di bawah 1 MB agar performa website tetap maksimal (100 PageSpeed).`);
+            target.value = '';
+            break;
+          }
+        }
+      }
+    }, true);
   </script>
   <!-- Menggunakan decap-cms versi 3.0.12 yang stabil tanpa bug React removeChild -->
   <script src="https://unpkg.com/decap-cms@3.0.12/dist/decap-cms.js"></script>

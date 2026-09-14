@@ -6,6 +6,11 @@ backend:
 media_folder: "public/images"
 public_folder: "/images"
 
+media_library:
+  name: default
+  config:
+    max_file_size: 1048576 # 1 MB (1024 * 1024 bytes)
+
 collections:
   - name: "blog"
     label: "Blog Posts"
@@ -21,7 +26,14 @@ collections:
       - { label: "Description", name: "description", widget: "string" }
       - { label: "Publish Date", name: "pubDate", widget: "date", format: "YYYY-MM-DD" }
       - { label: "Tags", name: "tags", widget: "list", required: false }
-      - { label: "Cover Image", name: "coverImage", widget: "image", required: false }
+      - label: "Cover Image"
+        name: "coverImage"
+        widget: "image"
+        required: false
+        hint: "Ukuran file maksimal 1 MB"
+        media_library:
+          config:
+            max_file_size: 1048576
       - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "projects_collection"
@@ -54,9 +66,14 @@ collections:
           - label: "Paragraf Bio"
             name: "bio"
             widget: "list"
-            field: { label: "Teks Paragraf", name: "paragraph", widget: "text" }
-          - { label: "Foto Profil (Avatar)", name: "avatar", widget: "image", required: false, hint: "Disarankan upload gambar rasio 1:1 (kotak) minimal 600x600 px agar tajam dan proporsional di semua layar HP" }
-          - { label: "Link GitHub", name: "github", widget: "string", required: false }
+          - label: "Foto Profil (Avatar)"
+            name: "avatar"
+            widget: "image"
+            required: false
+            hint: "Disarankan upload gambar rasio 1:1 (kotak) minimal 600x600 px. Ukuran file maksimal 1 MB"
+            media_library:
+              config:
+                max_file_size: 1048576
           - { label: "Link Twitter / X", name: "twitter", widget: "string", required: false }
           - { label: "Link Website", name: "website", widget: "string", required: false }
 
