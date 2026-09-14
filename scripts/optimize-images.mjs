@@ -2,29 +2,47 @@ import fs from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
 
-async function optimizeFile(filePath, { maxWidth, maxHeight, fit = 'inside', quality = 80 } = {}) {
+const SKIP_OPTIMIZATION = new Set([
+  'pagespeed-score.png',
+]);
+
+async function optimizeFile(filePath, { maxWidth, maxHeight, fit = 'inside', quality = 82 } = {}) {
   if (!fs.existsSync(filePath)) return;
+  const fileName = path.basename(filePath);
+  if (SKIP_OPTIMIZATION.has(fileName.toLowerCase())) return;
+
   try {
     const buf = fs.readFileSync(filePath);
     const meta = await sharp(buf).metadata();
     if (!meta.width || !meta.height) return;
 
+    const isNonWebp = meta.format !== 'webp';
+    const isHeavy = buf.length > 150 * 1024; // > 150 KiB
     const needsResize = (maxWidth && meta.width > maxWidth) || (maxHeight && meta.height > maxHeight);
     const needsSquare = (fit === 'cover' && meta.width !== meta.height);
 
-    if (needsResize || needsSquare) {
-      console.log(`[Image Optimizer] Optimizing ${path.basename(filePath)} (${meta.width}x${meta.height}) -> max ${maxWidth || 'auto'}x${maxHeight || 'auto'}`);
-      const optimizedBuf = await sharp(buf)
-        .resize({
+    if (needsResize || needsSquare || isNonWebp || isHeavy) {
+      console.log(`[Image Optimizer] Optimizing ${fileName} (${meta.width}x${meta.height}, ${(buf.length / 1024).toFixed(1)} KiB, ${meta.format}) -> max ${maxWidth || 'auto'}x${maxHeight || 'auto'} WebP`);
+      
+      let transform = sharp(buf);
+      if (needsResize || needsSquare) {
+        transform = transform.resize({
           width: maxWidth,
           height: maxHeight,
           fit: fit,
-          position: 'center'
-        })
-        .webp({ quality })
-        .toBuffer();
-      fs.writeFileSync(filePath, optimizedBuf);
-      console.log(`[Image Optimizer] Done: ${(optimizedBuf.length / 1024).toFixed(1)} KiB`);
+          position: 'center',
+          withoutEnlargement: true
+        });
+      }
+      
+      const optimizedBuf = await transform.webp({ quality }).toBuffer();
+      
+      // Simpan jika ukuran berkurang atau jika format diubah ke WebP
+      if (optimizedBuf.length < buf.length || isNonWebp) {
+        fs.writeFileSync(filePath, optimizedBuf);
+        const savedPercent = Math.round((1 - optimizedBuf.length / buf.length) * 100);
+        console.log(`[Image Optimizer] ✓ Done: ${(optimizedBuf.length / 1024).toFixed(1)} KiB (${savedPercent}% lebih hemat)`);
+      }
     }
   } catch (err) {
     console.warn(`[Image Optimizer] Skipped ${filePath}:`, err.message);
