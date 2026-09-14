@@ -4,8 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="google" content="notranslate" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>Studio Content Manager</title>
-  <link href="./config.yml" type="text/yaml" rel="cms-config-url" />
+  <link href="./config.yml?v=20260914" type="text/yaml" rel="cms-config-url" />
   <style>
     #token-modal {
       display: none;
@@ -214,6 +217,13 @@
         }
       }
     }, true);
+  </script>
+  <!-- Selalu muat config.yml terbaru tanpa terkena cache browser -->
+  <script>
+    const cfg = document.querySelector('link[rel="cms-config-url"]');
+    if (cfg) {
+      cfg.setAttribute('href', './config.yml?t=' + Date.now());
+    }
   </script>
   <!-- Menggunakan decap-cms versi 3.0.12 yang stabil tanpa bug React removeChild -->
   <script src="https://unpkg.com/decap-cms@3.0.12/dist/decap-cms.js"></script>
