@@ -825,7 +825,7 @@
             const treeData = await treeRes.json();
             const textFiles = (treeData.tree || []).filter(item => 
               item.type === 'blob' && 
-              (item.path.startsWith('src/') || item.path === 'public/site.webmanifest' || item.path === 'astro.config.mjs') &&
+              (item.path.startsWith('src/') || item.path === 'public/site.webmanifest' || item.path === 'astro.config.mjs' || item.path === 'README.md') &&
               /\.(md|mdx|json|astro|js|ts|webmanifest)$/i.test(item.path)
             );
 
@@ -842,10 +842,11 @@
               } catch {}
             }
 
+            const protectedFiles = new Set(['pagespeed-score.png']);
             const orphaned = [];
             for (const img of imgFiles) {
               const name = img.name.toLowerCase();
-              if (!allTextContent.includes(name)) {
+              if (!protectedFiles.has(name) && !allTextContent.includes(name)) {
                 orphaned.push(img);
               }
             }
