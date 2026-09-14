@@ -156,6 +156,20 @@ Website ini menggunakan alur otomatisasi penuh **GitHub Actions**. Setiap kali a
 
 ---
 
+## 📄 Lisensi (License)
+
+* 💻 **Kode Sumber (Source Code)**: Dilisensikan di bawah [MIT License](LICENSE). Siapa pun bebas mempelajari, mengadaptasi, atau mengembangkan kode arsitektur website ini.
+* ✍️ **Konten & Aset Pribadi**: Seluruh artikel blog, tulisan materi/copywriting, foto profil, dan hasil karya studi kasus portofolio adalah hak cipta © 2026 **Andre Wahyu Hermawan**. Seluruh hak cipta dilindungi (*All Rights Reserved*).
+
+---
+
+## 🙏 Penghargaan (Credits)
+
+* Dikembangkan, dirancang, dan dipersonalisasi oleh **[Andre Wahyu Hermawan](https://github.com/andrean-lp)**.
+* Berbasis dan terinspirasi dari template open-source Astro karya **[Muhammad Syakirurohman](https://github.com/syakirurohman)**.
+
+---
+
 ## 📬 Hubungi Saya
 
 Tertarik untuk berkolaborasi atau membutuhkan pembuatan landing page & website profesional?
