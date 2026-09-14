@@ -15,7 +15,7 @@ export default defineConfig({
   markdown: {
     extendDefaultPlugins: true,
     rehypePlugins: [[autoNewTabExternalLinks, {
-      domain: 'localhost:4321'
+      domain: 'andrean-lp.github.io'
     }]]
   }
 });

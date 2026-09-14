@@ -4,6 +4,7 @@
 import '../../styles/global.css';
 import Favicon from '@src/assets/img/favicon.png';
 import site from '@src/data/site';
+import profile from '@src/data/profile';
 
 interface Props {
 	title: string;
@@ -13,7 +14,7 @@ interface Props {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = '/syakir.webp' } = Astro.props;
+const { title, description, image = profile.avatar || '/syakir.webp' } = Astro.props;
 ---
 
 <!-- Global Metadata -->

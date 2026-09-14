@@ -29,7 +29,7 @@ collections:
     files:
       - label: "Daftar Projects"
         name: "all_projects"
-        file: "src/pages/projects/projects.json"
+        file: "src/data/projects.json"
         fields:
           - label: "Daftar Proyek"
             name: "projects"

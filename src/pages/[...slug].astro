@@ -24,10 +24,11 @@ const post = Astro.props;
 const {
 	data: { title, seoTitle, description, coverImage, pubDate, updatedDate, tags }
 } = post;
+const ogImage = typeof coverImage === 'string' ? coverImage : (coverImage?.src || undefined);
 const { Content, headings } = await render(post);
 ---
 
-<BaseLayout title={seoTitle || title} description={description} image={coverImage?.src || undefined}>
+<BaseLayout title={seoTitle || title} description={description} image={ogImage}>
 	<div class='container lg:flex gap-10'>
 		<main
 			class='overflow-hidden grow'
@@ -64,7 +65,13 @@ const { Content, headings } = await render(post);
             </div>
 					</div>
           <div class='py-3 overflow-hidden'>
-            {coverImage && <Image class='rounded-3xl w-full m-0 lg:mb-2' src={coverImage} alt={title} loading='eager' />}
+            {coverImage && (
+              typeof coverImage === 'string' ? (
+                <img class='rounded-3xl w-full m-0 lg:mb-2 max-h-[500px] object-cover' src={coverImage} alt={title} loading='eager' />
+              ) : (
+                <Image class='rounded-3xl w-full m-0 lg:mb-2' src={coverImage} alt={title} loading='eager' />
+              )
+            )}
           </div>
 					<Content />
 				</Prose>

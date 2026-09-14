@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /studio/
+Disallow: /studio/*
+
+Sitemap: https://andrean-lp.github.io/sitemap-index.xml
