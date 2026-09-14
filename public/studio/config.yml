@@ -99,7 +99,6 @@ collections:
             fields:
               - { label: "Judul Project", name: "title", widget: "string" }
               - { label: "Gambar Cover", name: "coverImage", widget: "image", required: false, hint: "Upload gambar cover project" }
-              - { label: "Teks Pengantar (Intro)", name: "intro", widget: "string", required: false }
               - { label: "Problem", name: "problem", widget: "markdown", required: false }
               - { label: "Solution", name: "solution", widget: "markdown", required: false }
               - { label: "Impact", name: "impact", widget: "markdown", required: false }

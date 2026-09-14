@@ -4,8 +4,7 @@
   "projects": [
     {
       "title": "STORIQ",
-      "coverImage": "",
-      "intro": "Built a polished portfolio experience with accessible UI, motion-led interactions, and reusable components.",
+      "coverImage": "/blog-placeholder-1.jpg",
       "problem": "We needed a way to dynamically showcase projects with a modern aesthetic, maintaining accessibility without sacrificing performance.",
       "solution": "Developed a custom Astro layout using Tailwind CSS, incorporating responsive grid designs and modular components for easy CMS management.",
       "impact": "Increased user engagement and provided a seamless editing experience through Decap CMS.",
@@ -13,8 +12,7 @@
     },
     {
       "title": "erni",
-      "coverImage": "",
-      "intro": "Financial management & bookkeeping dashboard designed for clarity, speed, and real-time reporting.",
+      "coverImage": "/blog-placeholder-2.jpg",
       "problem": "Managing multiple business financial records manually was prone to human calculation errors, delayed reporting, and lacked visual cash flow insights.",
       "solution": "Engineered an intuitive, responsive web application featuring automated journal entries, instant financial statement generation, and visual analytics.",
       "impact": "Reduced bookkeeping turnaround time by 65% and eliminated ledger discrepancy for active business operations.",
