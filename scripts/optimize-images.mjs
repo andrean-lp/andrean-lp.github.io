@@ -55,9 +55,12 @@ async function run() {
     if (fs.existsSync(sitePath)) {
       const raw = fs.readFileSync(sitePath, 'utf8').replace(/^\uFEFF/, '');
       const site = JSON.parse(raw);
-      if (site.favicon && typeof site.favicon === 'string' && site.favicon.startsWith('/images/')) {
+      const profilePath = path.resolve('src/data/profile.json');
+      const profile = fs.existsSync(profilePath) ? JSON.parse(fs.readFileSync(profilePath, 'utf8').replace(/^\uFEFF/, '')) : {};
+
+      if (site.favicon && typeof site.favicon === 'string' && site.favicon.startsWith('/images/') && site.favicon !== profile.avatar) {
         const faviconPath = path.resolve('public' + site.favicon);
-        await optimizeFile(faviconPath, { maxWidth: 192, maxHeight: 192, fit: 'cover', quality: 80 });
+        await optimizeFile(faviconPath, { maxWidth: 192, maxHeight: 192, fit: 'cover', quality: 85 });
       }
     }
   } catch (e) {
