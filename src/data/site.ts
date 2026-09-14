@@ -1,4 +1,5 @@
 import rawSite from './site.json';
+import rawTheme from './theme.json';
 
 export interface SiteData {
 	title: string;
@@ -94,5 +95,6 @@ export function parseColor(colorStr?: string): ColorInfo {
 }
 
 export const site: SiteData = rawSite as SiteData;
-export const primaryColorInfo: ColorInfo = parseColor(site.primaryColor);
+const activePrimaryColor = (rawTheme as any).primaryColor || site.primaryColor || 'rgb(37, 99, 235)';
+export const primaryColorInfo: ColorInfo = parseColor(activePrimaryColor);
 export default site;
