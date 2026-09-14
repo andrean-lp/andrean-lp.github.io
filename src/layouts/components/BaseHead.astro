@@ -105,6 +105,4 @@ const siteName = site.title || 'Andre Wahyu Hermawan';
 <meta name='twitter:title' content={title} />
 <meta name='twitter:description' content={description} />
 <meta name='twitter:image' content={ogImageURL} />
-{profile.twitter && (
-	<meta name='twitter:site' content={profile.twitter.includes('twitter.com/') ? `@${profile.twitter.split('/').pop()}` : profile.twitter} />
-)}
+

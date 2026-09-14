@@ -6,7 +6,7 @@ export interface ProfileData {
 	role?: string;
 	bio?: string;
 	avatar?: string;
-	twitter?: string;
+
 	website?: string;
 	github?: string;
 	youtube?: string;

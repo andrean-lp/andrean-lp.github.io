@@ -1,13 +1,13 @@
 {
-  "youtube": "https://www.youtube.com/@andrean_lp",
-  "github": "https://github.com/andrean-lp",
-  "facebook": "https://www.facebook.com/andrean.lp",
-  "bio": "I am a Front-end Engineer from Indonesia. I love sharing what i know on devaradise.com, and sometime i also share freebies like this. I'm also active on dev.to and twitter.\n\n\n\nI made Devolio to help you easily set up your own blog and portfolio website. It's a static site built with Astro and Tailwind CSS, and you can deploy it on platforms like Netlify, Vercel, or Cloudflare Pages.",
-  "name": "Andre Wahyu Hermawan",
-  "instagram": "https://www.instagram.com/andrean.lp",
-  "headline": "Hallo semua",
-  "role": "Landing Page Strategist",
-  "avatar": "/images/andre-wahyu-hermawan-github.webp",
-  "pinterest": "https://id.pinterest.com/andrean_lp",
-  "linkedin": "https://www.linkedin.com/in/andrean-lp"
+    "youtube":  "https://www.youtube.com/@andrean_lp",
+    "github":  "https://github.com/andrean-lp",
+    "facebook":  "https://www.facebook.com/andrean.lp",
+    "bio":  "I am a Front-end Engineer from Indonesia. I love sharing what i know on devaradise.com, and sometime i also share freebies like this. I\u0027m also active on dev.to and twitter.\n\n\n\nI made Devolio to help you easily set up your own blog and portfolio website. It\u0027s a static site built with Astro and Tailwind CSS, and you can deploy it on platforms like Netlify, Vercel, or Cloudflare Pages.",
+    "name":  "Andre Wahyu Hermawan",
+    "instagram":  "https://www.instagram.com/andrean.lp",
+    "headline":  "Hallo semua",
+    "role":  "Landing Page Strategist",
+    "avatar":  "/images/andre-wahyu-hermawan-github.webp",
+    "pinterest":  "https://id.pinterest.com/andrean_lp",
+    "linkedin":  "https://www.linkedin.com/in/andrean-lp"
 }
