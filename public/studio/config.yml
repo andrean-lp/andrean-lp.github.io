@@ -113,3 +113,17 @@ collections:
               - { label: "Deskripsi Tech Stack", name: "techStackDescription", widget: "markdown", required: false, hint: "Penjelasan mendalam mengapa teknologi tersebut dipilih" }
               - { label: "Technologies / Tools", name: "technologies", widget: "list", required: false }
 
+      - label: "FAQ / Tanya Jawab (Homepage)"
+        name: "faq_section"
+        file: "src/data/faq.json"
+        fields:
+          - { label: "Judul Utama FAQ", name: "title", widget: "string", default: "Got Questions? We've Got Answers." }
+          - { label: "Sub-judul / Deskripsi", name: "subtitle", widget: "string", default: "Hal yang paling sering ditanyakan seputar strategi landing page, optimasi konversi, dan alur kerja sama." }
+          - label: "Daftar Pertanyaan & Jawaban"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.question}}"
+            fields:
+              - { label: "Pertanyaan", name: "question", widget: "string" }
+              - { label: "Jawaban", name: "answer", widget: "markdown" }
+

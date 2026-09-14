@@ -1,0 +1,59 @@
+﻿---
+import faq from '../data/faq';
+
+const { title = faq.title || "Got Questions? We've Got Answers.", subtitle = faq.subtitle, items = faq.items || [] } = Astro.props;
+
+// Schema.org FAQPage structured data for Google & AI Search Engines (AEO/GEO)
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": items.map((item) => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+---
+
+{items.length > 0 && (
+  <section class="mb-14 pt-4" id="faq">
+    <!-- Schema.org JSON-LD Structured Data for FAQPage -->
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+    <!-- Section Header -->
+    <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 mb-3">
+        {title}
+      </h2>
+      {subtitle && (
+        <p class="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
+          {subtitle}
+        </p>
+      )}
+    </div>
+
+    <!-- Accordion List Card -->
+    <div class="max-w-3xl mx-auto border border-zinc-200/90 dark:border-zinc-800 rounded-2xl overflow-hidden divide-y divide-zinc-200/80 dark:divide-zinc-800/80 bg-white dark:bg-zinc-900/50 shadow-xs">
+      {items.map((item, index) => (
+        <details class="group transition-colors duration-200">
+          <summary class="flex items-center justify-between gap-4 py-4 sm:py-5 px-5 sm:px-6 cursor-pointer list-none select-none [&::-webkit-details-marker]:hidden hover:bg-zinc-50/80 dark:hover:bg-zinc-800/40 transition-colors">
+            <span class="font-semibold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              {item.question}
+            </span>
+            <span class="shrink-0 w-8 h-8 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-300 transition-transform duration-300 group-open:rotate-180 group-open:bg-zinc-200 dark:group-open:bg-zinc-700">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m6 9 6 6 6-6"/>
+              </svg>
+            </span>
+          </summary>
+          <div class="px-5 sm:px-6 pb-5 pt-1 text-sm sm:text-[15px] text-zinc-600 dark:text-zinc-400 leading-relaxed border-t border-zinc-100/60 dark:border-zinc-800/40">
+            <p>{item.answer}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </section>
+)}

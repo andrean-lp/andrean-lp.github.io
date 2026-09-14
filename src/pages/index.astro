@@ -12,6 +12,7 @@ import PostItem from '../components/PostItem.astro';
 import profile from '../data/profile';
 import Schema from '../components/Schema.astro';
 import FeaturedCaseStudy from '../components/FeaturedCaseStudy.astro';
+import FaqSection from '../components/FaqSection.astro';
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 
 type BlogPost = CollectionEntry<'blog'>;
@@ -109,7 +110,7 @@ const personSchema = {
         <ProjectList projects={top6Projects}/>
       </div>
 
-      <div class="mb-12">
+      <div class="mb-14">
         <div class="flex justify-between gap-2 border-b mb-1 dark:border-b-zinc-700">
           <h2 class="text-lg font-bold mb-3">Recent Posts</h2>
           <a href="/posts/" class="inline-block py-2 underline dark:prose-invert">All posts &raquo;</a>
@@ -124,6 +125,9 @@ const personSchema = {
         <div class="text-right">
         </div>
       </div>
+
+      <!-- FAQ Section (AEO, GEO, and Schema.org FAQPage) -->
+      <FaqSection />
 		</main>
 	</div>
 </BaseLayout>

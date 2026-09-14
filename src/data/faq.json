@@ -1,0 +1,30 @@
+﻿{
+  "title": "Got Questions? We've Got Answers.",
+  "subtitle": "Hal yang paling sering ditanyakan seputar strategi landing page, optimasi konversi, dan alur kerja sama.",
+  "items": [
+    {
+      "question": "Apa bedanya landing page biasa dengan landing page berbasis strategi & CRO?",
+      "answer": "Landing page biasa umumnya hanya berfokus pada estetika visual grafis tanpa mempertimbangkan psikologi pengunjung. Landing page berbasis strategi & CRO dirancang mulai dari riset audiens mendalam, copywriting persuasif berbasis solusi (objection handling), arsitektur informasi terstruktur, hingga load speed super kilat untuk memaksimalkan jumlah leads dan penjualan dari traffic iklan Anda."
+    },
+    {
+      "question": "Berapa lama estimasi waktu pengerjaan satu project landing page?",
+      "answer": "Waktu pengerjaan standar berkisar antara 5 hingga 10 hari kerja, tergantung pada kompleksitas fitur, integrasi sistem, dan kesiapan materi konten. Alur kerja mencakup sesi brief & riset, perancangan copywriting, desain & koding, integrasi analytics/pixel, hingga pengujian menyeluruh sebelum peluncuran resmi."
+    },
+    {
+      "question": "Apakah landing page ini sudah dioptimasi untuk pengguna ponsel (mobile)?",
+      "answer": "Pasti! Lebih dari 80% traffic iklan berasal dari smartphone. Setiap landing page yang saya bangun menerapkan prinsip mobile-first design yang responsif, navigasi yang intuitif, serta skor performa 100/100 di Google PageSpeed Insights agar anggaran iklan Anda tidak terbuang sia-sia karena website yang lambat."
+    },
+    {
+      "question": "Apakah sudah termasuk tracking konversi seperti Meta Pixel & Google Analytics?",
+      "answer": "Ya, sudah lengkap. Saya memastikan seluruh event tracking krusial—mulai dari PageView, ViewContent, hingga Contact/Lead klik tombol WhatsApp dan form submission—telah terpasang rapi dan teruji valid di Meta Pixel Helper dan Google Analytics."
+    },
+    {
+      "question": "Apakah saya bisa mengubah teks atau update konten sendiri tanpa bisa koding?",
+      "answer": "Tentu saja! Website ini dilengkapi dengan Git-based CMS visual (Decap CMS) yang ramah pengguna. Anda dapat memperbarui tulisan artikel, mengganti harga produk, mengubah gambar, dan mengedit portofolio dengan mudah kapan saja langsung dari browser tanpa perlu menyentuh kode program."
+    },
+    {
+      "question": "Bagaimana langkah awal untuk mulai bekerja sama?",
+      "answer": "Cukup klik tombol kontak WhatsApp di pojok kanan bawah atau kirimkan pesan untuk mendiskusikan kebutuhan bisnis Anda. Kita bisa berdiskusi santai mengenai target audiens, kendala landing page saat ini, serta strategi penawaran yang paling tepat untuk produk Anda."
+    }
+  ]
+}
