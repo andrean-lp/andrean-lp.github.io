@@ -77,3 +77,15 @@ collections:
 
 
 
+
+  - name: "pages_collection"
+    label: "Halaman-halaman"
+    files:
+      - label: "Halaman Tentang (About)"
+        name: "about_page"
+        file: "src/data/about.json"
+        fields:
+          - { label: "Judul Halaman", name: "title", widget: "string", default: "Tentang Saya" }
+          - { label: "Deskripsi Singkat (Samping Foto)", name: "shortDesc", widget: "markdown", hint: "Muncul di samping foto. Kosongkan jika tidak perlu.", required: false }
+          - { label: "Konten Utama (Bawah Foto)", name: "content", widget: "markdown", hint: "Cerita lengkap Anda. Mendukung gambar, link, dan format paragraf.", required: false }
+
