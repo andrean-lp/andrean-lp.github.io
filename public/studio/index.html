@@ -110,17 +110,106 @@
       console.error(e);
     }
 
-    // Validasi ukuran upload file maksimal 1 MB
-    window.addEventListener('change', (e) => {
+    // Konversi gambar ke format WebP otomatis di browser
+    function convertImageToWebP(file, quality = 0.85, maxDimension = 1200) {
+      return new Promise((resolve) => {
+        if (file.type === 'image/webp' || !file.type.startsWith('image/') || file.type === 'image/svg+xml') {
+          return resolve(file);
+        }
+
+        const img = new Image();
+        const url = URL.createObjectURL(file);
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+          let width = img.naturalWidth || img.width;
+          let height = img.naturalHeight || img.height;
+
+          // Resize proporsional jika lebih besar dari maxDimension (1200px)
+          if (width > maxDimension || height > maxDimension) {
+            if (width > height) {
+              height = Math.round((height * maxDimension) / width);
+              width = maxDimension;
+            } else {
+              width = Math.round((width * maxDimension) / height);
+              height = maxDimension;
+            }
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          canvas.toBlob((blob) => {
+            if (!blob) {
+              return resolve(file);
+            }
+            const cleanName = file.name.replace(/\.[^/.]+$/, "") + ".webp";
+            const webpFile = new File([blob], cleanName, {
+              type: 'image/webp',
+              lastModified: Date.now()
+            });
+            resolve(webpFile);
+          }, 'image/webp', quality);
+        };
+
+        img.onerror = () => {
+          URL.revokeObjectURL(url);
+          resolve(file);
+        };
+
+        img.src = url;
+      });
+    }
+
+    // Intercept upload file: Auto Convert ke WebP + Validasi maksimal 1 MB
+    let isProcessing = false;
+    const MAX_SIZE_BYTES = 1048576; // 1 MB
+
+    window.addEventListener('change', async (e) => {
       const target = e.target;
-      if (target && target.type === 'file' && target.files && target.files.length > 0) {
-        const MAX_SIZE_BYTES = 1048576; // 1 MB
-        for (const file of target.files) {
+      if (!target || target.type !== 'file' || !target.files || target.files.length === 0) return;
+      if (isProcessing) return;
+
+      const files = Array.from(target.files);
+      const needsConversion = files.some(f => f.type.startsWith('image/') && f.type !== 'image/webp' && f.type !== 'image/svg+xml');
+
+      if (needsConversion) {
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        isProcessing = true;
+
+        try {
+          const dt = new DataTransfer();
+          for (const file of files) {
+            const converted = await convertImageToWebP(file);
+            if (converted.size > MAX_SIZE_BYTES) {
+              const sizeMb = (converted.size / (1024 * 1024)).toFixed(2);
+              alert(`Peringatan: File "${converted.name}" setelah dikonversi ke WebP tetap melebihi batas 1 MB (${sizeMb} MB)!\n\nSilakan pilih gambar dengan resolusi lebih kecil.`);
+              target.value = '';
+              isProcessing = false;
+              return;
+            }
+            dt.items.add(converted);
+          }
+
+          target.files = dt.files;
+          target.dispatchEvent(new Event('change', { bubbles: true }));
+        } catch (err) {
+          console.error('Gagal konversi ke WebP:', err);
+        } finally {
+          isProcessing = false;
+        }
+      } else {
+        for (const file of files) {
           if (file.size > MAX_SIZE_BYTES) {
+            e.stopImmediatePropagation();
+            e.preventDefault();
             const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
             alert(`Peringatan: Ukuran file "${file.name}" (${sizeMb} MB) melebihi batas maksimal 1 MB!\n\nSilakan kompres gambar terlebih dahulu atau pilih gambar berukuran di bawah 1 MB agar performa website tetap maksimal (100 PageSpeed).`);
             target.value = '';
-            break;
+            return;
           }
         }
       }
