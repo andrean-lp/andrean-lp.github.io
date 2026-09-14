@@ -99,6 +99,8 @@ collections:
             fields:
               - { label: "Judul Project", name: "title", widget: "string" }
               - { label: "Gambar Cover", name: "coverImage", widget: "image", required: false, hint: "Upload gambar cover project" }
+              - { label: "Link Details (Tombol Putih)", name: "detailsLink", widget: "string", required: false, hint: "Link saat tombol Details diklik (contoh: /posts/nama-artikel atau URL eksternal)" }
+              - { label: "Link Live Preview (Tombol Hitam)", name: "previewLink", widget: "string", required: false, hint: "Link saat tombol Live Preview diklik (contoh: https://domain-project.com)" }
               - { label: "Problem", name: "problem", widget: "markdown", required: false }
               - { label: "Solution", name: "solution", widget: "markdown", required: false }
               - { label: "Impact", name: "impact", widget: "markdown", required: false }
