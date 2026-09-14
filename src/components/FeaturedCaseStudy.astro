@@ -39,7 +39,7 @@ const projects = await Promise.all(
 
   <div class={`grid grid-cols-1 ${projects.length > 1 ? 'lg:grid-cols-2' : ''} gap-6 lg:gap-8`}>
     {projects.map((proj) => (
-      <div class="bg-[#F5F5F7] dark:bg-zinc-900/50 border border-zinc-200/80 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 flex flex-col justify-between transition-all duration-200 hover:border-zinc-300 dark:hover:border-zinc-700">
+      <div class="bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 flex flex-col justify-between transition-all duration-200 hover:border-zinc-300 dark:hover:border-zinc-700 shadow-sm">
         <div>
           <!-- Header -->
           <div class="mb-5">
@@ -90,7 +90,7 @@ const projects = await Promise.all(
               <h4 class="text-xs font-bold tracking-widest text-zinc-500 dark:text-zinc-400 uppercase mb-3">Technologies / Tools</h4>
               <ul class="flex flex-wrap gap-2">
                 {proj.technologies.map((tech: string) => (
-                  <li class="px-2.5 py-1 bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700/60 text-xs rounded-lg font-medium shadow-xs">
+                  <li class="px-2.5 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-300 border border-zinc-200/80 dark:border-zinc-700/60 text-xs rounded-lg font-medium shadow-xs">
                     {tech}
                   </li>
                 ))}
