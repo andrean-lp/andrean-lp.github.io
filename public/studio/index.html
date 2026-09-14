@@ -74,6 +74,9 @@
     .token-box a:hover {
       text-decoration: underline;
     }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -113,10 +116,48 @@
       console.error(e);
     }
 
-    // Konversi gambar ke format WebP otomatis di browser
-    function convertImageToWebP(file, quality = 0.85, maxDimension = 1200) {
+    // Deteksi konteks field upload (Avatar, Favicon, Cover Image, atau Umum)
+    function getFieldType(input) {
+      let el = input;
+      for (let i = 0; i < 8 && el; i++) {
+        el = el.parentElement;
+        if (!el) break;
+        const text = (el.innerText || el.textContent || '').toLowerCase();
+        if (text.includes('avatar') || text.includes('foto profil') || text.includes('biodata')) {
+          return 'avatar';
+        }
+        if (text.includes('favicon')) {
+          return 'favicon';
+        }
+        if (text.includes('cover') || text.includes('sampul') || text.includes('thumbnail')) {
+          return 'cover';
+        }
+      }
+      return 'general';
+    }
+
+    // Notifikasi toast saat memproses gambar
+    function showToast(msg) {
+      let toast = document.getElementById('opt-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'opt-toast';
+        toast.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#18181b;color:#fff;padding:12px 20px;border-radius:8px;font-size:14px;box-shadow:0 10px 15px -3px rgba(0,0,0,0.3);z-index:999999;display:flex;align-items:center;gap:10px;font-family:sans-serif;transition:all 0.3s ease;';
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = '<span style="display:inline-block;animation:spin 1s linear infinite;width:14px;height:14px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;"></span> ' + msg;
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateY(0)';
+      return () => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+      };
+    }
+
+    // Smart Auto-Crop, Resize, dan WebP Converter otomatis di browser
+    function smartProcessImage(file, fieldType = 'general') {
       return new Promise((resolve) => {
-        if (file.type === 'image/webp' || !file.type.startsWith('image/') || file.type === 'image/svg+xml') {
+        if (!file.type.startsWith('image/') || file.type === 'image/svg+xml') {
           return resolve(file);
         }
 
@@ -124,30 +165,54 @@
         const url = URL.createObjectURL(file);
         img.onload = () => {
           URL.revokeObjectURL(url);
-          let width = img.naturalWidth || img.width;
-          let height = img.naturalHeight || img.height;
+          const origW = img.naturalWidth || img.width;
+          const origH = img.naturalHeight || img.height;
 
-          // Resize proporsional jika lebih besar dari maxDimension (1200px)
-          if (width > maxDimension || height > maxDimension) {
-            if (width > height) {
-              height = Math.round((height * maxDimension) / width);
-              width = maxDimension;
-            } else {
-              width = Math.round((width * maxDimension) / height);
-              height = maxDimension;
+          let canvasW, canvasH, sx = 0, sy = 0, sW = origW, sH = origH;
+
+          if (fieldType === 'avatar') {
+            // Auto Center-Crop ke Kotak 1:1, ukuran optimal max 600x600 px (sempurna untuk layar Retina, ~15 KiB)
+            const minDim = Math.min(origW, origH);
+            sx = Math.round((origW - minDim) / 2);
+            sy = Math.round((origH - minDim) / 2);
+            sW = minDim;
+            sH = minDim;
+            const targetDim = Math.min(600, minDim);
+            canvasW = targetDim;
+            canvasH = targetDim;
+          } else if (fieldType === 'favicon') {
+            // Auto Center-Crop ke Kotak 1:1, ukuran optimal max 192x192 px (~3 KiB)
+            const minDim = Math.min(origW, origH);
+            sx = Math.round((origW - minDim) / 2);
+            sy = Math.round((origH - minDim) / 2);
+            sW = minDim;
+            sH = minDim;
+            const targetDim = Math.min(192, minDim);
+            canvasW = targetDim;
+            canvasH = targetDim;
+          } else {
+            // Gambar Sampul / Blog: Menjaga rasio asli, resize ke max 1200x800 px (~40 KiB)
+            const maxW = 1200;
+            const maxH = 800;
+            let scale = 1;
+            if (origW > maxW || origH > maxH) {
+              scale = Math.min(maxW / origW, maxH / origH);
             }
+            canvasW = Math.round(origW * scale);
+            canvasH = Math.round(origH * scale);
           }
 
           const canvas = document.createElement('canvas');
-          canvas.width = width;
-          canvas.height = height;
+          canvas.width = canvasW;
+          canvas.height = canvasH;
           const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+          ctx.drawImage(img, sx, sy, sW, sH, 0, 0, canvasW, canvasH);
 
+          const quality = fieldType === 'favicon' ? 0.9 : 0.82;
           canvas.toBlob((blob) => {
-            if (!blob) {
-              return resolve(file);
-            }
+            if (!blob) return resolve(file);
             const cleanName = file.name.replace(/\.[^/.]+$/, "") + ".webp";
             const webpFile = new File([blob], cleanName, {
               type: 'image/webp',
@@ -166,9 +231,8 @@
       });
     }
 
-    // Intercept upload file: Auto Convert ke WebP + Validasi maksimal 1 MB
+    // Intercept upload file: Auto Crop, Auto Resize, dan Convert ke WebP
     let isProcessing = false;
-    const MAX_SIZE_BYTES = 1048576; // 1 MB
 
     window.addEventListener('change', async (e) => {
       const target = e.target;
@@ -176,45 +240,34 @@
       if (isProcessing) return;
 
       const files = Array.from(target.files);
-      const needsConversion = files.some(f => f.type.startsWith('image/') && f.type !== 'image/webp' && f.type !== 'image/svg+xml');
+      const hasImage = files.some(f => f.type.startsWith('image/') && f.type !== 'image/svg+xml');
+      if (!hasImage) return;
 
-      if (needsConversion) {
-        e.stopImmediatePropagation();
-        e.preventDefault();
-        isProcessing = true;
+      e.stopImmediatePropagation();
+      e.preventDefault();
+      isProcessing = true;
 
-        try {
-          const dt = new DataTransfer();
-          for (const file of files) {
-            const converted = await convertImageToWebP(file);
-            if (converted.size > MAX_SIZE_BYTES) {
-              const sizeMb = (converted.size / (1024 * 1024)).toFixed(2);
-              alert(`Peringatan: File "${converted.name}" setelah dikonversi ke WebP tetap melebihi batas 1 MB (${sizeMb} MB)!\n\nSilakan pilih gambar dengan resolusi lebih kecil.`);
-              target.value = '';
-              isProcessing = false;
-              return;
-            }
-            dt.items.add(converted);
-          }
+      const fieldType = getFieldType(target);
+      const hideToast = showToast(
+        fieldType === 'avatar' ? 'Memotong kotak & mengoptimalkan foto profil...' :
+        fieldType === 'favicon' ? 'Memotong kotak & mengoptimalkan favicon...' :
+        'Mengoptimalkan ukuran gambar...'
+      );
 
-          target.files = dt.files;
-          target.dispatchEvent(new Event('change', { bubbles: true }));
-        } catch (err) {
-          console.error('Gagal konversi ke WebP:', err);
-        } finally {
-          isProcessing = false;
-        }
-      } else {
+      try {
+        const dt = new DataTransfer();
         for (const file of files) {
-          if (file.size > MAX_SIZE_BYTES) {
-            e.stopImmediatePropagation();
-            e.preventDefault();
-            const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
-            alert(`Peringatan: Ukuran file "${file.name}" (${sizeMb} MB) melebihi batas maksimal 1 MB!\n\nSilakan kompres gambar terlebih dahulu atau pilih gambar berukuran di bawah 1 MB agar performa website tetap maksimal (100 PageSpeed).`);
-            target.value = '';
-            return;
-          }
+          const optimized = await smartProcessImage(file, fieldType);
+          dt.items.add(optimized);
         }
+
+        target.files = dt.files;
+        target.dispatchEvent(new Event('change', { bubbles: true }));
+      } catch (err) {
+        console.error('Gagal mengoptimalkan gambar:', err);
+      } finally {
+        isProcessing = false;
+        setTimeout(hideToast, 400);
       }
     }, true);
   </script>
