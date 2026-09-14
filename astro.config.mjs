@@ -8,6 +8,9 @@ import { autoNewTabExternalLinks } from './src/autoNewTabExternalLinks';
 export default defineConfig({
   site: 'https://andrean-lp.github.io',
   compressHTML: true,
+  build: {
+    inlineStylesheets: 'always'
+  },
   integrations: [mdx(), sitemap(), tailwind()],
   markdown: {
     extendDefaultPlugins: true,
