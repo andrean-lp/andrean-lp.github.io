@@ -106,7 +106,7 @@ const { Content, headings } = await render(post);
 
 	function observeToc() {
 		if (typeof anchors != 'undefined' && anchors != null && typeof links != 'undefined' && links != null) {
-			let scrollTop = window.scrollY;
+			const scrollTop = window.scrollY;
 
 			// highlight the last scrolled-to: set everything inactive first
 			for (const link of links) {
@@ -114,8 +114,9 @@ const { Content, headings } = await render(post);
 				link.classList.remove('bg-[var(--background-surface-color)]', 'border-[var(--soft-border-color)]', 'text-[var(--link-color)]');
 			}
 			// then iterate backwards, on the first match highlight it and break
-			for (var i = anchors.length - 1; i >= 0; i--) {
-				if (scrollTop > anchors[i].offsetTop - 80) {
+			for (let i = anchors.length - 1; i >= 0; i--) {
+				const anchor = anchors[i] as HTMLElement;
+				if (anchor && scrollTop > anchor.offsetTop - 80) {
 					links[i].classList.remove('border-transparent', 'text-inherit');
 					links[i].classList.add('bg-[var(--background-surface-color)]', 'border-[var(--soft-border-color)]', 'text-[var(--link-color)]');
 					break;
@@ -124,10 +125,10 @@ const { Content, headings } = await render(post);
 		}
 	}
 
-	window.addEventListener('scroll', (event) => {
-		observeToc(event);
+	window.addEventListener('scroll', () => {
+		observeToc();
 	});
-	window.addEventListener('hashchange', (event) => {
-		observeToc(event);
+	window.addEventListener('hashchange', () => {
+		observeToc();
 	});
 </script>
