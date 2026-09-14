@@ -1,13 +1,14 @@
-{
-    "youtube":  "https://www.youtube.com/@andrean_lp",
-    "github":  "https://github.com/andrean-lp",
-    "facebook":  "https://www.facebook.com/andrean.lp",
-    "bio":  "I am a Front-end Engineer from Indonesia. I love sharing what i know on devaradise.com, and sometime i also share freebies like this. I\u0027m also active on dev.to and twitter.\n\n\n\nI made Devolio to help you easily set up your own blog and portfolio website. It\u0027s a static site built with Astro and Tailwind CSS, and you can deploy it on platforms like Netlify, Vercel, or Cloudflare Pages.",
-    "name":  "Andre Wahyu Hermawan",
-    "instagram":  "https://www.instagram.com/andrean.lp",
-    "headline":  "Hallo semua",
-    "role":  "Landing Page Strategist",
-    "avatar":  "/images/andre-wahyu-hermawan-github.webp",
-    "pinterest":  "https://id.pinterest.com/andrean_lp",
-    "linkedin":  "https://www.linkedin.com/in/andrean-lp"
+﻿{
+  "name": "Andre Wahyu Hermawan",
+  "headline": "Halo! Saya Andre Wahyu Hermawan 👋",
+  "role": "Landing Page Strategist",
+  "bio": "Saya adalah **Landing Page Strategist & Conversion Rate Optimization (CRO)** yang berfokus membantu pemilik bisnis, startup, dan pengiklan mengubah traffic iklan menjadi pelanggan loyal. Saya merancang landing page berkinerja tinggi dengan arsitektur copywriting persuasif, navigasi mobile-first yang intuitif, serta kecepatan akses super kilat.",
+  "avatar": "/images/andre-wahyu-hermawan-github.webp",
+  "website": "https://andrean-lp.github.io",
+  "github": "https://github.com/andrean-lp",
+  "linkedin": "https://www.linkedin.com/in/andrean-lp",
+  "instagram": "https://www.instagram.com/andrean.lp",
+  "facebook": "https://www.facebook.com/andrean.lp",
+  "youtube": "https://www.youtube.com/@andrean_lp",
+  "pinterest": "https://id.pinterest.com/andrean_lp"
 }

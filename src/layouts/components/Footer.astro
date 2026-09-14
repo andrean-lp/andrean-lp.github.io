@@ -5,7 +5,7 @@ import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 
 const today = new Date();
 
-const defaultFooter = `Copyright © {year} ${site.title || 'Devolio'}. Template created by [Syakir @ Devaradise](https://devaradise.com)`;
+const defaultFooter = `Copyright © {year} ${site.title || 'Andre Wahyu Hermawan'}. All rights reserved.`;
 const rawFooterText = (site.footer || defaultFooter).replace(/\{year\}/g, today.getFullYear().toString());
 
 const mdProcessor = await createMarkdownProcessor();

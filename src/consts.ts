@@ -3,8 +3,8 @@
 
 import site from './data/site';
 
-export const SITE_TITLE = site.title || 'Devolio';
-export const SITE_TAGLINE = site.tagline || 'Minimalist Starter for Developer Blog & Portfolio Website';
-export const SITE_DESCRIPTION = site.description || 'Minimalist Starter for Developer Blog & Portfolio Website';
+export const SITE_TITLE = site.title || 'Andre Wahyu Hermawan';
+export const SITE_TAGLINE = site.tagline || 'Landing Page Strategist & Conversion Rate Optimization (CRO)';
+export const SITE_DESCRIPTION = site.description || 'Portfolio dan website profesional Andre Wahyu Hermawan — Landing Page Strategist & CRO Specialist membantu bisnis meningkatkan konversi leads dan penjualan.';
 export const SITE_FAVICON = site.favicon || '';
 

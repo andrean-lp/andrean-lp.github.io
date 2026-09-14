@@ -69,7 +69,7 @@ const personSchema = {
 	<div class='container'>
 		<div class='w-full md:flex md:items-center gap-16 mb-10'>
       <div class="text-pretty leading-9">
-        <h1 class="text-4xl font-bold mb-4">{profile.headline || "Hi There 👋, Syakir Here!"}</h1>
+        <h1 class="text-4xl font-bold mb-4">{profile.headline || "Halo! Saya Andre Wahyu Hermawan 👋"}</h1>
         <Prose>
           <div class="text-lg space-y-4" set:html={bioHtml}></div>
         </Prose>
@@ -88,7 +88,7 @@ const personSchema = {
       ) : (
         <Image 
           src={Ava} 
-          alt={profile.name || "Muhammad Syakirurohman"} 
+          alt={profile.name || "Andre Wahyu Hermawan"} 
           width={300} 
           height={300} 
           densities={[1, 1.5, 2]} 
