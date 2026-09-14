@@ -275,26 +275,21 @@
     const STORAGE_KEY_DECAP = 'decap-cms-user';
     const STORAGE_KEY_SAVED_PAT = 'studio_saved_pat';
     const STORAGE_KEY_SAVED_USER = 'studio_saved_user';
-    const SESSION_KEY_LOGGED_OUT = 'studio_just_logged_out';
 
-    // 1. Hook removeItem agar saat Decap CMS memanggil logout,
-    // kita tandai bahwa user baru saja logout dan modal kita langsung muncul tanpa perlu refresh
-    const origRemoveItem = Storage.prototype.removeItem;
-    Storage.prototype.removeItem = function(key) {
-      if (key === STORAGE_KEY_DECAP) {
-        sessionStorage.setItem(SESSION_KEY_LOGGED_OUT, 'true');
-        setTimeout(() => {
-          checkAndRenderModal();
-        }, 50);
-      }
-      return origRemoveItem.apply(this, arguments);
-    };
+    // 1. Reset manual via URL jika suatu saat ingin ganti token: /studio/?reset=1
+    if (window.location.search.includes('reset=1')) {
+      localStorage.removeItem(STORAGE_KEY_SAVED_PAT);
+      localStorage.removeItem(STORAGE_KEY_SAVED_USER);
+      localStorage.removeItem(STORAGE_KEY_DECAP);
+      sessionStorage.clear();
+      window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
+    }
 
-    // 2. Backup token jika decap-cms-user sudah ada sebelumnya
+    // 2. Backup token jika sudah ada sebelumnya
     try {
-      const decapUserRaw = localStorage.getItem(STORAGE_KEY_DECAP);
-      if (decapUserRaw) {
-        const parsed = JSON.parse(decapUserRaw);
+      const decapRaw = localStorage.getItem(STORAGE_KEY_DECAP);
+      if (decapRaw) {
+        const parsed = JSON.parse(decapRaw);
         if (parsed && parsed.token && !localStorage.getItem(STORAGE_KEY_SAVED_PAT)) {
           localStorage.setItem(STORAGE_KEY_SAVED_PAT, parsed.token);
         }
@@ -303,95 +298,58 @@
       console.error(e);
     }
 
-    // 3. Auto-reconnect: Jika ada token tersimpan dan bukan baru saja klik logout pada sesi ini,
-    // langsung pulihkan decap-cms-user sebelum script Decap CMS berjalan!
-    try {
+    // 3. Selalu pertahankan token permanen di browser:
+    // Setiap kali halaman dibuka atau dimuat, pastikan decap-cms-user langsung siap
+    function ensurePermanentAuth() {
       const savedPat = localStorage.getItem(STORAGE_KEY_SAVED_PAT);
-      const decapUser = localStorage.getItem(STORAGE_KEY_DECAP);
-      const justLoggedOut = sessionStorage.getItem(SESSION_KEY_LOGGED_OUT);
-
-      if (!decapUser && savedPat && !justLoggedOut) {
+      if (savedPat) {
         localStorage.setItem(STORAGE_KEY_DECAP, JSON.stringify({ token: savedPat, backendName: 'github' }));
+        return true;
       }
-    } catch (e) {
-      console.error(e);
+      return false;
     }
 
-    let isSavedTokenRevealed = false;
+    ensurePermanentAuth();
 
-    // Fungsi Render Modal
+    // 4. Cegah Decap CMS logout: jika Decap mencoba menghapus decap-cms-user saat klik logout,
+    // segera pulihkan token tersimpan secara instan tanpa memunculkan popup
+    const origRemoveItem = Storage.prototype.removeItem;
+    Storage.prototype.removeItem = function(key) {
+      if (key === STORAGE_KEY_DECAP) {
+        const saved = localStorage.getItem(STORAGE_KEY_SAVED_PAT);
+        if (saved) {
+          setTimeout(() => {
+            localStorage.setItem(STORAGE_KEY_DECAP, JSON.stringify({ token: saved, backendName: 'github' }));
+          }, 20);
+          return;
+        }
+      }
+      return origRemoveItem.apply(this, arguments);
+    };
+
+    // 5. Modal HANYA muncul jika browser ini benar-benar belum punya token sama sekali
     function checkAndRenderModal() {
-      const decapUser = localStorage.getItem(STORAGE_KEY_DECAP);
+      const savedPat = localStorage.getItem(STORAGE_KEY_SAVED_PAT);
       const modal = document.getElementById('token-modal');
       if (!modal) return;
 
-      if (!decapUser) {
-        const savedPat = localStorage.getItem(STORAGE_KEY_SAVED_PAT);
-        if (savedPat) {
-          showSavedView(savedPat);
-        } else {
-          showInputView(false);
-        }
+      if (!savedPat) {
+        showInputView();
         modal.classList.add('active');
       } else {
         modal.classList.remove('active');
       }
     }
 
-    function showSavedView(token) {
-      document.getElementById('view-saved-token').style.display = 'block';
-      document.getElementById('view-input-token').style.display = 'none';
-
-      isSavedTokenRevealed = false;
-      renderSavedTokenMask(token);
-
-      const savedUser = localStorage.getItem(STORAGE_KEY_SAVED_USER);
-      if (savedUser) {
-        document.getElementById('saved-user-badge').innerHTML = `Akun GitHub: <strong>@${savedUser}</strong> &bull; Repo: <strong>andrean-lp/andrean-lp.github.io</strong>`;
-      }
-    }
-
-    function renderSavedTokenMask(token) {
-      const displayEl = document.getElementById('saved-token-display');
-      if (isSavedTokenRevealed) {
-        displayEl.innerText = token;
-      } else {
-        let masked = 'ghp_••••••••••••••••••••';
-        if (token && token.length > 8) {
-          masked = token.substring(0, 4) + '••••••••••••••••' + token.substring(token.length - 4);
-        }
-        displayEl.innerText = masked;
-      }
-    }
-
-    function toggleRevealSavedToken() {
-      const savedPat = localStorage.getItem(STORAGE_KEY_SAVED_PAT);
-      if (!savedPat) return;
-      isSavedTokenRevealed = !isSavedTokenRevealed;
-      renderSavedTokenMask(savedPat);
-    }
-
-    function showInputView(canCancel) {
+    function showInputView() {
       document.getElementById('view-saved-token').style.display = 'none';
       document.getElementById('view-input-token').style.display = 'block';
       document.getElementById('token-error-msg').style.display = 'none';
-      document.getElementById('cancel-change-row').style.display = canCancel ? 'block' : 'none';
+      document.getElementById('cancel-change-row').style.display = 'none';
 
-      const savedPat = localStorage.getItem(STORAGE_KEY_SAVED_PAT);
       const patInput = document.getElementById('pat-input');
-      if (canCancel && savedPat) {
-        patInput.value = savedPat;
-      } else {
-        patInput.value = '';
-      }
+      patInput.value = '';
       setTimeout(() => patInput.focus(), 100);
-    }
-
-    function cancelChangeToken() {
-      const savedPat = localStorage.getItem(STORAGE_KEY_SAVED_PAT);
-      if (savedPat) {
-        showSavedView(savedPat);
-      }
     }
 
     function togglePatVisibility() {
@@ -403,38 +361,11 @@
       }
     }
 
-    function loginWithSavedToken() {
-      const savedPat = localStorage.getItem(STORAGE_KEY_SAVED_PAT);
-      if (!savedPat) {
-        showInputView(false);
-        return;
-      }
-      sessionStorage.removeItem(SESSION_KEY_LOGGED_OUT);
-      localStorage.setItem(STORAGE_KEY_DECAP, JSON.stringify({ token: savedPat, backendName: 'github' }));
-      document.getElementById('token-modal').classList.remove('active');
-      if (!window.location.hash || window.location.hash === '#/' || window.location.hash === '#') {
-        window.location.hash = '#/collections/blog';
-      }
-      window.location.reload();
-    }
-
-    function forgetSavedToken() {
-      if (!confirm('Apakah Anda yakin ingin menghapus token GitHub tersimpan dari browser ini?')) {
-        return;
-      }
-      localStorage.removeItem(STORAGE_KEY_SAVED_PAT);
-      localStorage.removeItem(STORAGE_KEY_SAVED_USER);
-      localStorage.removeItem(STORAGE_KEY_DECAP);
-      sessionStorage.removeItem(SESSION_KEY_LOGGED_OUT);
-      showInputView(false);
-    }
-
     async function validateAndSaveToken() {
       const input = document.getElementById('pat-input');
       const val = (input.value || '').trim();
       const errBox = document.getElementById('token-error-msg');
       const btn = document.getElementById('btn-save-token');
-      const rememberCheckbox = document.getElementById('remember-pat');
 
       errBox.style.display = 'none';
 
@@ -461,7 +392,6 @@
           const userData = await userRes.json();
           userLogin = userData.login || '';
 
-          // Cek izin akses repo
           const repoRes = await fetch('https://api.github.com/repos/andrean-lp/andrean-lp.github.io', {
             headers: { Authorization: `token ${val}` }
           });
@@ -483,17 +413,14 @@
         console.warn('Pre-validation check warning:', err);
       }
 
-      btn.innerHTML = 'Menyimpan & Membuka Studio...';
+      btn.innerHTML = 'Menyimpan Token Permanen...';
 
-      if (rememberCheckbox && rememberCheckbox.checked) {
-        localStorage.setItem(STORAGE_KEY_SAVED_PAT, val);
-        if (userLogin) {
-          localStorage.setItem(STORAGE_KEY_SAVED_USER, userLogin);
-        }
+      localStorage.setItem(STORAGE_KEY_SAVED_PAT, val);
+      if (userLogin) {
+        localStorage.setItem(STORAGE_KEY_SAVED_USER, userLogin);
       }
-
-      sessionStorage.removeItem(SESSION_KEY_LOGGED_OUT);
       localStorage.setItem(STORAGE_KEY_DECAP, JSON.stringify({ token: val, backendName: 'github' }));
+
       document.getElementById('token-modal').classList.remove('active');
       if (!window.location.hash || window.location.hash === '#/' || window.location.hash === '#') {
         window.location.hash = '#/collections/blog';
