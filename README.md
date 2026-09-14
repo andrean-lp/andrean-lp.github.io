@@ -1,15 +1,14 @@
-﻿<div align="center">
+<div align="center">
 
 # 🌐 Andre Wahyu Hermawan — Personal Website & Portfolio
 
 **Modern, Ultra-Fast Personal Portfolio & Blog built with Astro 5, Tailwind CSS, and Decap CMS.**
 
 [![Live Website](https://img.shields.io/badge/Live_Website-andrean--lp.github.io-blue?style=for-the-badge&logo=google-chrome&logoColor=white)](https://andrean-lp.github.io/)
-[![Decap CMS](https://img.shields.io/badge/Decap_CMS-Studio_Admin-black?style=for-the-badge&logo=netlify&logoColor=white)](https://andrean-lp.github.io/studio/)
 [![Deploy Status](https://img.shields.io/github/actions/workflow/status/andrean-lp/andrean-lp.github.io/deploy.yml?branch=main&style=for-the-badge&label=Deployment)](https://github.com/andrean-lp/andrean-lp.github.io/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
-[🌐 Kunjungi Website](https://andrean-lp.github.io/) • [🛠️ Masuk ke Studio CMS](https://andrean-lp.github.io/studio/) • [💬 Kontak WhatsApp](https://wa.me/6285187437036)
+[🌐 Kunjungi Website](https://andrean-lp.github.io/) • [💼 LinkedIn](https://www.linkedin.com/in/andrean-lp) • [💬 Kontak WhatsApp](https://wa.me/6285187437036)
 
 </div>
 
@@ -34,8 +33,8 @@ Halo! Saya **Andre Wahyu Hermawan** (*Landing Page Strategist*). Website ini mer
   * Table of Contents (Daftar Isi) interaktif dengan Scrollspy.
   * Sistem tagging / kategori artikel yang terorganisir.
   * Komentar interaktif berbasis GitHub Discussions via Giscus.
-* 🛠️ **Visual Decap CMS Studio (`/studio/`)**:
-  * Pengelolaan visual tanpa kode untuk artikel, proyek, biodata profil, dan pengaturan web.
+* 🛠️ **Git-based Content Management (Decap CMS)**:
+  * Pengelolaan visual tanpa kode untuk artikel, proyek, biodata profil, dan pengaturan web secara privat dan aman.
   * **Sistem Pembersihan Media Otomatis**: Menghapus gambar cover lama secara cerdas saat artikel dihapus atau favicon diperbarui untuk menghemat storage.
 * 🔍 **Optimasi SEO, AEO & GEO**:
   * Schema.org JSON-LD lengkap (`WebSite`, `Person`, `BlogPosting`, `CreativeWork`, `BreadcrumbList`).
@@ -63,9 +62,6 @@ Halo! Saya **Andre Wahyu Hermawan** (*Landing Page Strategist*). Website ini mer
 ```text
 ├── public/
 │   ├── images/              # Media dan gambar hasil upload CMS
-│   ├── studio/              # Konfigurasi & interface Decap CMS
-│   │   ├── config.yml       # Skema koleksi Decap CMS
-│   │   └── index.html       # Entrypoint panel studio
 │   ├── favicon.ico
 │   ├── robots.txt
 │   └── site.webmanifest
