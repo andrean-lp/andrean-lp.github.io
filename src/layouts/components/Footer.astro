@@ -1,8 +1,19 @@
 ---
 import profile from '@src/data/profile';
 import site from '@src/data/site';
+import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 
 const today = new Date();
+
+const defaultFooter = `Copyright © {year} ${site.title || 'Devolio'}. Template created by [Syakir @ Devaradise](https://devaradise.com)`;
+const rawFooterText = (site.footer || defaultFooter).replace(/\{year\}/g, today.getFullYear().toString());
+
+const mdProcessor = await createMarkdownProcessor();
+const rawFooterHtml = (await mdProcessor.render(rawFooterText)).code;
+const footerHtml = rawFooterHtml
+	.replace(/^<p>/, '')
+	.replace(/<\/p>\s*$/, '')
+	.replace(/<a /g, '<a target="_blank" rel="nofollow noopener noreferrer" class="underline hover:text-zinc-800 dark:hover:text-zinc-200" ');
 
 const socialItems = [
 	{
@@ -88,8 +99,6 @@ const socialItems = [
 	)}
 
 	<div class='py-6 border-t dark:border-t-zinc-700 text-center'>
-		<div class='text-sm text-zinc-500 dark:text-zinc-400'>
-			Copyright © {today.getFullYear()} {site.title || 'Devolio'}. Template created by <a href='https://devaradise.com' target='_blank' rel='nofollow noopener noreferrer' class='underline hover:text-zinc-800 dark:hover:text-zinc-200'>Syakir @ Devaradise</a>
-		</div>
+		<div class='text-sm text-zinc-500 dark:text-zinc-400' set:html={footerHtml}></div>
 	</div>
 </footer>

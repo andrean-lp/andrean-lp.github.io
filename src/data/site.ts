@@ -1,10 +1,11 @@
-﻿import rawSite from './site.json';
+import rawSite from './site.json';
 
 export interface SiteData {
 	title: string;
 	tagline?: string;
 	description?: string;
 	favicon?: string;
+	footer?: string;
 	[key: string]: any;
 }
 
