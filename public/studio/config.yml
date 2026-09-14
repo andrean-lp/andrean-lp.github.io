@@ -61,11 +61,9 @@ collections:
         file: "src/data/profile.json"
         fields:
           - { label: "Nama Lengkap", name: "name", widget: "string" }
-          - { label: "Headline / Sapaan", name: "headline", widget: "string" }
-          - { label: "Role / Profesi", name: "role", widget: "string" }
-          - label: "Paragraf Bio"
-            name: "bio"
-            widget: "list"
+          - { label: "Headline / Sapaan", name: "headline", widget: "string", hint: "Contoh: Hi There 👋, Syakir Here!" }
+          - { label: "Role / Profesi", name: "role", widget: "string", hint: "Contoh: Front-end Engineer" }
+          - { label: "Bio / Paragraf Perkenalan", name: "bio", widget: "markdown", hint: "Tuliskan pengenalan diri Anda. Bisa ditambahkan link, format paragraf, dll." }
           - label: "Foto Profil (Avatar)"
             name: "avatar"
             widget: "image"

@@ -4,7 +4,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Ava from '@src/assets/img/ava.jpg';
 import Prose from '../components/Prose.astro';
 import profile from '../data/profile.json';
+import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 
+const mdProcessor = await createMarkdownProcessor();
+const rawBioHtml = (await mdProcessor.render(profile.bio || '')).code;
+const bioHtml = rawBioHtml.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
 ---
 
 <BaseLayout
@@ -18,15 +22,7 @@ import profile from '../data/profile.json';
           <div class="text-pretty leading-9">
             <h1 class="text-4xl font-bold mb-4">{profile.headline || "Hi There 👋, Syakir Here!"}</h1>
             <Prose>
-              <div class="text-lg space-y-4">
-                {profile.bio && Array.isArray(profile.bio) ? (
-                  profile.bio.map((paragraph: string) => (
-                    <p set:html={paragraph}></p>
-                  ))
-                ) : (
-                  <p set:html={profile.bio}></p>
-                )}
-              </div>
+              <div class="text-lg space-y-4" set:html={bioHtml}></div>
             </Prose>
           </div>
           {profile.avatar ? (
