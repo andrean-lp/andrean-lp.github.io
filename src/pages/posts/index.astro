@@ -6,8 +6,8 @@ import Schema from '../../components/Schema.astro';
 import PostsByYear from '../../components/PostsByYear.astro';
 
 type BlogPost = CollectionEntry<'blog'>;
-const title = 'All posts'
-const description = 'Articles, guides, tutorials about front-end development.'
+const title = 'All Questions';
+const description = 'Kumpulan pertanyaan dan pembahasan mendalam seputar strategi landing page, optimasi konversi (CRO), dan performa web.';
 
 const posts = (await getCollection('blog')).sort((a: BlogPost, b: BlogPost) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
@@ -37,7 +37,7 @@ const breadcrumbSchema = {
 		{
 			"@type": "ListItem",
 			"position": 2,
-			"name": "Posts",
+			"name": "All Questions",
 			"item": `${siteUrl}/posts/`,
 		}
 	]
