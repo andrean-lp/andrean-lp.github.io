@@ -1,8 +1,9 @@
-﻿{
+{
   "title": "Andre Wahyu Hermawan",
   "tagline": "Landing Page Strategist & Conversion Rate Optimization (CRO)",
   "description": "Portfolio dan website profesional Andre Wahyu Hermawan — Landing Page Strategist & CRO Specialist membantu bisnis meningkatkan konversi leads dan penjualan.",
   "favicon": "/images/landing-page-specialist-indonesia.webp",
   "footer": "Copyright © {year} Andre Wahyu Hermawan. All rights reserved.",
-  "whatsapp": "6285187437036"
+  "whatsapp": "6285187437036",
+  "primaryColor": "rgb(37, 99, 235)"
 }

@@ -1,4 +1,4 @@
-﻿---
+---
 import faq from '../data/faq';
 import type { FaqItem } from '../data/faq';
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
@@ -66,7 +66,7 @@ const faqSchema = {
       {processedItems.map((item) => (
         <details class="group transition-colors duration-200">
           <summary class="flex items-center justify-between gap-4 py-4 sm:py-5 px-5 sm:px-6 cursor-pointer list-none select-none [&::-webkit-details-marker]:hidden hover:bg-zinc-50/80 dark:hover:bg-zinc-800/40 transition-colors">
-            <span class="font-semibold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+            <span class="font-semibold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 group-hover:text-primary transition-colors">
               {item.question}
             </span>
             <span class="shrink-0 w-8 h-8 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-300 transition-transform duration-300 group-open:rotate-180 group-open:bg-zinc-200 dark:group-open:bg-zinc-700">
@@ -75,7 +75,7 @@ const faqSchema = {
               </svg>
             </span>
           </summary>
-          <div class="px-5 sm:px-6 pb-5 pt-1 text-sm sm:text-[15px] text-zinc-600 dark:text-zinc-400 leading-relaxed border-t border-zinc-100/60 dark:border-zinc-800/40 prose dark:prose-invert max-w-none prose-p:my-1 prose-a:text-blue-600 dark:prose-a:text-blue-400" set:html={item.htmlAnswer}>
+          <div class="px-5 sm:px-6 pb-5 pt-1 text-sm sm:text-[15px] text-zinc-600 dark:text-zinc-400 leading-relaxed border-t border-zinc-100/60 dark:border-zinc-800/40 prose dark:prose-invert max-w-none prose-p:my-1 prose-a:text-primary" set:html={item.htmlAnswer}>
           </div>
         </details>
       ))}

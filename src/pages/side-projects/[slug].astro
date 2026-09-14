@@ -1,4 +1,4 @@
-﻿---
+---
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Schema from '../../components/Schema.astro';
@@ -142,7 +142,7 @@ const breadcrumbSchema = {
     <!-- Hero Header -->
     <header class="mb-8 sm:mb-12">
       {category && (
-        <p class="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-3 sm:mb-4">
+        <p class="text-xs font-bold uppercase tracking-widest text-primary mb-3 sm:mb-4">
           {category}
         </p>
       )}
@@ -212,7 +212,7 @@ const breadcrumbSchema = {
               <ul class="space-y-3.5 pl-0 list-none my-5">
                 {features.map((featHtml: string) => (
                   <li class="flex items-start gap-3.5 text-zinc-700 dark:text-zinc-300 leading-relaxed text-[1.03rem]">
-                    <span class="mt-2.5 shrink-0 w-2 h-2 rounded-full bg-blue-600 dark:bg-blue-400"></span>
+                    <span class="mt-2.5 shrink-0 w-2 h-2 rounded-full bg-primary"></span>
                     <div class="prose prose-zinc dark:prose-invert max-w-none prose-p:my-0 prose-strong:font-bold prose-strong:text-zinc-900 dark:prose-strong:text-zinc-100" set:html={featHtml} />
                   </li>
                 ))}
@@ -306,7 +306,7 @@ const breadcrumbSchema = {
                 href={whatsappUrl} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                class="inline-flex items-center justify-between text-sm font-bold text-blue-600 dark:text-blue-400 hover:underline group"
+                class="inline-flex items-center justify-between text-sm font-bold text-primary hover:underline group"
               >
                 <span>WhatsApp</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform">
@@ -320,7 +320,7 @@ const breadcrumbSchema = {
                 href={linkedinUrl} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                class="inline-flex items-center justify-between text-sm font-bold text-blue-600 dark:text-blue-400 hover:underline group"
+                class="inline-flex items-center justify-between text-sm font-bold text-primary hover:underline group"
               >
                 <span>LinkedIn</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform">
@@ -334,7 +334,7 @@ const breadcrumbSchema = {
                 href={githubUrl} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                class="inline-flex items-center justify-between text-sm font-bold text-blue-600 dark:text-blue-400 hover:underline group"
+                class="inline-flex items-center justify-between text-sm font-bold text-primary hover:underline group"
               >
                 <span>GitHub</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform">
@@ -372,7 +372,7 @@ const breadcrumbSchema = {
               <path d="m9 18 6-6-6-6"/>
             </svg>
           </span>
-          <span class="text-base font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+          <span class="text-base font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-primary transition-colors">
             {nextProject.title}
           </span>
           <span class="text-xs text-zinc-500 dark:text-zinc-400">

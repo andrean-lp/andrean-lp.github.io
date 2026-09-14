@@ -51,7 +51,7 @@ const { projects } = Astro.props
               )}
             </div>
             <h3 class="font-semibold text-base my-2.5 text-zinc-900 dark:text-zinc-100">
-              <a class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors" href={previewUrl} target={isExternalPreview ? "_blank" : "_self"} rel={project.demoLinkRel || (isExternalPreview ? "noopener noreferrer" : undefined)}>{project.name}</a>
+              <a class="hover:text-primary transition-colors" href={previewUrl} target={isExternalPreview ? "_blank" : "_self"} rel={project.demoLinkRel || (isExternalPreview ? "noopener noreferrer" : undefined)}>{project.name}</a>
             </h3>
             <div class="line-clamp-2 text-zinc-600 dark:text-zinc-400 text-sm mb-4 min-h-[44px]">
               <p>{project.description}</p>

@@ -3,7 +3,7 @@
 // all pages through the use of the <BaseHead /> component.
 import '../../styles/global.css';
 import Favicon from '@src/assets/img/favicon.png';
-import site from '@src/data/site';
+import site, { primaryColorInfo } from '@src/data/site';
 import profile from '@src/data/profile';
 
 interface Props {
@@ -64,6 +64,15 @@ const siteName = site.title || 'Andre Wahyu Hermawan';
 
 <!-- Canonical URL -->
 <link rel='canonical' href={canonicalURL} />
+
+<!-- Dynamic Primary Color Theme CSS Variables -->
+<style define:vars={{ primaryColor: primaryColorInfo.cssRgb, primaryRgb: primaryColorInfo.rgb }}>
+	:root {
+		--primary-color: var(--primaryColor, rgb(37, 99, 235));
+		--primary-rgb: var(--primaryRgb, 37, 99, 235);
+		--link-color: var(--primary-color);
+	}
+</style>
 
 <!-- RSS Auto-Discovery -->
 <link rel='alternate' type='application/rss+xml' title={`${siteName} RSS Feed`} href={new URL('/rss.xml', Astro.site)} />

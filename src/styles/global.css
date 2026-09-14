@@ -1,6 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+	--primary-color: rgb(37, 99, 235);
+	--primary-rgb: 37, 99, 235;
+	--link-color: var(--primary-color);
+}
+
 @layer base {
 	pre,
 	code {
