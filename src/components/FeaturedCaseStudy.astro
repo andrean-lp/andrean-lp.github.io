@@ -3,7 +3,7 @@ import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 import featuredData from '../data/featured_case_study.json';
 
 const show = featuredData.show ?? true;
-const sectionTitle = featuredData.sectionTitle || 'Featured Case Studies';
+const sectionTitle = featuredData.sectionTitle || 'Side Project';
 
 // Mendukung format list baru maupun format single object lama
 const rawProjects = (featuredData as any).projects || ((featuredData as any).title ? [featuredData] : []);

@@ -25,9 +25,9 @@ collections:
       - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "projects_collection"
-    label: "Projects"
+    label: "Client Projects"
     files:
-      - label: "Daftar Projects"
+      - label: "Daftar Client Projects"
         name: "all_projects"
         file: "src/data/projects.json"
         fields:
@@ -86,12 +86,12 @@ collections:
           - { label: "Deskripsi Singkat (Samping Foto)", name: "shortDesc", widget: "markdown", hint: "Muncul di samping foto. Kosongkan jika tidak perlu.", required: false }
           - { label: "Konten Utama (Bawah Foto)", name: "content", widget: "markdown", hint: "Cerita lengkap Anda. Mendukung gambar, link, dan format paragraf.", required: false }
 
-      - label: "Studi Kasus Unggulan (Homepage)"
+      - label: "Side Project (Homepage)"
         name: "featured_case_study"
         file: "src/data/featured_case_study.json"
         fields:
           - { label: "Tampilkan di Homepage?", name: "show", widget: "boolean", default: true }
-          - { label: "Judul Section", name: "sectionTitle", widget: "string", default: "Featured Case Studies" }
+          - { label: "Judul Section", name: "sectionTitle", widget: "string", default: "Side Project" }
           - label: "Daftar Project"
             name: "projects"
             widget: "list"
