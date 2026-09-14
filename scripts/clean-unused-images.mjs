@@ -11,6 +11,7 @@ const SCAN_DIRS = [
 ];
 
 const SCAN_FILES = [
+  'README.md',
   'public/site.webmanifest',
   'astro.config.mjs',
   'public/robots.txt',
@@ -18,6 +19,9 @@ const SCAN_FILES = [
 
 const IMAGES_DIR = path.resolve('public/images');
 const MEDIA_EXTS = new Set(['.png', '.jpg', '.jpeg', '.webp', '.svg', '.gif', '.ico', '.avif']);
+const PROTECTED_FILES = new Set([
+  'pagespeed-score.png',
+]);
 
 function getFilesRecursively(dir) {
   const fullPath = path.resolve(dir);
@@ -86,7 +90,9 @@ export function cleanUnusedImages() {
     const encodedName = encodeURIComponent(filename).toLowerCase();
     const decodedName = decodeURIComponent(filename).toLowerCase();
 
-    const isUsed = lowerContent.includes(rawName) ||
+    const isProtected = PROTECTED_FILES.has(rawName);
+    const isUsed = isProtected ||
+                   lowerContent.includes(rawName) ||
                    lowerContent.includes(encodedName) ||
                    lowerContent.includes(decodedName);
 

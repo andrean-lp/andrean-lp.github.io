@@ -5,11 +5,30 @@
 **Modern, Ultra-Fast Personal Portfolio & Blog built with Astro 5, Tailwind CSS, and Decap CMS.**
 
 [![Live Website](https://img.shields.io/badge/Live_Website-andrean--lp.github.io-blue?style=for-the-badge&logo=google-chrome&logoColor=white)](https://andrean-lp.github.io/)
+[![PageSpeed Score](https://img.shields.io/badge/PageSpeed-100%2F100_Perfect-success?style=for-the-badge&logo=googlechrome&logoColor=white)](https://pagespeed.web.dev/analysis/https-andrean-lp-github-io/lbagbnf1gk?hl=id&form_factor=mobile)
 [![Deploy Status](https://img.shields.io/github/actions/workflow/status/andrean-lp/andrean-lp.github.io/deploy.yml?branch=main&style=for-the-badge&label=Deployment)](https://github.com/andrean-lp/andrean-lp.github.io/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
-[🌐 Kunjungi Website](https://andrean-lp.github.io/) • [💼 LinkedIn](https://www.linkedin.com/in/andrean-lp) • [💬 Kontak WhatsApp](https://wa.me/6285187437036)
+[🌐 Kunjungi Website](https://andrean-lp.github.io/) • [⚡ Cek Audit PageSpeed (100/100)](https://pagespeed.web.dev/analysis/https-andrean-lp-github-io/lbagbnf1gk?hl=id&form_factor=mobile) • [💼 LinkedIn](https://www.linkedin.com/in/andrean-lp) • [💬 Kontak WhatsApp](https://wa.me/6285187437036)
 
+</div>
+
+---
+
+## ⚡ Social Proof & Performa: 100/100 Google PageSpeed Insights
+
+Website ini dioptimasi secara presisi dengan arsitektur static generation **Astro 5** (*Zero-JS runtime*), meraih skor sempurna **100/100** di seluruh metrik utama Google PageSpeed Insights (Mobile): **Performa**, **Aksesibilitas**, **Praktik Terbaik**, dan **SEO**.
+
+<div align="center">
+  <a href="https://pagespeed.web.dev/analysis/https-andrean-lp-github-io/lbagbnf1gk?hl=id&form_factor=mobile" target="_blank" rel="noopener noreferrer">
+    <img src="./public/images/pagespeed-score.png" alt="Google PageSpeed Insights 100/100 Score" width="850" style="max-width: 100%; border-radius: 12px; border: 1px solid #e2e8f0;" />
+  </a>
+  <br /><br />
+  <a href="https://pagespeed.web.dev/analysis/https-andrean-lp-github-io/lbagbnf1gk?hl=id&form_factor=mobile" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/badge/🔍_Cek_Audit_Live_di-Google_PageSpeed_Insights-2563eb?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Live PageSpeed Audit" />
+  </a>
+  <br />
+  <sub>👆 Klik gambar atau tombol di atas untuk membuka laporan hasil audit resmi Google secara langsung.</sub>
 </div>
 
 ---
