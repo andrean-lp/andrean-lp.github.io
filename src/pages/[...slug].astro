@@ -140,9 +140,9 @@ const breadcrumbSchema = {
             
             <div class="flex items-center gap-4 mt-6 mb-2 not-prose">
               {profile.avatar ? (
-                <img src={profile.avatar} alt={profile.name || SITE_TITLE} class="w-12 h-12 rounded-full object-cover m-0" width="48" height="48" />
+                <img src={profile.avatar} alt={profile.name || SITE_TITLE} class="w-12 h-12 rounded-full object-cover m-0" width="48" height="48" loading="lazy" decoding="async" />
               ) : (
-                <Image src={Ava} alt={profile.name || SITE_TITLE} class="w-12 h-12 rounded-full object-cover m-0" width={48} height={48} />
+                <Image src={Ava} alt={profile.name || SITE_TITLE} class="w-12 h-12 rounded-full object-cover m-0" width={48} height={48} loading="lazy" decoding="async" />
               )}
               <div class="flex flex-col leading-tight justify-center">
                 <span class="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-1">Ditulis Oleh</span>
@@ -155,9 +155,9 @@ const breadcrumbSchema = {
           <div class='py-3 overflow-hidden'>
             {coverImage && (
               typeof coverImage === 'string' ? (
-                <img class='rounded-3xl w-full m-0 lg:mb-2 max-h-[500px] object-cover' src={coverImage} alt={title} loading='eager' />
+                <img class='rounded-3xl w-full m-0 lg:mb-2 max-h-[500px] object-cover' src={coverImage} alt={title} loading='eager' decoding='async' />
               ) : (
-                <Image class='rounded-3xl w-full m-0 lg:mb-2' src={coverImage} alt={title} loading='eager' />
+                <Image class='rounded-3xl w-full m-0 lg:mb-2' src={coverImage} alt={title} loading='eager' decoding='async' />
               )
             )}
           </div>
@@ -180,6 +180,7 @@ const breadcrumbSchema = {
               data-input-position='bottom'
               data-theme='preferred_color_scheme'
               data-lang='en'
+              data-loading='lazy'
               crossorigin='anonymous'
               async></script>
         }

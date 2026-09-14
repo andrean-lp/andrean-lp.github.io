@@ -57,6 +57,9 @@ const projects = await Promise.all(
                 alt={`${proj.title} Cover`} 
                 class="w-full h-full object-cover" 
                 loading="lazy" 
+                decoding="async"
+                width="800"
+                height="450"
               />
             </div>
           )}

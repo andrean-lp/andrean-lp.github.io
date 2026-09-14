@@ -16,6 +16,19 @@ export const autoNewTabExternalLinks: RehypePlugin = (options?: Options) => {
 
 			const element = node;
 
+			// Auto lazy-load and async decode images in markdown content
+			if (element.tagName === 'img') {
+				if (!element.properties) {
+					element.properties = {};
+				}
+				if (!element.properties.loading) {
+					element.properties.loading = 'lazy';
+				}
+				if (!element.properties.decoding) {
+					element.properties.decoding = 'async';
+				}
+			}
+
 			if (!isAnchor(element)) {
 				return;
 			}
