@@ -116,7 +116,7 @@ const projects = await Promise.all(
               href={proj.previewLink || '#'} 
               target={proj.previewLink && proj.previewLink !== '#' ? '_blank' : '_self'}
               rel={proj.previewLink && proj.previewLink !== '#' ? 'noopener noreferrer' : undefined}
-              class="flex-1 text-center py-2.5 px-4 rounded-xl font-semibold text-sm bg-black text-white shadow-xs hover:bg-zinc-800 active:scale-[0.98] transition-all duration-200 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200 inline-flex items-center justify-center gap-1.5"
+              class="flex-1 text-center py-2.5 px-4 rounded-xl font-semibold text-sm bg-primary text-white shadow-xs hover:opacity-90 active:scale-[0.98] transition-all duration-200 inline-flex items-center justify-center gap-1.5"
             >
               <span>Live Preview</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80">
