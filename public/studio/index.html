@@ -19,60 +19,169 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       align-items: center;
       justify-content: center;
+      backdrop-filter: blur(4px);
     }
     #token-modal.active {
       display: flex;
     }
     .token-box {
       background: #ffffff;
-      padding: 28px;
-      border-radius: 12px;
-      max-width: 460px;
+      padding: 30px 26px;
+      border-radius: 16px;
+      max-width: 480px;
       width: 90%;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+      box-sizing: border-box;
     }
     .token-box h2 {
       margin: 0 0 8px 0;
       font-size: 20px;
+      font-weight: 700;
       color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     .token-box p {
       font-size: 14px;
       color: #475569;
       line-height: 1.5;
-      margin: 0 0 12px 0;
+      margin: 0 0 16px 0;
     }
-    .token-box input {
+    .token-box input[type="text"],
+    .token-box input[type="password"] {
       width: 100%;
-      padding: 10px 12px;
-      margin: 8px 0 16px 0;
+      padding: 10px 40px 10px 12px;
       border: 1px solid #cbd5e1;
-      border-radius: 6px;
+      border-radius: 8px;
       box-sizing: border-box;
       font-size: 14px;
       font-family: monospace;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .token-box button {
+    .token-box input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+    .btn-primary {
       background: #2563eb;
       color: white;
       border: none;
-      padding: 11px 18px;
-      border-radius: 6px;
+      padding: 12px 18px;
+      border-radius: 8px;
       cursor: pointer;
       font-weight: 600;
       font-size: 14px;
       width: 100%;
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
-    .token-box button:hover {
+    .btn-primary:hover {
       background: #1d4ed8;
     }
-    .token-box a {
-      color: #2563eb;
-      text-decoration: none;
+    .btn-primary:active {
+      transform: scale(0.99);
     }
-    .token-box a:hover {
+    .btn-primary:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid #e2e8f0;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+    .btn-danger-text {
+      background: transparent;
+      color: #dc2626;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 6px 8px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .btn-danger-text:hover {
+      background: #fee2e2;
       text-decoration: underline;
+    }
+    .token-saved-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 20px;
+    }
+    .token-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #dcfce7;
+      color: #15803d;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 9999px;
+    }
+    .token-input-wrapper {
+      position: relative;
+      margin-bottom: 14px;
+    }
+    .eye-toggle {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .eye-toggle:hover {
+      color: #0f172a;
+    }
+    .alert-error {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #b91c1c;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 14px;
+      line-height: 1.4;
+      display: none;
+    }
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #475569;
+      margin-bottom: 16px;
+      cursor: pointer;
+    }
+    .checkbox-row input {
+      margin: 0;
+      cursor: pointer;
     }
     @keyframes spin {
       to { transform: rotate(360deg); }
@@ -82,39 +191,322 @@
 <body>
   <div id="token-modal">
     <div class="token-box">
-      <h2>Hubungkan GitHub Token</h2>
-      <p>Untuk mengelola postingan dan konten blog Anda, masukkan GitHub Personal Access Token (Classic) dengan izin <code>repo</code>:</p>
-      <input type="password" id="pat-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" />
-      <button onclick="saveToken()">Masuk ke Studio</button>
-      <p style="margin-top: 14px; margin-bottom: 0; font-size: 12px; color: #64748b;">
-        Belum punya token? <a href="https://github.com/settings/tokens/new?scopes=repo&description=Decap+CMS+Studio" target="_blank">Buat token di GitHub (centang izin 'repo') &raquo;</a>
-      </p>
+      <!-- Tampilan 1: Token Tersimpan (Setelah Logout / Re-login Cepat) -->
+      <div id="view-saved-token" style="display: none;">
+        <h2>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#2563eb;"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          Masuk ke Studio
+        </h2>
+        <p id="saved-view-desc">Sesi Anda telah keluar. Token GitHub Anda tersimpan aman di browser ini:</p>
+        
+        <div class="token-saved-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
+            <span style="font-size: 12px; font-weight: 600; color: #475569; display: flex; align-items: center; gap: 6px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              GitHub Personal Access Token
+            </span>
+            <span class="token-badge">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              Tersimpan
+            </span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div id="saved-token-display" style="font-family: monospace; font-size: 13px; color: #1e293b; letter-spacing: 1px;">
+              ghp_••••••••••••••••••••
+            </div>
+            <button type="button" class="eye-toggle" style="position:static; transform:none;" onclick="toggleRevealSavedToken()" title="Lihat/Sembunyikan Token">
+              <svg id="saved-eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div id="saved-user-badge" style="margin-top: 8px; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 6px;">
+            Repository: <strong>andrean-lp/andrean-lp.github.io</strong>
+          </div>
+        </div>
+
+        <button class="btn-primary" id="btn-login-saved" onclick="loginWithSavedToken()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          Masuk Sekarang (1-Klik)
+        </button>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 16px; padding-top: 14px; border-top: 1px solid #f1f5f9;">
+          <button class="btn-secondary" onclick="showInputView(true)">Ganti Token</button>
+          <button class="btn-danger-text" onclick="forgetSavedToken()">Hapus Token dari Browser</button>
+        </div>
+      </div>
+
+      <!-- Tampilan 2: Input Token Baru (Pertama Kali / Ganti Token) -->
+      <div id="view-input-token" style="display: none;">
+        <h2>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#2563eb;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Hubungkan GitHub Token
+        </h2>
+        <p>Masukkan GitHub Personal Access Token (Classic) dengan izin <code>repo</code> untuk mengelola blog:</p>
+
+        <div id="token-error-msg" class="alert-error"></div>
+
+        <div class="token-input-wrapper">
+          <input type="password" id="pat-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="current-password" onkeydown="if(event.key==='Enter') validateAndSaveToken()" />
+          <button type="button" class="eye-toggle" onclick="togglePatVisibility()" title="Lihat/Sembunyikan Token">
+            <svg id="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+
+        <label class="checkbox-row">
+          <input type="checkbox" id="remember-pat" checked />
+          <span>Ingat token di browser ini (agar tidak diminta lagi setelah logout)</span>
+        </label>
+
+        <button class="btn-primary" id="btn-save-token" onclick="validateAndSaveToken()">
+          Masuk ke Studio
+        </button>
+
+        <div id="cancel-change-row" style="display:none; text-align:center; margin-top: 12px;">
+          <button class="btn-secondary" style="width:100%;" onclick="cancelChangeToken()">Batal &bull; Gunakan Token Tersimpan</button>
+        </div>
+
+        <p style="margin-top: 14px; margin-bottom: 0; font-size: 12px; color: #64748b;">
+          Belum punya token? <a href="https://github.com/settings/tokens/new?scopes=repo&description=Decap+CMS+Studio" target="_blank" style="color:#2563eb; text-decoration:none;">Buat token di GitHub (centang izin 'repo') &raquo;</a>
+        </p>
+      </div>
     </div>
   </div>
 
   <script>
-    function saveToken() {
-      const input = document.getElementById('pat-input');
-      const val = (input.value || '').trim();
-      if (!val) {
-        alert('Mohon masukkan token GitHub Anda.');
-        return;
-      }
-      localStorage.setItem('decap-cms-user', JSON.stringify({ token: val, backendName: 'github' }));
-      document.getElementById('token-modal').classList.remove('active');
-      window.location.reload();
-    }
+    const STORAGE_KEY_DECAP = 'decap-cms-user';
+    const STORAGE_KEY_SAVED_PAT = 'studio_saved_pat';
+    const STORAGE_KEY_SAVED_USER = 'studio_saved_user';
+    const SESSION_KEY_LOGGED_OUT = 'studio_just_logged_out';
 
+    // 1. Hook removeItem agar saat Decap CMS memanggil logout,
+    // kita tandai bahwa user baru saja logout dan modal kita langsung muncul tanpa perlu refresh
+    const origRemoveItem = Storage.prototype.removeItem;
+    Storage.prototype.removeItem = function(key) {
+      if (key === STORAGE_KEY_DECAP) {
+        sessionStorage.setItem(SESSION_KEY_LOGGED_OUT, 'true');
+        setTimeout(() => {
+          checkAndRenderModal();
+        }, 50);
+      }
+      return origRemoveItem.apply(this, arguments);
+    };
+
+    // 2. Backup token jika decap-cms-user sudah ada sebelumnya
     try {
-      const user = localStorage.getItem('decap-cms-user');
-      if (!user) {
-        document.addEventListener('DOMContentLoaded', () => {
-          document.getElementById('token-modal').classList.add('active');
-        });
+      const decapUserRaw = localStorage.getItem(STORAGE_KEY_DECAP);
+      if (decapUserRaw) {
+        const parsed = JSON.parse(decapUserRaw);
+        if (parsed && parsed.token && !localStorage.getItem(STORAGE_KEY_SAVED_PAT)) {
+          localStorage.setItem(STORAGE_KEY_SAVED_PAT, parsed.token);
+        }
       }
     } catch (e) {
       console.error(e);
     }
+
+    // 3. Auto-reconnect: Jika ada token tersimpan dan bukan baru saja klik logout pada sesi ini,
+    // langsung pulihkan decap-cms-user sebelum script Decap CMS berjalan!
+    try {
+      const savedPat = localStorage.getItem(STORAGE_KEY_SAVED_PAT);
+      const decapUser = localStorage.getItem(STORAGE_KEY_DECAP);
+      const justLoggedOut = sessionStorage.getItem(SESSION_KEY_LOGGED_OUT);
+
+      if (!decapUser && savedPat && !justLoggedOut) {
+        localStorage.setItem(STORAGE_KEY_DECAP, JSON.stringify({ token: savedPat, backendName: 'github' }));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+
+    let isSavedTokenRevealed = false;
+
+    // Fungsi Render Modal
+    function checkAndRenderModal() {
+      const decapUser = localStorage.getItem(STORAGE_KEY_DECAP);
+      const modal = document.getElementById('token-modal');
+      if (!modal) return;
+
+      if (!decapUser) {
+        const savedPat = localStorage.getItem(STORAGE_KEY_SAVED_PAT);
+        if (savedPat) {
+          showSavedView(savedPat);
+        } else {
+          showInputView(false);
+        }
+        modal.classList.add('active');
+      } else {
+        modal.classList.remove('active');
+      }
+    }
+
+    function showSavedView(token) {
+      document.getElementById('view-saved-token').style.display = 'block';
+      document.getElementById('view-input-token').style.display = 'none';
+
+      isSavedTokenRevealed = false;
+      renderSavedTokenMask(token);
+
+      const savedUser = localStorage.getItem(STORAGE_KEY_SAVED_USER);
+      if (savedUser) {
+        document.getElementById('saved-user-badge').innerHTML = `Akun GitHub: <strong>@${savedUser}</strong> &bull; Repo: <strong>andrean-lp/andrean-lp.github.io</strong>`;
+      }
+    }
+
+    function renderSavedTokenMask(token) {
+      const displayEl = document.getElementById('saved-token-display');
+      if (isSavedTokenRevealed) {
+        displayEl.innerText = token;
+      } else {
+        let masked = 'ghp_••••••••••••••••••••';
+        if (token && token.length > 8) {
+          masked = token.substring(0, 4) + '••••••••••••••••' + token.substring(token.length - 4);
+        }
+        displayEl.innerText = masked;
+      }
+    }
+
+    function toggleRevealSavedToken() {
+      const savedPat = localStorage.getItem(STORAGE_KEY_SAVED_PAT);
+      if (!savedPat) return;
+      isSavedTokenRevealed = !isSavedTokenRevealed;
+      renderSavedTokenMask(savedPat);
+    }
+
+    function showInputView(canCancel) {
+      document.getElementById('view-saved-token').style.display = 'none';
+      document.getElementById('view-input-token').style.display = 'block';
+      document.getElementById('token-error-msg').style.display = 'none';
+      document.getElementById('cancel-change-row').style.display = canCancel ? 'block' : 'none';
+
+      const savedPat = localStorage.getItem(STORAGE_KEY_SAVED_PAT);
+      const patInput = document.getElementById('pat-input');
+      if (canCancel && savedPat) {
+        patInput.value = savedPat;
+      } else {
+        patInput.value = '';
+      }
+      setTimeout(() => patInput.focus(), 100);
+    }
+
+    function cancelChangeToken() {
+      const savedPat = localStorage.getItem(STORAGE_KEY_SAVED_PAT);
+      if (savedPat) {
+        showSavedView(savedPat);
+      }
+    }
+
+    function togglePatVisibility() {
+      const input = document.getElementById('pat-input');
+      if (input.type === 'password') {
+        input.type = 'text';
+      } else {
+        input.type = 'password';
+      }
+    }
+
+    function loginWithSavedToken() {
+      const savedPat = localStorage.getItem(STORAGE_KEY_SAVED_PAT);
+      if (!savedPat) {
+        showInputView(false);
+        return;
+      }
+      sessionStorage.removeItem(SESSION_KEY_LOGGED_OUT);
+      localStorage.setItem(STORAGE_KEY_DECAP, JSON.stringify({ token: savedPat, backendName: 'github' }));
+      document.getElementById('token-modal').classList.remove('active');
+      if (!window.location.hash || window.location.hash === '#/' || window.location.hash === '#') {
+        window.location.hash = '#/collections/blog';
+      }
+      window.location.reload();
+    }
+
+    function forgetSavedToken() {
+      if (!confirm('Apakah Anda yakin ingin menghapus token GitHub tersimpan dari browser ini?')) {
+        return;
+      }
+      localStorage.removeItem(STORAGE_KEY_SAVED_PAT);
+      localStorage.removeItem(STORAGE_KEY_SAVED_USER);
+      localStorage.removeItem(STORAGE_KEY_DECAP);
+      sessionStorage.removeItem(SESSION_KEY_LOGGED_OUT);
+      showInputView(false);
+    }
+
+    async function validateAndSaveToken() {
+      const input = document.getElementById('pat-input');
+      const val = (input.value || '').trim();
+      const errBox = document.getElementById('token-error-msg');
+      const btn = document.getElementById('btn-save-token');
+      const rememberCheckbox = document.getElementById('remember-pat');
+
+      errBox.style.display = 'none';
+
+      if (!val) {
+        errBox.innerText = 'Mohon masukkan Personal Access Token (Classic) GitHub Anda.';
+        errBox.style.display = 'block';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<span style="display:inline-block;animation:spin 1s linear infinite;width:14px;height:14px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;"></span> Memeriksa token ke GitHub...';
+
+      let userLogin = '';
+      try {
+        const userRes = await fetch('https://api.github.com/user', {
+          headers: { Authorization: `token ${val}` }
+        });
+
+        if (userRes.status === 401) {
+          throw new Error('Token GitHub tidak valid atau telah kedaluwarsa. Periksa kembali token Anda.');
+        }
+
+        if (userRes.ok) {
+          const userData = await userRes.json();
+          userLogin = userData.login || '';
+
+          // Cek izin akses repo
+          const repoRes = await fetch('https://api.github.com/repos/andrean-lp/andrean-lp.github.io', {
+            headers: { Authorization: `token ${val}` }
+          });
+          if (repoRes.ok) {
+            const repoData = await repoRes.json();
+            if (repoData.permissions && !repoData.permissions.push) {
+              throw new Error(`Token valid untuk @${userLogin}, tetapi tidak memiliki izin push/write ke repo andrean-lp/andrean-lp.github.io.`);
+            }
+          }
+        }
+      } catch (err) {
+        if (err.message && (err.message.includes('Token') || err.message.includes('izin push'))) {
+          btn.disabled = false;
+          btn.innerHTML = 'Masuk ke Studio';
+          errBox.innerText = err.message;
+          errBox.style.display = 'block';
+          return;
+        }
+        console.warn('Pre-validation check warning:', err);
+      }
+
+      btn.innerHTML = 'Menyimpan & Membuka Studio...';
+
+      if (rememberCheckbox && rememberCheckbox.checked) {
+        localStorage.setItem(STORAGE_KEY_SAVED_PAT, val);
+        if (userLogin) {
+          localStorage.setItem(STORAGE_KEY_SAVED_USER, userLogin);
+        }
+      }
+
+      sessionStorage.removeItem(SESSION_KEY_LOGGED_OUT);
+      localStorage.setItem(STORAGE_KEY_DECAP, JSON.stringify({ token: val, backendName: 'github' }));
+      document.getElementById('token-modal').classList.remove('active');
+      if (!window.location.hash || window.location.hash === '#/' || window.location.hash === '#') {
+        window.location.hash = '#/collections/blog';
+      }
+      window.location.reload();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', checkAndRenderModal);
+    } else {
+      checkAndRenderModal();
+    }
+  </script>
 
     // Deteksi konteks field upload (Avatar, Favicon, Cover Image, atau Umum)
     function getFieldType(input) {
