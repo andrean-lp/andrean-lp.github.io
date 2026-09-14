@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en" class="notranslate" translate="no">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google" content="notranslate" />
+  <title>Studio Content Manager</title>
+  <link href="./config.yml" type="text/yaml" rel="cms-config-url" />
+  <style>
+    #token-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.75);
+      z-index: 999999;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      align-items: center;
+      justify-content: center;
+    }
+    #token-modal.active {
+      display: flex;
+    }
+    .token-box {
+      background: #ffffff;
+      padding: 28px;
+      border-radius: 12px;
+      max-width: 460px;
+      width: 90%;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25);
+    }
+    .token-box h2 {
+      margin: 0 0 8px 0;
+      font-size: 20px;
+      color: #0f172a;
+    }
+    .token-box p {
+      font-size: 14px;
+      color: #475569;
+      line-height: 1.5;
+      margin: 0 0 12px 0;
+    }
+    .token-box input {
+      width: 100%;
+      padding: 10px 12px;
+      margin: 8px 0 16px 0;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 14px;
+      font-family: monospace;
+    }
+    .token-box button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 11px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      width: 100%;
+      transition: background 0.2s;
+    }
+    .token-box button:hover {
+      background: #1d4ed8;
+    }
+    .token-box a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+    .token-box a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div id="token-modal">
+    <div class="token-box">
+      <h2>Hubungkan GitHub Token</h2>
+      <p>Untuk mengelola postingan dan konten blog Anda, masukkan GitHub Personal Access Token (Classic) dengan izin <code>repo</code>:</p>
+      <input type="password" id="pat-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" />
+      <button onclick="saveToken()">Masuk ke Studio</button>
+      <p style="margin-top: 14px; margin-bottom: 0; font-size: 12px; color: #64748b;">
+        Belum punya token? <a href="https://github.com/settings/tokens/new?scopes=repo&description=Decap+CMS+Studio" target="_blank">Buat token di GitHub (centang izin 'repo') &raquo;</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    function saveToken() {
+      const input = document.getElementById('pat-input');
+      const val = (input.value || '').trim();
+      if (!val) {
+        alert('Mohon masukkan token GitHub Anda.');
+        return;
+      }
+      localStorage.setItem('decap-cms-user', JSON.stringify({ token: val, backendName: 'github' }));
+      document.getElementById('token-modal').classList.remove('active');
+      window.location.reload();
+    }
+
+    try {
+      const user = localStorage.getItem('decap-cms-user');
+      if (!user) {
+        document.addEventListener('DOMContentLoaded', () => {
+          document.getElementById('token-modal').classList.add('active');
+        });
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  </script>
+  <!-- Menggunakan decap-cms versi 3.0.12 yang stabil tanpa bug React removeChild -->
+  <script src="https://unpkg.com/decap-cms@3.0.12/dist/decap-cms.js"></script>
+</body>
+</html>
