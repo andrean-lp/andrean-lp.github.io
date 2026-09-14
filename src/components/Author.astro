@@ -1,39 +1,62 @@
 ---
 import { Image } from 'astro:assets';
 import Ava from '@src/assets/img/ava.jpg';
+import profile from '../data/profile.json';
 
 type PicSize = 'sm' | 'md' | 'lg';
 interface Props {
 	picSize: PicSize;
 }
 const { picSize } = Astro.props;
+const sizePx = picSize === 'sm' ? 48 : picSize === 'md' ? 70 : 90;
+const authorLink = profile.github || profile.website || 'https://github.com/andrean-lp';
 ---
 
 <div class='flex gap-4 items-center leading-tight not-prose'>
 	<a
-		href='https://github.com/syakirurahman'
+		href={authorLink}
 		target='_blank'
 		rel='noopener noreferrer'
 		class:list={[
-			'rounded-full overflow-hidden shrink-0',
+			'rounded-full overflow-hidden shrink-0 block',
 			{ 'w-12 h-12': picSize === 'sm' },
 			{ 'w-[70px] h-[70px]': picSize === 'md' },
 			{ 'w-[90px] h-[90px]': picSize === 'lg' }
 		]}
 	>
-		<Image src={Ava} alt='Muhammad Syakirurohman' />
+		{profile.avatar ? (
+			<img 
+				src={profile.avatar} 
+				alt={profile.name || "Foto Profil"} 
+				width={sizePx} 
+				height={sizePx} 
+				loading="lazy" 
+				decoding="async" 
+				class="w-full h-full object-cover aspect-square"
+			/>
+		) : (
+			<Image 
+				src={Ava} 
+				alt={profile.name || "Muhammad Syakirurohman"} 
+				width={sizePx} 
+				height={sizePx} 
+				densities={[1, 2]} 
+				class="w-full h-full object-cover" 
+			/>
+		)}
 	</a>
 	<div>
 		<div>
 			<a
-				href='https://github.com/syakirurahman'
+				href={authorLink}
 				class='block font-bold text-inherit hover:text-[var(--link-color)]'
 				target='_blank'
 				rel='noopener noreferrer'
 			>
-				Muhammad Syakirurohman
+				{profile.name || 'Muhammad Syakirurohman'}
 			</a>
 		</div>
-		<small class='avatar__subtitle'>Frontend Engineer</small>
+		<small class='avatar__subtitle'>{profile.role || 'Frontend Engineer'}</small>
 	</div>
 </div>
+

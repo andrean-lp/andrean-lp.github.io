@@ -40,3 +40,23 @@ collections:
               - { label: "Demo Link", name: "demoLink", widget: "string", required: false }
               - { label: "Post Link", name: "postLink", widget: "string", required: false }
               - { label: "Tags", name: "tags", widget: "list", required: false }
+
+  - name: "profile_collection"
+    label: "Profil & Biodata"
+    files:
+      - label: "Biodata & Foto Profil"
+        name: "profile_data"
+        file: "src/data/profile.json"
+        fields:
+          - { label: "Nama Lengkap", name: "name", widget: "string" }
+          - { label: "Headline / Sapaan", name: "headline", widget: "string" }
+          - { label: "Role / Profesi", name: "role", widget: "string" }
+          - label: "Paragraf Bio"
+            name: "bio"
+            widget: "list"
+            field: { label: "Teks Paragraf", name: "paragraph", widget: "text" }
+          - { label: "Foto Profil (Avatar)", name: "avatar", widget: "image", required: false, hint: "Disarankan upload gambar rasio 1:1 (kotak) minimal 600x600 px agar tajam dan proporsional di semua layar HP" }
+          - { label: "Link GitHub", name: "github", widget: "string", required: false }
+          - { label: "Link Twitter / X", name: "twitter", widget: "string", required: false }
+          - { label: "Link Website", name: "website", widget: "string", required: false }
+
