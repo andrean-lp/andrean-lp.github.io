@@ -1,10 +1,7 @@
-﻿{
-  "name": "Muhammad Syakirurohman",
-  "headline": "Hi There 👋, Syakir Here!",
-  "role": "Front-end Engineer",
-  "bio": "I am a Front-end Engineer from Indonesia. I love sharing what i know on [devaradise.com](https://devaradise.com), and sometime i also share freebies like this. I'm also active on [dev.to](https://dev.to/syakirurahman) and [twitter](https://x.com/syakirurahman).\n\nI made Devolio to help you easily set up your own blog and portfolio website. It's a static site built with Astro and Tailwind CSS, and you can deploy it on platforms like [Netlify](https://app.netlify.com/start/deploy?repository=https://github.com/devaradise/devolio), [Vercel](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdevaradise%2Fdevolio), or [Cloudflare Pages](https://pages.cloudflare.com/).",
-  "avatar": "",
-  "github": "https://github.com/syakirurahman",
-  "twitter": "https://x.com/syakirurahman",
-  "website": "https://devaradise.com"
+{
+  "avatar": "/images/andre-wahyu-hermawan-github.webp",
+  "bio": "Hallo saya andre",
+  "role": "Landing Page Srategist",
+  "headline": "Hallo semua",
+  "name": "Andre Wahyu Hermawan"
 }
