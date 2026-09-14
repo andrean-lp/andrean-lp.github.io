@@ -1,0 +1,15 @@
+{
+  "show": true,
+  "title": "STORIQ",
+  "coverImage": "",
+  "intro": "",
+  "problem": "Built a polished portfolio experience with accessible UI, motion-led interactions, and reusable components.",
+  "solution": "Developed a custom Astro layout using Tailwind CSS, incorporating responsive grid designs and modular components for easy CMS management.",
+  "impact": "Increased user engagement and provided a seamless editing experience through Decap CMS.",
+  "technologies": [
+    { "name": "Astro" },
+    { "name": "Tailwind CSS" },
+    { "name": "Decap CMS" },
+    { "name": "TypeScript" }
+  ]
+}

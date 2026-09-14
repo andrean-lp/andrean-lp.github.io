@@ -86,3 +86,21 @@ collections:
           - { label: "Deskripsi Singkat (Samping Foto)", name: "shortDesc", widget: "markdown", hint: "Muncul di samping foto. Kosongkan jika tidak perlu.", required: false }
           - { label: "Konten Utama (Bawah Foto)", name: "content", widget: "markdown", hint: "Cerita lengkap Anda. Mendukung gambar, link, dan format paragraf.", required: false }
 
+      - label: "Studi Kasus Utama (Homepage)"
+        name: "featured_case_study"
+        file: "src/data/featured_case_study.json"
+        fields:
+          - { label: "Tampilkan di Homepage?", name: "show", widget: "boolean", default: true }
+          - { label: "Judul", name: "title", widget: "string", default: "STORIQ" }
+          - { label: "Gambar Cover", name: "coverImage", widget: "image", required: false, hint: "Gambar besar untuk studi kasus" }
+          - { label: "Teks Pengantar (Intro)", name: "intro", widget: "string", hint: "Contoh: Built a polished portfolio experience...", required: false }
+          - { label: "Problem", name: "problem", widget: "markdown", required: false }
+          - { label: "Solution", name: "solution", widget: "markdown", required: false }
+          - { label: "Impact", name: "impact", widget: "markdown", required: false }
+          - label: "Technologies / Tools"
+            name: "technologies"
+            widget: "list"
+            required: false
+            fields:
+              - { label: "Nama Teknologi/Tools", name: "name", widget: "string" }
+

@@ -11,6 +11,7 @@ import ProjectList from '../components/ProjectList.astro'
 import PostItem from '../components/PostItem.astro';
 import profile from '../data/profile';
 import Schema from '../components/Schema.astro';
+import FeaturedCaseStudy from '../components/FeaturedCaseStudy.astro';
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 
 type BlogPost = CollectionEntry<'blog'>;
@@ -120,6 +121,7 @@ const personSchema = {
         </div>
         <ProjectList projects={top6Projects}/>
       </div>
+      <FeaturedCaseStudy />
 		</main>
 	</div>
 </BaseLayout>
