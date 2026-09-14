@@ -55,5 +55,5 @@ collections:
           - { label: "Foto Profil (Avatar)", name: "avatar", widget: "image", required: false, hint: "Disarankan upload gambar rasio 1:1 (kotak) minimal 600x600 px. Ukuran maksimal 1 MB (otomatis dikonversi ke WebP)" }
           - { label: "Link Twitter / X", name: "twitter", widget: "string", required: false }
           - { label: "Link Website", name: "website", widget: "string", required: false }
-          - { label: "Link GitHub", name: "github", widget: "string", required: false }
+          - { label: "Link GitHub (Ikon Header & Profil)", name: "github", widget: "string", required: false, hint: "Link profil GitHub Anda, contoh: https://github.com/andrean-lp. Otomatis terpasang pada ikon GitHub di pojok kanan atas." }
 

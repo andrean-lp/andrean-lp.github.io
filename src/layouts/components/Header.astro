@@ -1,10 +1,11 @@
 ---
 import HeaderLink from './HeaderLink.astro';
 import { Image } from 'astro:assets';
-import AvaLogo from '@src/assets/img/small-ava.jpg';
+import profile from '@src/data/profile';
 import GithubWhite from '@src/assets/img/github-mark-white.svg';
 import GithubBlack from '@src/assets/img/github-mark.svg';
 
+const githubUrl = profile.github || 'https://github.com/andrean-lp';
 
 const menu = [
   {
@@ -34,20 +35,20 @@ const menu = [
 >
 	<div class='container'>
 		<nav class='flex gap-4 items-center justify-between py-3'>
-			<h2 class='m-0'>
-				<a href='/' class='flex gap-4 items-center text-xl font-black uppercase'>
-					<!-- You can use your site logo, rounded ava or simply your site name here-->
-          <Image src={AvaLogo} alt='Your site name' width={44} height={44} densities={[1, 2]} class="rounded-full w-11 h-11 border-white border-2 shadow-lg object-cover"/> 
-					<!-- {SITE_TITLE} -->
-				</a>
-			</h2>
-			<div class='flex'>
-				<a class='p-3 dark:hidden' href='https://github.com/devaradise/devolio' target='_blank' rel='noopener noreferrer'
-					><Image src={GithubBlack} width={24} height={24} alt='Github logo' /></a
-				>
-				<a class='p-3 hidden dark:block' href='https://github.com/devaradise/devolio' target='_blank' rel='noopener noreferrer'
-					><Image src={GithubWhite} width={24} height={24} alt='Github logo' /></a
-				>
+			<div class='flex items-center min-w-[44px]'>
+				<!-- Avatar kiri telah dihapus sesuai permintaan -->
+			</div>
+			<div class='flex items-center'>
+				{githubUrl && (
+					<>
+						<a class='p-3 dark:hidden' href={githubUrl} target='_blank' rel='noopener noreferrer' aria-label='GitHub Profile'>
+							<Image src={GithubBlack} width={24} height={24} alt='Github logo' />
+						</a>
+						<a class='p-3 hidden dark:block' href={githubUrl} target='_blank' rel='noopener noreferrer' aria-label='GitHub Profile'>
+							<Image src={GithubWhite} width={24} height={24} alt='Github logo' />
+						</a>
+					</>
+				)}
 				<button class='p-3' id='themeToggle' aria-label='Theme mode'>
 					<svg
 						class='sun'
