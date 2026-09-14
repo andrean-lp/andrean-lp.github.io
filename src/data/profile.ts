@@ -1,4 +1,4 @@
-﻿import rawProfile from './profile.json';
+import rawProfile from './profile.json';
 
 export interface ProfileData {
 	name?: string;
@@ -9,6 +9,10 @@ export interface ProfileData {
 	twitter?: string;
 	website?: string;
 	github?: string;
+	youtube?: string;
+	instagram?: string;
+	facebook?: string;
+	linkedin?: string;
 	[key: string]: any;
 }
 

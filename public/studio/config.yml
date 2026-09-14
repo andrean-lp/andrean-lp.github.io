@@ -56,4 +56,8 @@ collections:
           - { label: "Link Twitter / X", name: "twitter", widget: "string", required: false }
           - { label: "Link Website", name: "website", widget: "string", required: false }
           - { label: "Link GitHub (Ikon Header & Profil)", name: "github", widget: "string", required: false, hint: "Link profil GitHub Anda, contoh: https://github.com/andrean-lp. Otomatis terpasang pada ikon GitHub di pojok kanan atas." }
+          - { label: "Link YouTube (Ikon Footer)", name: "youtube", widget: "string", required: false, hint: "Contoh: https://youtube.com/@username" }
+          - { label: "Link Instagram (Ikon Footer)", name: "instagram", widget: "string", required: false, hint: "Contoh: https://instagram.com/username" }
+          - { label: "Link Facebook (Ikon Footer)", name: "facebook", widget: "string", required: false, hint: "Contoh: https://facebook.com/username" }
+          - { label: "Link LinkedIn (Ikon Footer)", name: "linkedin", widget: "string", required: false, hint: "Contoh: https://linkedin.com/in/username" }
 
