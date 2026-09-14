@@ -20,9 +20,10 @@ const posts = (await getCollection('blog')).sort((a: BlogPost, b: BlogPost) => b
 const mdProcessor = await createMarkdownProcessor();
 const rawBioHtml = (await mdProcessor.render(profile.bio || '')).code;
 const bioHtml = rawBioHtml.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
+const siteTitle = SITE_TAGLINE ? `${SITE_TITLE} - ${SITE_TAGLINE}` : SITE_TITLE;
 ---
 
-<BaseLayout title={SITE_TITLE + ' - ' + SITE_TAGLINE} description={SITE_DESCRIPTION}>
+<BaseLayout title={siteTitle} description={SITE_DESCRIPTION}>
 	<div class='container'>
 		<div class='w-full md:flex md:items-center gap-16 mb-10'>
       <div class="text-pretty leading-9">
