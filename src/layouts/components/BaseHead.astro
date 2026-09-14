@@ -66,13 +66,13 @@ const siteName = site.title || 'Andre Wahyu Hermawan';
 <link rel='canonical' href={canonicalURL} />
 
 <!-- Dynamic Primary Color Theme CSS Variables -->
-<style define:vars={{ primaryColor: primaryColorInfo.cssRgb, primaryRgb: primaryColorInfo.rgb }}>
-	:root {
-		--primary-color: var(--primaryColor, rgb(37, 99, 235));
-		--primary-rgb: var(--primaryRgb, 37, 99, 235);
-		--link-color: var(--primary-color);
-	}
-</style>
+<style is:inline set:html={`
+:root {
+	--primary-color: ${primaryColorInfo.hex};
+	--primary-rgb: ${primaryColorInfo.rgb};
+	--link-color: var(--primary-color);
+}
+`} />
 
 <!-- RSS Auto-Discovery -->
 <link rel='alternate' type='application/rss+xml' title={`${siteName} RSS Feed`} href={new URL('/rss.xml', Astro.site)} />

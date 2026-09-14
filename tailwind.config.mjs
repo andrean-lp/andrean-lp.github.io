@@ -13,8 +13,8 @@ export default {
 		extend: {
       colors: {
         primary: {
-          DEFAULT: 'rgb(var(--primary-rgb) / <alpha-value>)',
-          hover: 'rgb(var(--primary-rgb) / 0.85)',
+          DEFAULT: 'var(--primary-color)',
+          hover: 'var(--primary-color)',
           light: 'rgb(var(--primary-rgb) / 0.1)',
           border: 'rgb(var(--primary-rgb) / 0.25)',
         }

@@ -27,7 +27,7 @@ export function parseColor(colorStr?: string): ColorInfo {
 			r: 37,
 			g: 99,
 			b: 235,
-			rgb: '37, 99, 235',
+			rgb: '37 99 235',
 			cssRgb: 'rgb(37, 99, 235)',
 			hex: '#2563eb',
 		};
@@ -43,7 +43,7 @@ export function parseColor(colorStr?: string): ColorInfo {
 			r,
 			g,
 			b,
-			rgb: `${r}, ${g}, ${b}`,
+			rgb: `${r} ${g} ${b}`,
 			cssRgb: `rgb(${r}, ${g}, ${b})`,
 			hex: `#${toHex(r)}${toHex(g)}${toHex(b)}`,
 		};
@@ -58,7 +58,7 @@ export function parseColor(colorStr?: string): ColorInfo {
 			r,
 			g,
 			b,
-			rgb: `${r}, ${g}, ${b}`,
+			rgb: `${r} ${g} ${b}`,
 			cssRgb: `rgb(${r}, ${g}, ${b})`,
 			hex: `#${toHex(r)}${toHex(g)}${toHex(b)}`,
 		};
@@ -78,7 +78,7 @@ export function parseColor(colorStr?: string): ColorInfo {
 				r,
 				g,
 				b,
-				rgb: `${r}, ${g}, ${b}`,
+				rgb: `${r} ${g} ${b}`,
 				cssRgb: `rgb(${r}, ${g}, ${b})`,
 				hex: `#${toHex(r)}${toHex(g)}${toHex(b)}`,
 			};
@@ -88,7 +88,7 @@ export function parseColor(colorStr?: string): ColorInfo {
 		r: 37,
 		g: 99,
 		b: 235,
-		rgb: '37, 99, 235',
+		rgb: '37 99 235',
 		cssRgb: 'rgb(37, 99, 235)',
 		hex: '#2563eb',
 	};

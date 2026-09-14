@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-	--primary-color: rgb(37, 99, 235);
-	--primary-rgb: 37, 99, 235;
+	--primary-color: #1e3f6e;
+	--primary-rgb: 30 63 110;
 	--link-color: var(--primary-color);
 }
 
