@@ -21,7 +21,7 @@ collections:
       - { label: "Description", name: "description", widget: "string" }
       - { label: "Publish Date", name: "pubDate", widget: "date", format: "YYYY-MM-DD" }
       - { label: "Tags", name: "tags", widget: "list", required: false }
-      - { label: "Cover Image", name: "coverImage", widget: "image", required: false, hint: "Ukuran maksimal 1 MB (otomatis dikonversi ke WebP)" }
+      - { label: "Cover Image", name: "coverImage", widget: "image", required: false, hint: "Ukuran maksimal 1 MB (otomatis WebP). Saat artikel dihapus, file gambarnya akan otomatis ikut terhapus dari server." }
       - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "projects_collection"
@@ -52,7 +52,7 @@ collections:
           - { label: "Headline / Sapaan", name: "headline", widget: "string", hint: "Contoh: Hi There 👋, Syakir Here!" }
           - { label: "Role / Profesi", name: "role", widget: "string", hint: "Contoh: Front-end Engineer" }
           - { label: "Bio / Paragraf Perkenalan", name: "bio", widget: "markdown", hint: "Tuliskan pengenalan diri Anda. Bisa ditambahkan link, format paragraf, dll." }
-          - { label: "Foto Profil (Avatar)", name: "avatar", widget: "image", required: false, hint: "Disarankan upload gambar rasio 1:1 (kotak) minimal 600x600 px. Ukuran maksimal 1 MB (otomatis dikonversi ke WebP)" }
+          - { label: "Foto Profil (Avatar)", name: "avatar", widget: "image", required: false, hint: "Disarankan upload gambar rasio 1:1 minimal 600x600 px (otomatis WebP). Saat diganti baru, foto profil lama otomatis ikut terhapus dari server." }
           - { label: "Link Website", name: "website", widget: "string", required: false }
           - { label: "Link GitHub (Ikon Header & Profil)", name: "github", widget: "string", required: false, hint: "Link profil GitHub Anda, contoh: https://github.com/andrean-lp. Otomatis terpasang pada ikon GitHub di pojok kanan atas." }
           - { label: "Link YouTube (Ikon Footer)", name: "youtube", widget: "string", required: false, hint: "Contoh: https://youtube.com/@username" }
@@ -71,7 +71,7 @@ collections:
           - { label: "Judul Website (Site Title)", name: "title", widget: "string", hint: "Judul utama website yang muncul pada tab browser (contoh: Andrean LP atau Devolio)" }
           - { label: "Tagline / Sub-judul", name: "tagline", widget: "string", required: false, hint: "Slogan yang muncul di samping judul pada tab browser (contoh: Landing Page Strategist)" }
           - { label: "Deskripsi Website (SEO)", name: "description", widget: "string", required: false, hint: "Deskripsi website untuk Google, mesin pencari, dan pratinjau link" }
-          - { label: "Favicon (Ikon Tab Browser)", name: "favicon", widget: "image", required: false, hint: "Upload ikon tab browser (.png, .ico, atau .webp). Rekomendasi: gambar persegi (misal 64x64 atau 192x192 px)" }
+          - { label: "Favicon (Ikon Tab Browser)", name: "favicon", widget: "image", required: false, hint: "Upload ikon tab browser (.png, .ico, atau .webp). Saat diganti dengan gambar baru, file favicon yang lama akan otomatis ikut terhapus dari server." }
           - { label: "Teks Footer", name: "footer", widget: "string", required: false, hint: "Teks di bagian footer website. Mendukung format link [Nama Link](https://url). Gunakan {year} untuk otomatis menampilkan tahun saat ini (contoh: Copyright © {year} Andre Wahyu Hermawan. Template created by [Syakir @ Devaradise](https://devaradise.com))" }
           - { label: "Nomor WhatsApp (Tombol Melayang)", name: "whatsapp", widget: "string", required: false, hint: "Format: 628123456789 (gunakan kode negara 62, tanpa tanda + atau 0 di depan). Kosongkan jika ingin menyembunyikan tombol melayang." }
 

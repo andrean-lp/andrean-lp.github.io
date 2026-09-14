@@ -612,5 +612,281 @@
   </script>
   <!-- Menggunakan decap-cms versi 3.0.12 yang stabil tanpa bug React removeChild -->
   <script src="https://unpkg.com/decap-cms@3.0.12/dist/decap-cms.js"></script>
+
+  <!-- Otomatis hapus gambar saat artikel dihapus atau favicon diganti baru -->
+  <script>
+    (function() {
+      const GITHUB_REPO = 'andrean-lp/andrean-lp.github.io';
+      let pendingDeletedImages = [];
+
+      function getAuthToken() {
+        return localStorage.getItem('studio_saved_pat') || '';
+      }
+
+      async function deleteGithubImage(imagePath, customMsg) {
+        const token = getAuthToken();
+        if (!token || !imagePath || typeof imagePath !== 'string') return;
+
+        let cleanPath = imagePath.replace(/^\/?public\//, '').replace(/^\//, '');
+        if (!cleanPath.startsWith('images/')) return;
+        const fullRepoPath = 'public/' + cleanPath;
+
+        try {
+          const getRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${fullRepoPath}?ref=main`, {
+            headers: {
+              Authorization: `token ${token}`,
+              Accept: 'application/vnd.github.v3+json'
+            }
+          });
+
+          if (!getRes.ok) return;
+          const fileData = await getRes.json();
+          if (!fileData.sha) return;
+
+          const delRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${fullRepoPath}`, {
+            method: 'DELETE',
+            headers: {
+              Authorization: `token ${token}`,
+              'Content-Type': 'application/json',
+              Accept: 'application/vnd.github.v3+json'
+            },
+            body: JSON.stringify({
+              message: customMsg || `chore(media): otomatis hapus gambar tak terpakai ${fullRepoPath.split('/').pop()}`,
+              sha: fileData.sha,
+              branch: 'main'
+            })
+          });
+
+          if (delRes.ok) {
+            console.log('[Auto-Cleaner] Berhasil menghapus gambar:', fullRepoPath);
+          }
+        } catch (err) {
+          console.warn('[Auto-Cleaner] Gagal menghapus:', fullRepoPath, err);
+        }
+      }
+
+      async function fetchCurrentJson(path) {
+        const token = getAuthToken();
+        if (!token) return null;
+        try {
+          const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${path}?ref=main`, {
+            headers: {
+              Authorization: `token ${token}`,
+              Accept: 'application/vnd.github.v3.raw'
+            }
+          });
+          if (res.ok) {
+            return await res.json();
+          }
+        } catch {}
+        return null;
+      }
+
+      if (window.CMS) {
+        // 1. Saat menghapus entri artikel blog
+        window.CMS.registerEventListener({
+          name: 'preDelete',
+          handler: ({ entry }) => {
+            try {
+              const collection = entry.get('collection');
+              if (collection === 'blog') {
+                const data = entry.get('data');
+                const coverImage = data.get('coverImage');
+                const body = data.get('body') || '';
+
+                const imgs = [];
+                if (coverImage && typeof coverImage === 'string' && coverImage.includes('/images/')) {
+                  imgs.push(coverImage);
+                }
+
+                const matched = body.match(/\/images\/[a-zA-Z0-9_\-.]+\.(webp|png|jpe?g|svg|gif|ico)/gi) || [];
+                for (const m of matched) {
+                  if (!imgs.includes(m)) imgs.push(m);
+                }
+
+                pendingDeletedImages = imgs;
+              }
+            } catch (e) {
+              console.warn('preDelete error:', e);
+            }
+          }
+        });
+
+        window.CMS.registerEventListener({
+          name: 'postDelete',
+          handler: () => {
+            if (pendingDeletedImages.length > 0) {
+              const toDelete = [...pendingDeletedImages];
+              pendingDeletedImages = [];
+
+              setTimeout(async () => {
+                const hideToast = showToast('Menghapus file gambar artikel dari memori server...');
+                for (const img of toDelete) {
+                  await deleteGithubImage(img, `chore(media): otomatis hapus gambar artikel ${img.split('/').pop()}`);
+                }
+                setTimeout(hideToast, 800);
+              }, 3000);
+            }
+          }
+        });
+
+        // 2. Saat mengganti favicon atau foto profil
+        window.CMS.registerEventListener({
+          name: 'preSave',
+          handler: async ({ entry }) => {
+            try {
+              const collection = entry.get('collection');
+              if (collection === 'settings_collection' || entry.get('slug') === 'site_settings') {
+                const currentSite = await fetchCurrentJson('src/data/site.json');
+                const newFavicon = entry.get('data').get('favicon');
+                if (currentSite && currentSite.favicon && newFavicon && currentSite.favicon !== newFavicon) {
+                  window._oldFaviconToDelete = currentSite.favicon;
+                }
+              } else if (collection === 'profile_collection' || entry.get('slug') === 'profile_data') {
+                const currentProfile = await fetchCurrentJson('src/data/profile.json');
+                const newAvatar = entry.get('data').get('avatar');
+                if (currentProfile && currentProfile.avatar && newAvatar && currentProfile.avatar !== newAvatar) {
+                  window._oldAvatarToDelete = currentProfile.avatar;
+                }
+              }
+            } catch (e) {
+              console.warn('preSave error:', e);
+            }
+          }
+        });
+
+        window.CMS.registerEventListener({
+          name: 'postSave',
+          handler: () => {
+            const oldFav = window._oldFaviconToDelete;
+            const oldAva = window._oldAvatarToDelete;
+            window._oldFaviconToDelete = null;
+            window._oldAvatarToDelete = null;
+
+            if (oldFav || oldAva) {
+              setTimeout(async () => {
+                const hideToast = showToast('Menghapus gambar lama yang diganti dari server...');
+                if (oldFav) await deleteGithubImage(oldFav, `chore(media): otomatis hapus favicon lama ${oldFav.split('/').pop()}`);
+                if (oldAva) await deleteGithubImage(oldAva, `chore(media): otomatis hapus avatar lama ${oldAva.split('/').pop()}`);
+                setTimeout(hideToast, 800);
+              }, 3000);
+            }
+          }
+        });
+      }
+
+      // 3. Tombol bersihkan media tak terpakai di Studio
+      function injectCleanupButton() {
+        if (document.getElementById('btn-clean-media')) return;
+
+        const btn = document.createElement('button');
+        btn.id = 'btn-clean-media';
+        btn.innerHTML = '🧹 Bersihkan Media Sampah';
+        btn.title = 'Pindai dan hapus file gambar di public/images yang sudah tidak terpakai oleh artikel maupun website';
+        btn.style.cssText = 'position:fixed;bottom:20px;left:20px;z-index:99999;background:#18181b;color:#e4e4e7;border:1px solid #3f3f46;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;box-shadow:0 4px 12px rgba(0,0,0,0.25);transition:all 0.2s ease;font-family:sans-serif;';
+
+        btn.onmouseover = () => { btn.style.background = '#27272a'; btn.style.transform = 'translateY(-1px)'; };
+        btn.onmouseout = () => { btn.style.background = '#18181b'; btn.style.transform = 'translateY(0)'; };
+
+        btn.onclick = async () => {
+          const token = getAuthToken();
+          if (!token) {
+            alert('Token GitHub tidak ditemukan. Silakan login terlebih dahulu.');
+            return;
+          }
+
+          if (!confirm('Pindai server GitHub untuk mencari dan menghapus gambar di public/images yang sudah tidak terpakai oleh artikel maupun profil?')) {
+            return;
+          }
+
+          btn.disabled = true;
+          const origText = btn.innerHTML;
+          btn.innerHTML = '<span style="display:inline-block;animation:spin 1s linear infinite;width:12px;height:12px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;"></span> Memindai...';
+
+          try {
+            const imgRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/public/images?ref=main`, {
+              headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
+            });
+
+            if (!imgRes.ok) {
+              alert('Folder public/images belum ada atau kosong.');
+              return;
+            }
+
+            const imgFiles = await imgRes.json();
+            if (!Array.isArray(imgFiles) || imgFiles.length === 0) {
+              alert('Tidak ada file gambar di public/images.');
+              return;
+            }
+
+            const treeRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/git/trees/main?recursive=1`, {
+              headers: { Authorization: `token ${token}` }
+            });
+            const treeData = await treeRes.json();
+            const textFiles = (treeData.tree || []).filter(item => 
+              item.type === 'blob' && 
+              (item.path.startsWith('src/') || item.path === 'public/site.webmanifest' || item.path === 'astro.config.mjs') &&
+              /\.(md|mdx|json|astro|js|ts|webmanifest)$/i.test(item.path)
+            );
+
+            let allTextContent = '';
+            for (const item of textFiles) {
+              try {
+                const contentRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/git/blobs/${item.sha}`, {
+                  headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3.raw' }
+                });
+                if (contentRes.ok) {
+                  const text = await contentRes.text();
+                  allTextContent += '\n' + text.toLowerCase();
+                }
+              } catch {}
+            }
+
+            const orphaned = [];
+            for (const img of imgFiles) {
+              const name = img.name.toLowerCase();
+              if (!allTextContent.includes(name)) {
+                orphaned.push(img);
+              }
+            }
+
+            if (orphaned.length === 0) {
+              alert('✅ Hebat! Semua gambar di public/images saat ini sedang aktif digunakan. Tidak ada file sampah.');
+            } else {
+              const names = orphaned.map(o => o.name).join('\n• ');
+              if (confirm(`Ditemukan ${orphaned.length} gambar tak terpakai:\n• ${names}\n\nHapus sekarang dari server GitHub?`)) {
+                btn.innerHTML = 'Menghapus...';
+                for (const o of orphaned) {
+                  await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${o.path}`, {
+                    method: 'DELETE',
+                    headers: {
+                      Authorization: `token ${token}`,
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      message: `chore(media): bersihkan media sampah ${o.name}`,
+                      sha: o.sha,
+                      branch: 'main'
+                    })
+                  });
+                }
+                alert(`✅ Sukses menghapus ${orphaned.length} gambar tak terpakai dari server!`);
+              }
+            }
+          } catch (err) {
+            alert('Terjadi kesalahan saat memindai: ' + err.message);
+          } finally {
+            btn.disabled = false;
+            btn.innerHTML = origText;
+          }
+        };
+
+        document.body.appendChild(btn);
+      }
+
+      setTimeout(injectCleanupButton, 2000);
+      setInterval(injectCleanupButton, 5000);
+    })();
+  </script>
 </body>
 </html>
