@@ -1,0 +1,53 @@
+{
+  "projects": [
+    {
+      "name": "Devaradise.com",
+      "description": "A blog that sharing web development resources and tutorials",
+      "demoLink": "https://devaradise.com",
+      "tags": ["Blog"]
+    },
+    {
+      "name": "Sellercraft App",
+      "description": "An Ecommerce omnichannel platform in Southeast Asia",
+      "demoLink": "https://sellercraft.co",
+      "tags": ["ECommerce", "Saas"]
+    },
+    {
+      "name": "Gaji.id App",
+      "description": "Payroll and HR Management Information System",
+      "demoLink": "https://sellercraft.co",
+      "tags": ["HRIS", "Saas"]
+    },
+    {
+      "name": "Paradise UI",
+      "description": "An open source React UI component library",
+      "demoLink": "https://paradise-ui.com",
+      "postLink": "https://devaradise.com/how-i-build-paradise-ui-react-component-library/",
+      "tags": ["React", "UI Library"]
+    },
+    {
+      "name": "React Lab",
+      "description": "Experiments with React and web technologies",
+      "demoLink": "https://devaradise.com/lab/react/",
+      "tags": ["React"]
+    },
+    {
+      "name": "Pokemon Catcher",
+      "description": "A simple Pokemon catching web application",
+      "demoLink": "https://pokemon-catcher-18636.web.app/",
+      "tags": ["Hobby"]
+    },
+    {
+      "name": "Movie Nominations",
+      "description": "Simple web app to nominate favorite movies",
+      "demoLink": "https://movie-nominations-c21c3.web.app/",
+      "tags": ["Hobby"]
+    },
+    {
+      "name": "Organization tree",
+      "description": "Organization hierarchy visualization tree",
+      "demoLink": "https://organization-tree-2a446.web.app/",
+      "tags": ["Hobby"]
+    }
+  ]
+}
