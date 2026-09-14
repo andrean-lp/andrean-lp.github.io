@@ -103,9 +103,17 @@ const personSchema = {
       <FeaturedCaseStudy />
 
       <div class="mb-14">
-        <div class="flex justify-between gap-2 mb-1">
-          <h2 class="text-lg font-bold mb-3">Client Project</h2>
-          <a href="/projects/" class="inline-block py-2 underline dark:prose-invert">All projects &raquo;</a>
+        <div class="flex justify-between items-center gap-2 mb-3">
+          <h2 class="text-lg font-bold text-zinc-900 dark:text-zinc-100">Client Project</h2>
+          <a 
+            href="/projects/" 
+            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-zinc-900 text-white hover:bg-black active:scale-[0.98] transition-all duration-200 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white shadow-2xs hover:shadow-xs group"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 group-hover:scale-110 transition-transform">
+              <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 8 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>
+            </svg>
+            <span>All Projects</span>
+          </a>
         </div>
         <ProjectList projects={top6Projects}/>
       </div>
