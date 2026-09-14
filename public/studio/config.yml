@@ -35,11 +35,11 @@ collections:
             name: "projects"
             widget: "list"
             fields:
-              - { label: "Project Name", name: "name", widget: "string" }
-              - { label: "Description", name: "description", widget: "string" }
-              - { label: "Demo Link", name: "demoLink", widget: "string", required: false }
-              - { label: "Post Link", name: "postLink", widget: "string", required: false }
-              - { label: "Tags", name: "tags", widget: "list", required: false }
+              - { label: "Nama Project", name: "name", widget: "string" }
+              - { label: "Deskripsi Singkat", name: "description", widget: "string" }
+              - { label: "Link Details (Tombol Putih)", name: "postLink", widget: "string", required: false, hint: "Tautan ke artikel/studi kasus/detail proyek. Jika dikosongkan, tombol otomatis mengarah ke Live Preview." }
+              - { label: "Link Live Preview / Demo (Tombol Hitam)", name: "demoLink", widget: "string", required: false, hint: "Tautan website live atau aplikasi" }
+              - { label: "Tags / Kategori", name: "tags", widget: "list", required: false }
 
   - name: "profile_collection"
     label: "Profil & Biodata"

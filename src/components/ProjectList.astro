@@ -9,64 +9,81 @@ const { projects } = Astro.props
 ---
 <div class="grid grid-cols-12 gap-5">
   {
-    projects.map((project: Project) => 
-      <div class="col-span-12 sm:col-span-6 lg:col-span-4 border dark:border-zinc-700 rounded-xl shadow-sm p-5">
-        <div class="flex justify-between items-center">
-          <div class='flex gap-2'>
-            {
-              (project.tags || [] )?.map((tag: string) => (
-                <span
-                  class='border border-zinc-300 dark:border-zinc-700 rounded-2xl
-                    text-sm text-zinc-700 dark:text-zinc-300 no-underline px-2 py-0.5
-                    transition-all duration-700
-                  hover:border-zinc-700 dark:hover:border-zinc-300'
-                  >
-                  {tag}
-                </span>
-              ))
-            }
+    projects.map((project: Project) => {
+      const detailsUrl = project.detailsLink || project.postLink || project.demoLink || '#';
+      const isExternalDetails = detailsUrl.startsWith('http');
+      const previewUrl = project.demoLink || project.previewLink || project.postLink || '#';
+      const isExternalPreview = previewUrl.startsWith('http');
+
+      return (
+        <div class="col-span-12 sm:col-span-6 lg:col-span-4 border border-zinc-200/90 dark:border-zinc-700/80 rounded-2xl shadow-xs p-5 flex flex-col justify-between bg-white dark:bg-zinc-900/40 hover:shadow-md transition-shadow duration-200">
+          <div>
+            <div class="flex justify-between items-center">
+              <div class='flex flex-wrap gap-1.5'>
+                {
+                  (project.tags || [] )?.map((tag: string) => (
+                    <span
+                      class='border border-zinc-300 dark:border-zinc-700 rounded-full
+                        text-xs text-zinc-700 dark:text-zinc-300 no-underline px-2.5 py-0.5 font-medium'
+                      >
+                      {tag}
+                    </span>
+                  ))
+                }
+              </div>
+
+              {project.stargazers_count !== undefined && (
+                <div class='shrink-0'>
+                  <a
+                    href={project.html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class='border border-zinc-300 dark:border-zinc-700 rounded-2xl
+                        text-xs text-zinc-700 dark:text-zinc-300 no-underline px-2 py-0.5
+                        transition-all duration-700
+                      hover:border-zinc-700 dark:hover:border-zinc-300
+                        flex items-center gap-1
+                  '>
+                    <GithubIcon class='w-3 h-3 text-zinc-700 dark:text-zinc-300' />
+                    {kFormatter(project.stargazers_count)} stars
+                  </a>
+                </div>
+              )}
+            </div>
+            <h3 class="font-semibold text-base my-2.5 text-zinc-900 dark:text-zinc-100">
+              <a class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors" href={previewUrl} target={isExternalPreview ? "_blank" : "_self"} rel={project.demoLinkRel || (isExternalPreview ? "noopener noreferrer" : undefined)}>{project.name}</a>
+            </h3>
+            <div class="line-clamp-2 text-zinc-600 dark:text-zinc-400 text-sm mb-4 min-h-[44px]">
+              <p>{project.description}</p>
+            </div>
           </div>
 
-          {project.stargazers_count !== undefined && (
-            <div class='shrink-0'>
-              <a
-                href={project.html_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                class='border border-zinc-300 dark:border-zinc-700 rounded-2xl
-                    text-xs text-zinc-700 dark:text-zinc-300 no-underline px-2 py-0.5
-                    transition-all duration-700
-                  hover:border-zinc-700 dark:hover:border-zinc-300
-                    flex items-center gap-1
-              '>
-                <GithubIcon class='w-3 h-3 text-zinc-700 dark:text-zinc-300' />
-                {kFormatter(project.stargazers_count)} stars
-              </a>
-            </div>
-          )}
-        </div>
-        <h3 class="font-semibold my-2">
-          <a class="underline" href={project.demoLink} target="_blank" rel={project.demoLinkRel || "noopener noreferrer"}>{project.name}</a>
-        </h3>
-        <div class="line-clamp-2 text-zinc-600 dark:text-zinc-300 mb-4 min-h-[50px]">
-          <p>{project.description}</p>
-        </div>
-        <div class="flex justify-end gap-3">
-          {
-            project.postLink &&
-            <a class="underline flex items-center gap-2" href={project.postLink}>
-              Article
+          <!-- Action Buttons: Details (Putih) & Live Preview (Hitam) -->
+          <div class="pt-4 mt-auto border-t border-zinc-100 dark:border-zinc-800 flex items-center gap-2.5">
+            <a 
+              href={detailsUrl}
+              target={isExternalDetails ? '_blank' : '_self'}
+              rel={isExternalDetails ? 'noopener noreferrer' : undefined}
+              class="flex-1 text-center py-2 px-3 rounded-lg font-semibold text-xs bg-white text-zinc-900 border border-zinc-300/90 shadow-2xs hover:bg-zinc-100 hover:border-zinc-400 active:scale-[0.98] transition-all duration-200 dark:bg-zinc-800 dark:text-white dark:border-zinc-700 dark:hover:bg-zinc-700 inline-flex items-center justify-center"
+            >
+              Details
             </a>
-          }
-          {
-            project.demoLink &&  // This line adds the conditional check for the Demo link
-            <a class="underline flex items-center gap-2" href={project.demoLink} target="_blank" rel={project.demoLinkRel || "noopener noreferrer"}>
-              Demo 
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+            <a 
+              href={previewUrl} 
+              target={isExternalPreview ? '_blank' : '_self'}
+              rel={project.demoLinkRel || (isExternalPreview ? 'noopener noreferrer' : undefined)}
+              class="flex-1 text-center py-2 px-3 rounded-lg font-semibold text-xs bg-black text-white shadow-2xs hover:bg-zinc-800 active:scale-[0.98] transition-all duration-200 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200 inline-flex items-center justify-center gap-1.5"
+            >
+              <span>Live Preview</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80">
+                <path d="M15 3h6v6"></path>
+                <path d="M10 14 21 3"></path>
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              </svg>
             </a>
-          }
+          </div>
         </div>
-      </div>
-    )
+      );
+    })
   }
 </div>
