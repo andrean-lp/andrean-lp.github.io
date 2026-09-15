@@ -18,8 +18,8 @@ const isActive = cleanHref === cleanPath || Boolean(subpath?.[0] && cleanHref ==
 		className,
 		'transition-all duration-200 border-b-2',
 		{
-			'border-primary text-primary font-semibold': isActive,
-			'border-transparent text-zinc-400 dark:text-zinc-500 hover:text-primary dark:hover:text-primary': !isActive
+			'border-primary text-primary font-semibold dark:border-white dark:text-white': isActive,
+			'border-transparent text-zinc-400 hover:text-primary dark:text-white/80 dark:hover:text-white': !isActive
 		}
 	]}
 	{...props}
