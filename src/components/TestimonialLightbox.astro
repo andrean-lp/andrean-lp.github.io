@@ -1,0 +1,217 @@
+---
+// TestimonialLightbox: Modal zoom foto testimoni interaktif (Zero Dependencies)
+---
+
+<div 
+  id="testimonial-lightbox" 
+  class="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-6 bg-black/90 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-200"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Zoom Testimoni"
+>
+  <!-- Backdrop Click Area -->
+  <div id="lightbox-backdrop" class="absolute inset-0 cursor-zoom-out" aria-hidden="true"></div>
+
+  <!-- Modal Content Container -->
+  <div class="relative z-10 max-w-4xl w-full max-h-[95vh] flex flex-col items-center justify-center scale-95 transition-transform duration-200" id="lightbox-card">
+    
+    <!-- Top Bar: Close Button & Category -->
+    <div class="w-full flex items-center justify-between pb-3 text-white">
+      <div class="flex items-center gap-2">
+        <span id="lightbox-category" class="px-3 py-1 bg-white/15 backdrop-blur-sm rounded-full text-xs font-semibold tracking-wide uppercase border border-white/20">
+          WhatsApp
+        </span>
+        <span id="lightbox-counter" class="text-xs text-zinc-400 font-medium">
+          1 / 6
+        </span>
+      </div>
+
+      <button 
+        id="lightbox-close" 
+        class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/25 active:scale-95 transition-all flex items-center justify-center text-white cursor-pointer border border-white/20 shadow-lg"
+        aria-label="Tutup pratinjau"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Image Display Area -->
+    <div class="relative w-full flex items-center justify-center overflow-hidden rounded-2xl bg-zinc-950/60 border border-white/10 shadow-2xl">
+      <img 
+        id="lightbox-img" 
+        src="" 
+        alt="Bukti Testimoni Klien" 
+        class="max-h-[68vh] sm:max-h-[72vh] w-auto max-w-full object-contain select-none transition-opacity duration-150"
+      />
+
+      <!-- Navigation Arrows (Desktop & Tablet) -->
+      <button 
+        id="lightbox-prev" 
+        class="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/60 hover:bg-black/85 active:scale-95 text-white flex items-center justify-center transition-all cursor-pointer border border-white/20 shadow-lg"
+        aria-label="Testimoni sebelumnya"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <button 
+        id="lightbox-next" 
+        class="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/60 hover:bg-black/85 active:scale-95 text-white flex items-center justify-center transition-all cursor-pointer border border-white/20 shadow-lg"
+        aria-label="Testimoni berikutnya"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Bottom Caption Bar -->
+    <div class="w-full mt-3 p-4 bg-zinc-900/90 backdrop-blur-md rounded-2xl border border-white/10 text-white shadow-xl">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <h3 id="lightbox-title" class="font-bold text-base sm:text-lg text-zinc-100">
+            Judul Testimoni
+          </h3>
+          <p id="lightbox-client" class="text-xs sm:text-sm text-zinc-400 mt-0.5">
+            Nama Klien • Profesi
+          </p>
+        </div>
+
+        <div id="lightbox-rating" class="flex items-center gap-1 text-amber-400 shrink-0">
+          <!-- Bintang rating otomatis diinject oleh script -->
+        </div>
+      </div>
+
+      <p id="lightbox-highlight" class="text-xs sm:text-sm text-zinc-300 mt-2 italic border-t border-white/10 pt-2 leading-relaxed">
+        Kutipan testimoni...
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  (() => {
+    const modal = document.getElementById('testimonial-lightbox');
+    const modalContent = document.getElementById('lightbox-card');
+    const backdrop = document.getElementById('lightbox-backdrop');
+    const closeBtn = document.getElementById('lightbox-close');
+    const prevBtn = document.getElementById('lightbox-prev');
+    const nextBtn = document.getElementById('lightbox-next');
+    const imgEl = document.getElementById('lightbox-img') as HTMLImageElement;
+    const catEl = document.getElementById('lightbox-category');
+    const counterEl = document.getElementById('lightbox-counter');
+    const titleEl = document.getElementById('lightbox-title');
+    const clientEl = document.getElementById('lightbox-client');
+    const highlightEl = document.getElementById('lightbox-highlight');
+    const ratingEl = document.getElementById('lightbox-rating');
+
+    let currentItems: any[] = [];
+    let currentIndex = 0;
+
+    function renderStars(rating: number) {
+      const count = Math.max(1, Math.min(5, Number(rating) || 5));
+      let stars = '';
+      for (let i = 0; i < count; i++) {
+        stars += `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" class="text-amber-400"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+      }
+      return stars;
+    }
+
+    function updateModal(index: number) {
+      if (!currentItems[index]) return;
+      currentIndex = index;
+      const data = currentItems[index];
+
+      if (imgEl) {
+        imgEl.style.opacity = '0.5';
+        imgEl.src = data.image;
+        imgEl.alt = data.title || 'Bukti Testimoni Klien';
+        imgEl.onload = () => { imgEl.style.opacity = '1'; };
+      }
+
+      if (catEl) catEl.textContent = data.category || 'Testimoni';
+      if (counterEl) counterEl.textContent = `${currentIndex + 1} / ${currentItems.length}`;
+      if (titleEl) titleEl.textContent = data.title || '';
+      
+      const clientInfo = [data.clientName, data.roleOrCompany].filter(Boolean).join(' • ');
+      if (clientEl) {
+        clientEl.textContent = clientInfo;
+        clientEl.style.display = clientInfo ? 'block' : 'none';
+      }
+
+      if (highlightEl) {
+        if (data.highlight) {
+          highlightEl.textContent = `"${data.highlight}"`;
+          highlightEl.style.display = 'block';
+        } else {
+          highlightEl.style.display = 'none';
+        }
+      }
+
+      if (ratingEl) {
+        ratingEl.innerHTML = renderStars(data.rating || 5);
+      }
+    }
+
+    function openModal(items: any[], startIndex: number) {
+      currentItems = items;
+      updateModal(startIndex);
+
+      if (modal) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.classList.add('opacity-100', 'pointer-events-auto');
+      }
+      if (modalContent) {
+        modalContent.classList.remove('scale-95');
+        modalContent.classList.add('scale-100');
+      }
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      if (modal) {
+        modal.classList.remove('opacity-100', 'pointer-events-auto');
+        modal.classList.add('opacity-0', 'pointer-events-none');
+      }
+      if (modalContent) {
+        modalContent.classList.remove('scale-100');
+        modalContent.classList.add('scale-95');
+      }
+      document.body.style.overflow = '';
+    }
+
+    function showPrev() {
+      if (currentItems.length <= 1) return;
+      const nextIdx = (currentIndex - 1 + currentItems.length) % currentItems.length;
+      updateModal(nextIdx);
+    }
+
+    function showNext() {
+      if (currentItems.length <= 1) return;
+      const nextIdx = (currentIndex + 1) % currentItems.length;
+      updateModal(nextIdx);
+    }
+
+    // Event Listeners
+    closeBtn?.addEventListener('click', closeModal);
+    backdrop?.addEventListener('click', closeModal);
+    prevBtn?.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
+    nextBtn?.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
+
+    document.addEventListener('keydown', (e) => {
+      if (!modal || modal.classList.contains('pointer-events-none')) return;
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowLeft') showPrev();
+      if (e.key === 'ArrowRight') showNext();
+    });
+
+    // Global hook for cards
+    (window as any).__openTestimonialLightbox = (items: any[], index: number) => {
+      openModal(items, index);
+    };
+  })();
+</script>

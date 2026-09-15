@@ -157,6 +157,63 @@ async function run() {
     console.warn('[Image Optimizer] Public images check error:', e.message);
   }
 
+  // 6. Optimize Testimonial Images from src/data/testimonials.json (max 1600px, auto-WebP)
+  try {
+    const testiPath = path.resolve('src/data/testimonials.json');
+    if (fs.existsSync(testiPath)) {
+      const raw = fs.readFileSync(testiPath, 'utf8').replace(/^\uFEFF/, '');
+      const testiData = JSON.parse(raw);
+      const items = testiData.items || [];
+      let updated = false;
+
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        if (item.image && typeof item.image === 'string') {
+          const imgRel = item.image.replace(/^\//, '');
+          const imgDisk = path.resolve('public', imgRel);
+
+          if (fs.existsSync(imgDisk)) {
+            const buf = fs.readFileSync(imgDisk);
+            const meta = await sharp(buf).metadata();
+            const ext = path.extname(imgDisk).toLowerCase();
+
+            if (meta.width > 1600 || meta.height > 1600 || ext !== '.webp' || buf.length > 100 * 1024) {
+              const baseName = path.basename(imgDisk, ext);
+              const targetWebpName = `${baseName}.webp`;
+              const targetWebpPath = path.join(path.dirname(imgDisk), targetWebpName);
+
+              const optimizedBuf = await sharp(buf)
+                .resize({
+                  width: meta.width > 1600 ? 1600 : undefined,
+                  height: meta.height > 1600 ? 1600 : undefined,
+                  fit: 'inside',
+                  withoutEnlargement: true,
+                })
+                .webp({ quality: 82 })
+                .toBuffer();
+
+              fs.writeFileSync(targetWebpPath, optimizedBuf);
+              console.log(`[Image Optimizer] ✓ Optimized testimonial image: ${targetWebpName} (${(optimizedBuf.length / 1024).toFixed(1)} KiB)`);
+
+              const newWebpUrl = (item.image.startsWith('/') ? '/' : '') + path.relative('public', targetWebpPath).replace(/\\/g, '/');
+              if (item.image !== newWebpUrl) {
+                item.image = newWebpUrl;
+                updated = true;
+              }
+            }
+          }
+        }
+      }
+
+      if (updated) {
+        fs.writeFileSync(testiPath, JSON.stringify(testiData, null, 2), 'utf8');
+        console.log('[Image Optimizer] ✓ Updated testimonials.json with optimized WebP paths.');
+      }
+    }
+  } catch (e) {
+    console.warn('[Image Optimizer] Testimonials check error:', e.message);
+  }
+
   console.log('[Image Optimizer] All images checked.');
 }
 

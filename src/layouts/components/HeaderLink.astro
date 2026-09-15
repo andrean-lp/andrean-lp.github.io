@@ -9,7 +9,8 @@ const { pathname } = Astro.url;
 const subpath = pathname.match(/[^\/]+/g);
 const cleanHref = typeof href === 'string' ? href.replace(/\/$/, '') : href;
 const cleanPath = pathname.replace(/\/$/, '');
-const isActive = cleanHref === cleanPath || Boolean(subpath?.[0] && cleanHref === '/' + subpath[0]);
+const isTestimonialAlias = cleanHref === '/testimonials' && (cleanPath === '/testimoni' || subpath?.[0] === 'testimoni');
+const isActive = cleanHref === cleanPath || Boolean(subpath?.[0] && cleanHref === '/' + subpath[0]) || isTestimonialAlias;
 ---
 
 <a

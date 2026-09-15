@@ -1,0 +1,72 @@
+{
+  "pageTitle": "Kisah Sukses & Testimoni Klien",
+  "pageSubtitle": "Bukti nyata kepuasan dan hasil kolaborasi dari berbagai proyek landing page, audit konversi, dan optimasi bisnis.",
+  "items": [
+    {
+      "id": "testi-1",
+      "title": "Konversi Leads Naik 240% dalam 2 Minggu",
+      "clientName": "Rian Pratama",
+      "roleOrCompany": "Founder Brand Skincare",
+      "category": "WhatsApp",
+      "image": "/images/storiq-cover.webp",
+      "highlight": "Landing page baru bikin calon pembeli langsung paham value produk. RoAS iklan naik drastis dari 1.8 jadi 4.2!",
+      "rating": 5,
+      "date": "2026-02-15"
+    },
+    {
+      "id": "testi-2",
+      "title": "Eksekusi Cepat & Sangat Paham Psikologi Pembeli",
+      "clientName": "Amanda Kusuma",
+      "roleOrCompany": "CMO Edutech Academy",
+      "category": "Google Review",
+      "image": "/images/erni-cover.webp",
+      "highlight": "Mas Andre sangat solutif. Desainnya clean, loading super kencang di mobile, dan copy-nya kena banget ke target audiens.",
+      "rating": 5,
+      "date": "2026-02-01"
+    },
+    {
+      "id": "testi-3",
+      "title": "Diskusi Strategi Funnel & Redesign Landing Page",
+      "clientName": "Dimas Suryo",
+      "roleOrCompany": "Product Lead SaaS B2B",
+      "category": "Diskusi Client",
+      "image": "/blog-placeholder-about.jpg",
+      "highlight": "Sesi konsultasi 1-on-1 membuka banyak celah bottleneck di flow checkout kami. Solusi yang ditawarkan sangat aplikatif.",
+      "rating": 5,
+      "date": "2026-01-20"
+    },
+    {
+      "id": "testi-4",
+      "title": "Pecah Rekor Penjualan Saat Campaign Gajian",
+      "clientName": "Hendra Wijaya",
+      "roleOrCompany": "Owner Fashion E-Commerce",
+      "category": "Hasil Konversi",
+      "image": "/blog-placeholder-3.jpg",
+      "highlight": "Traffic ribuan masuk bersamaan dan landing page sama sekali tidak lemot. Checkout rate tembus 11.8%!",
+      "rating": 5,
+      "date": "2026-01-12"
+    },
+    {
+      "id": "testi-5",
+      "title": "Tanya Jawab Responsif & Revisi Sangat Cepat",
+      "clientName": "Siti Nurhaliza",
+      "roleOrCompany": "Operations Manager",
+      "category": "WhatsApp",
+      "image": "/blog-placeholder-4.jpg",
+      "highlight": "Komunikasi via WA sangat lancar. Feedback langsung direspons dan hasilnya melampaui ekspektasi tim kami.",
+      "rating": 5,
+      "date": "2025-12-28"
+    },
+    {
+      "id": "testi-6",
+      "title": "Review Bintang 5: Profesionalisme Tinggi",
+      "clientName": "Kevin Ardianto",
+      "roleOrCompany": "Digital Marketing Agency",
+      "category": "Google Review",
+      "image": "/blog-placeholder-5.jpg",
+      "highlight": "Partner andalan untuk pengerjaan landing page klien-klien korporat. Selalu on-time dan standar kodenya rapi.",
+      "rating": 5,
+      "date": "2025-12-15"
+    }
+  ]
+}
