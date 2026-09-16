@@ -79,6 +79,7 @@ collections:
         file: "src/data/testimonials.json"
         fields:
           - { label: "Judul Halaman", name: "pageTitle", widget: "string", default: "Kisah Sukses & Testimoni Klien" }
+          - { label: "Badge Atas Halaman", name: "pageBadge", widget: "string", default: "Bukti / Testimoni", required: false }
           - { label: "Sub-judul / Deskripsi Halaman", name: "pageSubtitle", widget: "string", default: "Bukan saya yang bilang tapi mereka 😊" }
           - label: "Daftar Testimoni"
             name: "items"

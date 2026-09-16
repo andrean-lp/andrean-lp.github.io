@@ -9,6 +9,7 @@ import site from '../../data/site.json';
 import { SITE_TITLE } from '../../consts';
 
 const title = testimonialsData.pageTitle || 'Kisah Sukses & Testimoni Klien';
+const badgeText = (testimonialsData as any).pageBadge || 'Bukti / Testimoni';
 const rawSubtitle = testimonialsData.pageSubtitle || 'Bukan saya yang bilang tapi mereka 😊';
 const description = rawSubtitle.replace(/<[^>]*>/g, '').replace(/\*\*/g, '');
 
@@ -114,7 +115,7 @@ const breadcrumbSchema = {
           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
           <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
         </span>
-        <span>Bukti & Hasil Nyata Klien</span>
+        <span>{badgeText}</span>
       </div>
 
       <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 mb-4">
