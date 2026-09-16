@@ -176,13 +176,6 @@ const personSchema = {
                   <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700">
                     {testi.category || 'Testimoni'}
                   </span>
-                  <div class="flex items-center gap-0.5 text-amber-400">
-                    {Array.from({ length: Math.min(5, Number(testi.rating) || 5) }).map(() => (
-                      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                      </svg>
-                    ))}
-                  </div>
                 </div>
                 <h3 class="font-bold text-sm text-zinc-900 dark:text-zinc-100 group-hover:text-primary transition-colors line-clamp-2 mb-2">
                   {testi.title}

@@ -16,8 +16,6 @@ interface Props {
 }
 
 const { testimonial, index } = Astro.props;
-
-const stars = Math.max(1, Math.min(5, Number(testimonial.rating) || 5));
 ---
 
 <div 
@@ -62,15 +60,6 @@ const stars = Math.max(1, Math.min(5, Number(testimonial.rating) || 5));
     <!-- Content & Meta Information -->
     <div class="p-4 sm:p-5 flex flex-col flex-grow justify-between">
       <div>
-        <!-- Star Rating -->
-        <div class="flex items-center gap-0.5 text-amber-400 mb-2">
-          {Array.from({ length: stars }).map(() => (
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-            </svg>
-          ))}
-        </div>
-
         <!-- Title -->
         <h3 class="font-bold text-base text-zinc-900 dark:text-zinc-100 group-hover:text-primary transition-colors leading-snug">
           {testimonial.title}

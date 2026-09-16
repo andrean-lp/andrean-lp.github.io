@@ -80,10 +80,6 @@
             Nama Klien • Profesi
           </p>
         </div>
-
-        <div id="lightbox-rating" class="flex items-center gap-1 text-amber-400 shrink-0">
-          <!-- Bintang rating otomatis diinject oleh script -->
-        </div>
       </div>
 
       <p id="lightbox-highlight" class="text-xs sm:text-sm text-zinc-300 mt-2 italic border-t border-white/10 pt-2 leading-relaxed">
@@ -107,19 +103,9 @@
     const titleEl = document.getElementById('lightbox-title');
     const clientEl = document.getElementById('lightbox-client');
     const highlightEl = document.getElementById('lightbox-highlight');
-    const ratingEl = document.getElementById('lightbox-rating');
 
     let currentItems: any[] = [];
     let currentIndex = 0;
-
-    function renderStars(rating: number) {
-      const count = Math.max(1, Math.min(5, Number(rating) || 5));
-      let stars = '';
-      for (let i = 0; i < count; i++) {
-        stars += `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" class="text-amber-400"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
-      }
-      return stars;
-    }
 
     function updateModal(index: number) {
       if (!currentItems[index]) return;
@@ -150,10 +136,6 @@
         } else {
           highlightEl.style.display = 'none';
         }
-      }
-
-      if (ratingEl) {
-        ratingEl.innerHTML = renderStars(data.rating || 5);
       }
     }
 
