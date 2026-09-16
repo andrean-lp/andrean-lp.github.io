@@ -9,7 +9,15 @@ import site from '../../data/site.json';
 import { SITE_TITLE } from '../../consts';
 
 const title = testimonialsData.pageTitle || 'Kisah Sukses & Testimoni Klien';
-const description = testimonialsData.pageSubtitle || 'Bukti nyata kepuasan klien dan hasil konversi dari proyek landing page serta optimasi bisnis bersama Andre Wahyu Hermawan.';
+const rawSubtitle = testimonialsData.pageSubtitle || 'Bukan saya yang bilang tapi mereka 😊';
+const description = rawSubtitle.replace(/<[^>]*>/g, '').replace(/\*\*/g, '');
+
+let formattedSubtitle = rawSubtitle;
+if (formattedSubtitle.includes('**')) {
+  formattedSubtitle = formattedSubtitle.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-zinc-900 dark:text-zinc-100">$1</strong>');
+} else if (!formattedSubtitle.includes('<strong') && !formattedSubtitle.includes('<b>')) {
+  formattedSubtitle = formattedSubtitle.replace(/\bmereka\b/gi, '<strong class="font-bold text-zinc-900 dark:text-zinc-100">mereka</strong>');
+}
 
 const items = testimonialsData.items || [];
 
@@ -112,9 +120,7 @@ const breadcrumbSchema = {
       <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 mb-4">
         {title}
       </h1>
-      <p class="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
-        {description}
-      </p>
+      <p class="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed" set:html={formattedSubtitle} />
     </div>
 
     <!-- Pinterest-Style Filter Bar -->

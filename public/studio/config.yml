@@ -79,7 +79,7 @@ collections:
         file: "src/data/testimonials.json"
         fields:
           - { label: "Judul Halaman", name: "pageTitle", widget: "string", default: "Kisah Sukses & Testimoni Klien" }
-          - { label: "Sub-judul / Deskripsi Halaman", name: "pageSubtitle", widget: "string", default: "Bukti nyata kepuasan dan hasil kolaborasi dari berbagai proyek landing page, audit konversi, dan optimasi bisnis." }
+          - { label: "Sub-judul / Deskripsi Halaman", name: "pageSubtitle", widget: "string", default: "Bukan saya yang bilang tapi mereka 😊" }
           - label: "Daftar Testimoni"
             name: "items"
             widget: "list"
