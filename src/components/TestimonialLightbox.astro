@@ -121,7 +121,10 @@
 
       if (catEl) catEl.textContent = data.category || 'Testimoni';
       if (counterEl) counterEl.textContent = `${currentIndex + 1} / ${currentItems.length}`;
-      if (titleEl) titleEl.textContent = data.title || '';
+      if (titleEl) {
+        titleEl.textContent = data.title || '';
+        titleEl.style.display = data.title ? 'block' : 'none';
+      }
       
       const clientInfo = [data.clientName, data.roleOrCompany].filter(Boolean).join(' • ');
       if (clientEl) {
