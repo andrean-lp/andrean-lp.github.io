@@ -69,21 +69,10 @@
       </button>
     </div>
 
-    <!-- Bottom Caption Bar -->
-    <div class="w-full mt-3 p-4 bg-zinc-900/90 backdrop-blur-md rounded-2xl border border-white/10 text-white shadow-xl">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-        <div>
-          <h3 id="lightbox-title" class="font-bold text-base sm:text-lg text-zinc-100">
-            Judul Testimoni
-          </h3>
-          <p id="lightbox-client" class="text-xs sm:text-sm text-zinc-400 mt-0.5">
-            Nama Klien • Profesi
-          </p>
-        </div>
-      </div>
-
-      <p id="lightbox-highlight" class="text-xs sm:text-sm text-zinc-300 mt-2 italic border-t border-white/10 pt-2 leading-relaxed">
-        Kutipan testimoni...
+    <!-- Bottom Caption Bar: Hanya Nama Klien & Role -->
+    <div id="lightbox-caption" class="w-full mt-2.5 py-2.5 px-4 bg-zinc-900/90 backdrop-blur-md rounded-2xl border border-white/10 text-white shadow-xl text-center">
+      <p id="lightbox-client" class="text-xs sm:text-sm font-semibold text-zinc-200">
+        Nama Klien • Profesi
       </p>
     </div>
   </div>
@@ -100,9 +89,8 @@
     const imgEl = document.getElementById('lightbox-img') as HTMLImageElement;
     const catEl = document.getElementById('lightbox-category');
     const counterEl = document.getElementById('lightbox-counter');
-    const titleEl = document.getElementById('lightbox-title');
+    const captionEl = document.getElementById('lightbox-caption');
     const clientEl = document.getElementById('lightbox-client');
-    const highlightEl = document.getElementById('lightbox-highlight');
 
     let currentItems: any[] = [];
     let currentIndex = 0;
@@ -115,30 +103,19 @@
       if (imgEl) {
         imgEl.style.opacity = '0.5';
         imgEl.src = data.image;
-        imgEl.alt = data.title || 'Bukti Testimoni Klien';
+        imgEl.alt = data.clientName ? `Bukti Testimoni ${data.clientName}` : 'Bukti Testimoni Klien';
         imgEl.onload = () => { imgEl.style.opacity = '1'; };
       }
 
       if (catEl) catEl.textContent = data.category || 'Testimoni';
       if (counterEl) counterEl.textContent = `${currentIndex + 1} / ${currentItems.length}`;
-      if (titleEl) {
-        titleEl.textContent = data.title || '';
-        titleEl.style.display = data.title ? 'block' : 'none';
-      }
       
       const clientInfo = [data.clientName, data.roleOrCompany].filter(Boolean).join(' • ');
       if (clientEl) {
         clientEl.textContent = clientInfo;
-        clientEl.style.display = clientInfo ? 'block' : 'none';
       }
-
-      if (highlightEl) {
-        if (data.highlight) {
-          highlightEl.textContent = `"${data.highlight}"`;
-          highlightEl.style.display = 'block';
-        } else {
-          highlightEl.style.display = 'none';
-        }
+      if (captionEl) {
+        captionEl.style.display = clientInfo ? 'block' : 'none';
       }
     }
 
