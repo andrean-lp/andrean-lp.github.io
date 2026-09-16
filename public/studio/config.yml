@@ -83,14 +83,12 @@ collections:
           - label: "Daftar Testimoni"
             name: "items"
             widget: "list"
-            summary: "{{fields.title}} - {{fields.clientName}} ({{fields.category}})"
+            summary: "{{fields.clientName}} ({{fields.category}})"
             fields:
-              - { label: "Judul Testimoni / Hasil", name: "title", widget: "string", hint: "Contoh: Konversi Leads Naik 240% dalam 2 Minggu" }
               - { label: "Nama Klien / User", name: "clientName", widget: "string", required: false, hint: "Contoh: Rian Pratama atau Nama Perusahaan" }
               - { label: "Role / Nama Bisnis", name: "roleOrCompany", widget: "string", required: false, hint: "Contoh: Founder Brand Skincare / CEO PT Maju" }
               - { label: "Kategori Testimoni", name: "category", widget: "select", options: ["WhatsApp", "Google Review", "Diskusi Client", "Hasil Konversi", "Lainnya"], default: "WhatsApp", hint: "Kategori untuk filter tab di halaman testimoni" }
               - { label: "Gambar Bukti Testimoni", name: "image", widget: "image", hint: "Upload screenshot WhatsApp, foto review Google, foto diskusi, atau grafik hasil. Otomatis dikompres & dikonversi ke WebP." }
-              - { label: "Kutipan / Cerita Ringkas", name: "highlight", widget: "markdown", required: false, hint: "Kutipan feedback atau rangkuman hasil proyek" }
               - { label: "Tanggal", name: "date", widget: "date", format: "YYYY-MM-DD", required: false }
 
   - name: "faq_collection"

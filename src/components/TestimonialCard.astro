@@ -57,47 +57,31 @@ const { testimonial, index } = Astro.props;
       )}
     </div>
 
-    <!-- Content & Meta Information -->
-    <div class="p-4 sm:p-5 flex flex-col flex-grow justify-between">
-      <div>
-        <!-- Title -->
-        <h3 class="font-bold text-base text-zinc-900 dark:text-zinc-100 group-hover:text-primary transition-colors leading-snug">
-          {testimonial.title}
-        </h3>
-
-        <!-- Highlight Quote -->
-        {testimonial.highlight && (
-          <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed italic line-clamp-3">
-            "{testimonial.highlight}"
-          </p>
-        )}
-      </div>
-
-      <!-- Client Author Info -->
-      {(testimonial.clientName || testimonial.roleOrCompany) && (
-        <div class="pt-3 mt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
-          <div>
-            {testimonial.clientName && (
-              <span class="font-semibold text-zinc-800 dark:text-zinc-200 block">
-                {testimonial.clientName}
-              </span>
-            )}
-            {testimonial.roleOrCompany && (
-              <span class="text-[11px] text-zinc-500 dark:text-zinc-400">
-                {testimonial.roleOrCompany}
-              </span>
-            )}
-          </div>
-
-          <div class="shrink-0 opacity-60 group-hover:opacity-100 transition-opacity">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
-              <path d="M15 3h6v6"></path>
-              <path d="M10 14 21 3"></path>
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-            </svg>
-          </div>
+    <!-- Client Author Info -->
+    {(testimonial.clientName || testimonial.roleOrCompany) && (
+      <div class="p-3.5 sm:p-4 flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
+        <div>
+          {testimonial.clientName && (
+            <span class="font-semibold text-zinc-800 dark:text-zinc-200 block">
+              {testimonial.clientName}
+            </span>
+          )}
+          {testimonial.roleOrCompany && (
+            <span class="text-[11px] text-zinc-500 dark:text-zinc-400">
+              {testimonial.roleOrCompany}
+            </span>
+          )}
         </div>
-      )}
-    </div>
+
+        <div class="shrink-0 opacity-60 group-hover:opacity-100 transition-opacity">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <polyline points="9 21 3 21 3 15"></polyline>
+            <line x1="21" y1="3" x2="14" y2="10"></line>
+            <line x1="3" y1="21" x2="10" y2="14"></line>
+          </svg>
+        </div>
+      </div>
+    )}
   </div>
 </div>
