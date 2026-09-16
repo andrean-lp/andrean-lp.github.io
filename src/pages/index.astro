@@ -107,7 +107,7 @@ const personSchema = {
       {top3Testimonials.length > 0 && (
         <div class="mt-6 mb-14">
           <div class="flex justify-between items-center gap-2 mb-4">
-            <h2 class="text-lg font-bold text-zinc-900 dark:text-zinc-100">Kisah Sukses & Testimoni Klien</h2>
+            <h2 class="text-lg font-bold text-zinc-900 dark:text-zinc-100">{testimonialsData.pageTitle || 'Kisah Sukses & Hasil Nyata'}</h2>
             <a 
               href="/testimonials/" 
               class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary text-white hover:opacity-90 active:scale-[0.98] transition-all duration-200 shadow-2xs hover:shadow-xs group"
