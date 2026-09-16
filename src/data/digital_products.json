@@ -1,0 +1,40 @@
+{
+  "show": true,
+  "sectionTitle": "Produk Digital",
+  "sectionSubtitle": "Tools, template, dan panduan praktis untuk mendongkrak konversi bisnis Anda.",
+  "products": [
+    {
+      "id": "prod-1",
+      "title": "High-Converting Landing Page Checklist",
+      "badge": "Notion & PDF",
+      "description": "50+ checklist elemen esensial landing page yang terbukti melipatgandakan tingkat konversi dan RoAS iklan.",
+      "price": "Rp 49.000",
+      "originalPrice": "Rp 149.000",
+      "image": "/images/erni-cover.webp",
+      "buyUrl": "https://wa.me/6285187437036?text=Halo%20Andre,%20saya%20tertarik%20membeli%20High-Converting%20Landing%20Page%20Checklist.",
+      "ctaText": "Dapatkan Checklist"
+    },
+    {
+      "id": "prod-2",
+      "title": "Swipe File 100+ Headline Penjualan",
+      "badge": "Template & Copy",
+      "description": "Kumpulan 100+ formula headline dan hook copywriting persuasif siap pakai untuk memikat calon pembeli seketika.",
+      "price": "Rp 99.000",
+      "originalPrice": "Rp 199.000",
+      "image": "/images/storiq-cover.webp",
+      "buyUrl": "https://wa.me/6285187437036?text=Halo%20Andre,%20saya%20tertarik%20membeli%20Swipe%20File%20100%2B%20Headline%20Penjualan.",
+      "ctaText": "Beli Template"
+    },
+    {
+      "id": "prod-3",
+      "title": "Astro Landing Page Starter Kit",
+      "badge": "Source Code",
+      "description": "Template landing page modern berbasis Astro & Tailwind dengan skor Google PageSpeed 100/100 dan integrasi CMS.",
+      "price": "Rp 199.000",
+      "originalPrice": "Rp 399.000",
+      "image": "/images/erni-cover.webp",
+      "buyUrl": "https://wa.me/6285187437036?text=Halo%20Andre,%20saya%20tertarik%20membeli%20Astro%20Landing%20Page%20Starter%20Kit.",
+      "ctaText": "Dapatkan Source Code"
+    }
+  ]
+}

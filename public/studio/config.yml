@@ -92,6 +92,31 @@ collections:
               - { label: "Gambar Bukti Testimoni", name: "image", widget: "image", hint: "Upload screenshot WhatsApp, foto review Google, foto diskusi, atau grafik hasil. Otomatis dikompres & dikonversi ke WebP." }
               - { label: "Tanggal", name: "date", widget: "date", format: "YYYY-MM-DD", required: false }
 
+  - name: "digital_products_collection"
+    label: "Produk Digital"
+    files:
+      - label: "Pengaturan Produk Digital"
+        name: "digital_products_data"
+        file: "src/data/digital_products.json"
+        fields:
+          - { label: "Tampilkan di Homepage?", name: "show", widget: "boolean", default: true }
+          - { label: "Judul Section", name: "sectionTitle", widget: "string", default: "Produk Digital" }
+          - { label: "Sub-judul / Deskripsi Section", name: "sectionSubtitle", widget: "string", default: "Tools, template, dan panduan praktis untuk mendongkrak konversi bisnis Anda.", required: false }
+          - label: "Daftar Produk Digital"
+            name: "products"
+            widget: "list"
+            summary: "{{fields.title}} ({{fields.price}})"
+            fields:
+              - { label: "ID Produk", name: "id", widget: "string", required: false }
+              - { label: "Nama Produk Digital", name: "title", widget: "string" }
+              - { label: "Badge / Kategori", name: "badge", widget: "string", required: false, hint: "Contoh: Notion & PDF, Template, Source Code, E-Book" }
+              - { label: "Deskripsi Produk", name: "description", widget: "text", hint: "Penjelasan ringkas manfaat dan value produk" }
+              - { label: "Harga Saat Ini", name: "price", widget: "string", hint: "Contoh: Rp 49.000 atau Gratis" }
+              - { label: "Harga Coret (Diskon)", name: "originalPrice", widget: "string", required: false, hint: "Contoh: Rp 149.000" }
+              - { label: "Gambar Mockup / Cover", name: "image", widget: "image", required: false, hint: "Upload cover produk (otomatis dikompres ke WebP)" }
+              - { label: "Link Pembelian / Download", name: "buyUrl", widget: "string", hint: "Link checkout (Lynk.id, Mayar, Gumroad, Shopee, atau WhatsApp)" }
+              - { label: "Teks Tombol Aksi", name: "ctaText", widget: "string", default: "Dapatkan Sekarang", required: false }
+
   - name: "faq_collection"
     label: "FAQ / Tanya Jawab"
     files:

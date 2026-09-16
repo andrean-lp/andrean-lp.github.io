@@ -15,6 +15,7 @@ import FeaturedCaseStudy from '../components/FeaturedCaseStudy.astro';
 import FaqSection from '../components/FaqSection.astro';
 import testimonialsData from '../data/testimonials.json';
 import TestimonialLightbox from '../components/TestimonialLightbox.astro';
+import DigitalProductsSection from '../components/DigitalProductsSection.astro';
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 
 type BlogPost = CollectionEntry<'blog'>;
@@ -201,6 +202,9 @@ const personSchema = {
         </div>
         <ProjectList projects={top6Projects}/>
       </div>
+
+      <!-- Digital Products Section -->
+      <DigitalProductsSection />
 
       <div class="mb-14">
         <div class="flex justify-between items-center gap-2 border-b pb-3 mb-2 dark:border-b-zinc-700">
