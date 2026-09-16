@@ -102,56 +102,9 @@ const personSchema = {
       )}
 		</div>
 		<main>
-      <FeaturedCaseStudy />
-
-      <div class="mb-14">
-        <div class="flex justify-between items-center gap-2 mb-3">
-          <h2 class="text-lg font-bold text-zinc-900 dark:text-zinc-100">Client Project</h2>
-          <a 
-            href="/projects/" 
-            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary text-white hover:opacity-90 active:scale-[0.98] transition-all duration-200 shadow-2xs hover:shadow-xs group"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 group-hover:scale-110 transition-transform">
-              <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 8 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>
-            </svg>
-            <span>All Projects</span>
-          </a>
-        </div>
-        <ProjectList projects={top6Projects}/>
-      </div>
-
-      <div class="mb-14">
-        <div class="flex justify-between items-center gap-2 border-b pb-3 mb-2 dark:border-b-zinc-700">
-          <h2 class="text-lg font-bold text-zinc-900 dark:text-zinc-100">They Ask You Answer</h2>
-          <a 
-            href="/posts/" 
-            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary text-white hover:opacity-90 active:scale-[0.98] transition-all duration-200 shadow-2xs hover:shadow-xs group"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 group-hover:scale-110 transition-transform">
-              <path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4"/>
-              <path d="M2 6h4"/>
-              <path d="M2 10h4"/>
-              <path d="M2 14h4"/>
-              <path d="M2 18h4"/>
-              <path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/>
-            </svg>
-            <span>All Questions</span>
-          </a>
-        </div>
-        <div>
-          {
-            posts.map((post: BlogPost) => (
-              <PostItem post={post} />
-            ))
-          }      
-        </div>
-        <div class="text-right">
-        </div>
-      </div>
-
       <!-- Testimonials Preview Section -->
       {top3Testimonials.length > 0 && (
-        <div class="mb-14">
+        <div class="mt-6 mb-14">
           <div class="flex justify-between items-center gap-2 mb-4">
             <h2 class="text-lg font-bold text-zinc-900 dark:text-zinc-100">Kisah Sukses & Testimoni Klien</h2>
             <a 
@@ -199,6 +152,53 @@ const personSchema = {
           </div>
         </div>
       )}
+
+      <FeaturedCaseStudy />
+
+      <div class="mb-14">
+        <div class="flex justify-between items-center gap-2 mb-3">
+          <h2 class="text-lg font-bold text-zinc-900 dark:text-zinc-100">Client Project</h2>
+          <a 
+            href="/projects/" 
+            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary text-white hover:opacity-90 active:scale-[0.98] transition-all duration-200 shadow-2xs hover:shadow-xs group"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 group-hover:scale-110 transition-transform">
+              <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 8 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>
+            </svg>
+            <span>All Projects</span>
+          </a>
+        </div>
+        <ProjectList projects={top6Projects}/>
+      </div>
+
+      <div class="mb-14">
+        <div class="flex justify-between items-center gap-2 border-b pb-3 mb-2 dark:border-b-zinc-700">
+          <h2 class="text-lg font-bold text-zinc-900 dark:text-zinc-100">They Ask You Answer</h2>
+          <a 
+            href="/posts/" 
+            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary text-white hover:opacity-90 active:scale-[0.98] transition-all duration-200 shadow-2xs hover:shadow-xs group"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 group-hover:scale-110 transition-transform">
+              <path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4"/>
+              <path d="M2 6h4"/>
+              <path d="M2 10h4"/>
+              <path d="M2 14h4"/>
+              <path d="M2 18h4"/>
+              <path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/>
+            </svg>
+            <span>All Questions</span>
+          </a>
+        </div>
+        <div>
+          {
+            posts.map((post: BlogPost) => (
+              <PostItem post={post} />
+            ))
+          }      
+        </div>
+        <div class="text-right">
+        </div>
+      </div>
 
       <!-- FAQ Section (AEO, GEO, and Schema.org FAQPage) -->
       <FaqSection />
