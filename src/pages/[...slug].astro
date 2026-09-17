@@ -26,7 +26,7 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<'blog'>;
 const post = Astro.props;
 const {
-	data: { title, seoTitle, description, coverImage, pubDate, updatedDate, tags }
+	data: { title, seoTitle, coverAlt, description, coverImage, pubDate, updatedDate, tags }
 } = post;
 const ogImage = typeof coverImage === 'string' ? coverImage : (coverImage?.src || undefined);
 const { Content, headings } = await render(post);
@@ -155,9 +155,9 @@ const breadcrumbSchema = {
           <div class='py-3 overflow-hidden'>
             {coverImage && (
               typeof coverImage === 'string' ? (
-                <img class='rounded-3xl w-full m-0 lg:mb-2 max-h-[500px] object-cover' src={coverImage} alt={title} loading='eager' decoding='async' />
+                <img class='rounded-3xl w-full m-0 lg:mb-2 max-h-[500px] object-cover' src={coverImage} alt={coverAlt || title} loading='eager' decoding='async' />
               ) : (
-                <Image class='rounded-3xl w-full m-0 lg:mb-2' src={coverImage} alt={title} loading='eager' decoding='async' />
+                <Image class='rounded-3xl w-full m-0 lg:mb-2' src={coverImage} alt={coverAlt || title} loading='eager' decoding='async' />
               )
             )}
           </div>

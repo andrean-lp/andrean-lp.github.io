@@ -27,6 +27,9 @@ export const autoNewTabExternalLinks: RehypePlugin = (options?: Options) => {
 				if (!element.properties.decoding) {
 					element.properties.decoding = 'async';
 				}
+				if (!element.properties.alt && element.properties.title) {
+					element.properties.alt = element.properties.title;
+				}
 			}
 
 			if (!isAnchor(element)) {
