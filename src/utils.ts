@@ -38,3 +38,25 @@ export const getRepositoryDetails = async (repositoryFullname: string) => {
 	const response = await repoDetails.json();
 	return response;
 };
+
+export const extractDescription = (body?: string, explicitDesc?: string, maxLength = 160): string => {
+	if (explicitDesc && explicitDesc.trim().length > 0) {
+		return explicitDesc.trim();
+	}
+	if (!body) return '';
+	const clean = body
+		.replace(/^---[\s\S]*?---/, '') // hapus frontmatter jika ada
+		.replace(/^#+.*$/gm, '') // hapus markdown heading
+		.replace(/!\[.*?\]\(.*?\)/g, '') // hapus markdown image
+		.replace(/\[(.*?)\]\(.*?\)/g, '$1') // ambil teks tautan saja
+		.replace(/<[^>]*>/g, '') // hapus tag html
+		.replace(/(\*\*|__)(.*?)\1/g, '$2') // hapus format bold
+		.replace(/(\*|_)(.*?)\1/g, '$2') // hapus format italic
+		.replace(/`{1,3}[\s\S]*?`{1,3}/g, '') // hapus blok/inline code
+		.replace(/\s+/g, ' ') // normalisasi spasi & newline
+		.trim();
+
+	if (clean.length <= maxLength) return clean;
+	return clean.slice(0, maxLength - 3).trim() + '...';
+};
+

@@ -8,7 +8,7 @@ const blog = defineCollection({
     seoTitle: z.string().optional(),
     coverAlt: z.string().optional(),
     slug: z.string().optional(),
-		description: z.string(),
+		description: z.string().optional(),
 		// Transform string to Date object with safe fallback for empty/invalid CMS inputs
 		pubDate: z.preprocess((val) => {
 			if (!val || val === '' || (typeof val === 'string' && val.trim() === '')) {

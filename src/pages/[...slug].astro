@@ -7,7 +7,7 @@ import { Image } from 'astro:assets';
 import FormattedDate from '../components/FormattedDate.astro';
 
 import TableOfContent from '../components/widgets/TableOfContent.astro';
-import { slugify } from '../utils';
+import { slugify, extractDescription } from '../utils';
 import { loadEnv } from 'vite';
 import { render } from 'astro:content';
 import profile from '../data/profile';
@@ -28,6 +28,7 @@ const post = Astro.props;
 const {
 	data: { title, seoTitle, coverAlt, description, coverImage, pubDate, updatedDate, tags }
 } = post;
+const postDescription = extractDescription(post.body, description);
 const ogImage = typeof coverImage === 'string' ? coverImage : (coverImage?.src || undefined);
 const { Content, headings } = await render(post);
 
@@ -39,7 +40,7 @@ const blogPostingSchema = {
 	"@context": "https://schema.org",
 	"@type": "BlogPosting",
 	"headline": title,
-	"description": description,
+	"description": postDescription,
 	"image": ogImage ? new URL(ogImage, Astro.site).toString() : undefined,
 	"datePublished": pubDate.toISOString(),
 	"dateModified": (updatedDate || pubDate).toISOString(),
@@ -94,7 +95,7 @@ const breadcrumbSchema = {
 
 <BaseLayout
 	title={seoTitle || title}
-	description={description}
+	description={postDescription}
 	image={ogImage}
 	articleDate={pubDate}
 	updatedDate={updatedDate}

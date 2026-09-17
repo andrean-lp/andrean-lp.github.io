@@ -17,7 +17,6 @@ collections:
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - { label: "Judul Artikel (H1 & SEO Title)", name: "title", widget: "string", hint: "Judul utama artikel. Otomatis menjadi heading H1 serta terhubung langsung ke SEO (Google & Pratinjau Sosial Media)." }
-      - { label: "Description", name: "description", widget: "string" }
       - { label: "Publish Date", name: "pubDate", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, default: "{{now}}" }
       - { label: "Tags", name: "tags", widget: "list", required: false }
       - { label: "Cover Image", name: "coverImage", widget: "image", required: false, hint: "Ukuran maksimal 1 MB (otomatis WebP). Saat artikel dihapus, file gambarnya akan otomatis ikut terhapus dari server." }
