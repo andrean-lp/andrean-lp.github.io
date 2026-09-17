@@ -105,14 +105,12 @@ collections:
           - label: "Daftar Produk Digital"
             name: "products"
             widget: "list"
-            summary: "{{fields.title}} ({{fields.price}})"
+            summary: "{{fields.title}}"
             fields:
               - { label: "ID Produk", name: "id", widget: "string", required: false }
               - { label: "Nama Produk Digital", name: "title", widget: "string" }
               - { label: "Badge / Kategori", name: "badge", widget: "string", required: false, hint: "Contoh: Notion & PDF, Template, Source Code, E-Book" }
               - { label: "Deskripsi Produk", name: "description", widget: "text", hint: "Penjelasan ringkas manfaat dan value produk" }
-              - { label: "Harga Saat Ini", name: "price", widget: "string", hint: "Contoh: Rp 49.000 atau Gratis" }
-              - { label: "Harga Coret (Diskon)", name: "originalPrice", widget: "string", required: false, hint: "Contoh: Rp 149.000" }
               - { label: "Gambar Mockup / Cover", name: "image", widget: "image", required: false, hint: "Upload cover produk (otomatis dikompres ke WebP)" }
               - { label: "Link Pembelian / Download", name: "buyUrl", widget: "string", hint: "Link checkout (Lynk.id, Mayar, Gumroad, Shopee, atau WhatsApp)" }
               - { label: "Teks Tombol Aksi", name: "ctaText", widget: "string", default: "Dapatkan Sekarang", required: false }

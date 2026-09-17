@@ -70,26 +70,13 @@ if (!show || products.length === 0) {
           </p>
         </div>
 
-        <!-- Pricing & CTA Button -->
-        <div class="pt-3.5 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between gap-2 mt-2">
-          <div>
-            <div class="flex items-baseline gap-1.5">
-              <span class="text-base sm:text-lg font-extrabold text-zinc-900 dark:text-zinc-100">
-                {prod.price}
-              </span>
-              {prod.originalPrice && (
-                <span class="text-xs text-zinc-400 dark:text-zinc-500 line-through">
-                  {prod.originalPrice}
-                </span>
-              )}
-            </div>
-          </div>
-          
+        <!-- CTA Button -->
+        <div class="pt-3.5 border-t border-zinc-100 dark:border-zinc-800/80 mt-2">
           <a 
             href={prod.buyUrl || '#'} 
             target="_blank" 
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-primary text-white hover:opacity-90 active:scale-[0.98] transition-all duration-200 shadow-2xs hover:shadow-xs group/btn shrink-0"
+            class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-primary text-white hover:opacity-90 active:scale-[0.98] transition-all duration-200 shadow-2xs hover:shadow-xs group/btn"
           >
             <span>{prod.ctaText || 'Dapatkan'}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 group-hover/btn:translate-x-0.5 transition-transform">
