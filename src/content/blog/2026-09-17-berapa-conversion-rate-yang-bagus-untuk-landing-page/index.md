@@ -69,7 +69,7 @@ Misalnya conversion rate naik dari 2,5% menjadi 3,5%.
 
 Dengan 10.000 visitor, jumlah conversion berarti naik dari 250 menjadi 350.
 
-Traffic-nya sama. Tapi ada \*\*100 conversion tambahan\*\*.
+Traffic-nya sama. Tapi ada 100 conversion tambahan.
 
 Di situlah salah satu nilai utama CRO terlihat: bukan selalu mendatangkan lebih banyak traffic, tetapi membuat traffic yang sudah ada bekerja lebih baik.
 
