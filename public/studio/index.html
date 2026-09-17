@@ -1016,22 +1016,53 @@
       }
 
       function injectTagHelper() {
-        const labels = Array.from(document.querySelectorAll('label, div, span'));
-        const tagLabel = labels.find(el => {
-          const t = (el.innerText || el.textContent || '').trim().toLowerCase();
-          return t === 'tags (optional)' || t === 'tags';
+        // 1. Cari label khusus Tags (OPTIONAL)
+        const allLabels = Array.from(document.querySelectorAll('label, div, span'));
+        const tagLabel = allLabels.find(el => {
+          const t = (el.innerText || el.textContent || '').trim().toUpperCase();
+          return (t === 'TAGS (OPTIONAL)' || t === 'TAGS') && el.children.length === 0;
         });
 
-        if (!tagLabel) return;
+        // 2. Bersihkan dulu SEMUA input yang salah terkena placeholder di luar tags
+        let tagInputs = [];
+        let tagContainer = null;
 
-        let container = tagLabel.closest('div[class*="ControlPane"]') || tagLabel.parentElement;
-        if (!container) return;
+        if (tagLabel) {
+          // Cari wrapper terdekat yang HANYA membungkus field Tags (tidak membungkus judul / publish date)
+          let current = tagLabel.parentElement;
+          while (current && current !== document.body && !current.classList?.contains('ControlPane')) {
+            const text = (current.innerText || current.textContent || '').toUpperCase();
+            if (text.includes('JUDUL ARTIKEL') || text.includes('PUBLISH DATE') || text.includes('COVER IMAGE') || text.includes('BODY')) {
+              break;
+            }
+            if (current.querySelector('input[type="text"]')) {
+              tagContainer = current;
+            }
+            current = current.parentElement;
+          }
 
-        const inputs = Array.from(container.querySelectorAll('input[type="text"]'));
-        if (inputs.length === 0) return;
+          if (tagContainer) {
+            tagInputs = Array.from(tagContainer.querySelectorAll('input[type="text"]'));
+          }
+        }
 
-        inputs.forEach(input => {
-          if (!input.hasAttribute('list')) {
+        // Kembalikan placeholder & datalist input lain yang bukan Tags ke keadaan bersih semula
+        document.querySelectorAll('input[type="text"]').forEach(input => {
+          if (!tagInputs.includes(input)) {
+            if (input.getAttribute('list') === 'cms-tag-suggestions') {
+              input.removeAttribute('list');
+            }
+            if (input.getAttribute('placeholder') === 'Pilih tag yang ada atau ketik tag baru...') {
+              input.removeAttribute('placeholder');
+            }
+          }
+        });
+
+        if (!tagContainer || tagInputs.length === 0) return;
+
+        // Pasang list & placeholder HANYA pada input tags yang sah
+        tagInputs.forEach(input => {
+          if (input.getAttribute('list') !== 'cms-tag-suggestions') {
             input.setAttribute('list', 'cms-tag-suggestions');
             input.setAttribute('placeholder', 'Pilih tag yang ada atau ketik tag baru...');
             input.addEventListener('change', () => {
@@ -1043,7 +1074,8 @@
           }
         });
 
-        if (container.querySelector('#tag-pill-container')) return;
+        // Pasang pill container tepat di bawah input tags
+        if (tagContainer.querySelector('#tag-pill-container')) return;
 
         const pillContainer = document.createElement('div');
         pillContainer.id = 'tag-pill-container';
@@ -1074,18 +1106,18 @@
             e.preventDefault();
             e.stopPropagation();
 
-            const currentInputs = Array.from(container.querySelectorAll('input[type="text"]'));
+            const currentInputs = Array.from(tagContainer.querySelectorAll('input[type="text"]'));
             const emptyInput = currentInputs.find(inp => !inp.value || inp.value.trim() === '');
 
             if (emptyInput) {
               setNativeValue(emptyInput, tag);
               emptyInput.focus();
             } else {
-              const addBtn = container.querySelector('button');
+              const addBtn = tagContainer.querySelector('button');
               if (addBtn) {
                 addBtn.click();
                 setTimeout(() => {
-                  const updatedInputs = Array.from(container.querySelectorAll('input[type="text"]'));
+                  const updatedInputs = Array.from(tagContainer.querySelectorAll('input[type="text"]'));
                   const newEmpty = updatedInputs.find(inp => !inp.value || inp.value.trim() === '');
                   if (newEmpty) {
                     setNativeValue(newEmpty, tag);
@@ -1102,7 +1134,7 @@
           pillContainer.appendChild(pill);
         });
 
-        container.appendChild(pillContainer);
+        tagContainer.appendChild(pillContainer);
       }
 
       setInterval(injectTagHelper, 800);
