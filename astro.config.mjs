@@ -9,6 +9,14 @@ export default defineConfig({
   site: 'https://andrean-lp.github.io',
   trailingSlash: 'always',
   compressHTML: true,
+  i18n: {
+    defaultLocale: 'id',
+    locales: ['id', 'en'],
+    routing: {
+      prefixDefaultLocale: false,
+      redirectToDefaultLocale: false
+    }
+  },
   build: {
     inlineStylesheets: 'always'
   },

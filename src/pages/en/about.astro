@@ -1,0 +1,144 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Ava from '@src/assets/img/ava.jpg';
+import Prose from '../../components/Prose.astro';
+import Schema from '../../components/Schema.astro';
+import profile from '../../data/profile';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') || 'https://andrean-lp.github.io';
+const aboutTitle = "About Me — Andre Wahyu Hermawan";
+const aboutDescription = "About Andre Wahyu Hermawan — Landing Page Strategist & Conversion Rate Optimization Specialist helping modern businesses turn visitors into loyal clients.";
+
+// Schema.org: Person (ProfilePage)
+const sameAs = [
+	profile.github,
+	profile.linkedin,
+	profile.youtube,
+	profile.instagram,
+	profile.facebook,
+	profile.pinterest,
+].filter(Boolean);
+
+const personSchema = {
+	"@context": "https://schema.org",
+	"@type": "Person",
+	"name": profile.name || "Andre Wahyu Hermawan",
+	"url": `${siteUrl}/en/about/`,
+	"image": profile.avatar ? new URL(profile.avatar, Astro.site).toString() : undefined,
+	"jobTitle": "Landing Page Strategist & CRO Specialist",
+	"description": aboutDescription,
+	"sameAs": sameAs.length > 0 ? sameAs : undefined,
+	"mainEntityOfPage": {
+		"@type": "ProfilePage",
+		"@id": `${siteUrl}/en/about/`,
+	},
+};
+
+// Schema.org: BreadcrumbList
+const breadcrumbSchema = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	"itemListElement": [
+		{
+			"@type": "ListItem",
+			"position": 1,
+			"name": "Home",
+			"item": `${siteUrl}/en/`,
+		},
+		{
+			"@type": "ListItem",
+			"position": 2,
+			"name": "About",
+			"item": `${siteUrl}/en/about/`,
+		}
+	]
+};
+---
+
+<BaseLayout
+	title={aboutTitle}
+	description={aboutDescription}
+>
+	<Schema item={personSchema} />
+	<Schema item={breadcrumbSchema} />
+  <div class='container'>
+		<main class='prose text-lg dark:prose-invert'>
+      <article>
+        <div class='w-full md:flex md:items-center gap-16 mb-10'>
+          <div class="text-pretty leading-9">
+            <h1 class="text-4xl font-bold mb-4">About Me</h1>
+            <Prose>
+              <div class="text-lg space-y-4">
+                <p>Hello! I'm <strong>Andre Wahyu Hermawan</strong>, a <strong>Landing Page Strategist & Conversion Rate Optimization (CRO) Specialist</strong> helping businesses, founders, and digital brands turn traffic into measurable revenue.</p>
+                <p>I combine data-driven conversion psychology, direct-response design, and cutting-edge web performance to build landing pages that don't just look stunning—they consistently convert.</p>
+              </div>
+            </Prose>
+          </div>
+          {profile.avatar ? (
+            <img 
+              src={profile.avatar} 
+              alt={profile.name || "Andre Wahyu Hermawan"} 
+              width="300" 
+              height="300" 
+              loading="eager" 
+              fetchpriority="high" 
+              decoding="async" 
+              class="rounded-3xl rotate-3 mx-4 md:mx-0 w-[300px] h-[300px] aspect-square object-cover shadow-xl"
+            />
+          ) : (
+            <Image 
+              src={Ava} 
+              alt={profile.name || "Andre Wahyu Hermawan"} 
+              width={300} 
+              height={300} 
+              densities={[1, 1.5, 2]} 
+              loading="eager" 
+              decoding="async" 
+              fetchpriority="high" 
+              class="rounded-3xl rotate-3 mx-4 md:mx-0 w-[300px] h-[300px] aspect-square object-cover shadow-xl"
+            />
+          )}
+        </div>
+
+        <div class="mt-8 space-y-6">
+          <h2 class="text-2xl font-bold text-zinc-900 dark:text-zinc-100 border-b pb-3 dark:border-zinc-800">What I Do</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 not-prose">
+            <div class="p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/40">
+              <div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold mb-4">01</div>
+              <h3 class="font-bold text-base text-zinc-900 dark:text-zinc-100 mb-2">High-Converting Landing Pages</h3>
+              <p class="text-sm text-zinc-600 dark:text-zinc-400">Custom landing page strategy tailored for paid ads, SaaS onboarding, product launches, and lead capture.</p>
+            </div>
+            <div class="p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/40">
+              <div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold mb-4">02</div>
+              <h3 class="font-bold text-base text-zinc-900 dark:text-zinc-100 mb-2">CRO Audits & Teardowns</h3>
+              <p class="text-sm text-zinc-600 dark:text-zinc-400">Deep-dive heuristic analysis identifying friction points, drop-offs, and untapped revenue leaks in your funnel.</p>
+            </div>
+            <div class="p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/40">
+              <div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold mb-4">03</div>
+              <h3 class="font-bold text-base text-zinc-900 dark:text-zinc-100 mb-2">Ultra-Fast Speed Engineering</h3>
+              <p class="text-sm text-zinc-600 dark:text-zinc-400">Zero-bloat, 100/100 Core Web Vitals optimization ensuring every visitor stays engaged without bounce-rate penalties.</p>
+            </div>
+          </div>
+
+          <div class="pt-8 not-prose flex flex-wrap items-center gap-4">
+            <a 
+              href="https://t.me/andrean_lp" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-primary text-white shadow-md hover:opacity-90 active:scale-95 transition-all"
+            >
+              Discuss Your Project on Telegram →
+            </a>
+            <a 
+              href="/en/projects/" 
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 active:scale-95 transition-all"
+            >
+              View Portfolio Projects
+            </a>
+          </div>
+        </div>
+      </article>
+    </main>
+	</div>
+</BaseLayout>

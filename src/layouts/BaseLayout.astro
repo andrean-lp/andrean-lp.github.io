@@ -16,10 +16,11 @@ interface Props {
 }
 
 const { title, description, image, articleDate, updatedDate, type = 'website', tags } = Astro.props;
+const currentLocale = Astro.currentLocale || 'id';
 ---
 
 <!doctype html>
-<html lang='id'>
+<html lang={currentLocale}>
 	<head>
 		<BaseHead
 			title={title}
@@ -39,6 +40,6 @@ const { title, description, image, articleDate, updatedDate, type = 'website', t
 			<slot />
 		</div>
 		<Footer />
-		<FloatingTelegramModal telegramUrl={site.telegram || "https://t.me/andrean_lp"} webhookUrl={site.leadWebhookUrl} />
+		<FloatingTelegramModal telegramUrl={site.telegram || "https://t.me/andrean_lp"} webhookUrl={site.leadWebhookUrl} lang={currentLocale as 'id' | 'en'} />
 	</body>
 </html>

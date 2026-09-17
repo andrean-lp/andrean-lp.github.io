@@ -1,13 +1,21 @@
 ---
+import { useTranslations, type SupportedLocale } from '../../i18n/ui';
+
 interface Props {
   telegramUrl?: string;
   webhookUrl?: string;
+  lang?: SupportedLocale;
 }
 
 const { 
   telegramUrl = 'https://t.me/andrean_lp', 
-  webhookUrl = '' 
+  webhookUrl = '',
+  lang = 'id'
 } = Astro.props;
+
+const t = useTranslations(lang);
+const submittingText = t('lead.submitting');
+const normalSubmitText = t('lead.submit');
 ---
 
 <!-- Floating Telegram Button -->
@@ -16,7 +24,7 @@ const {
     id="open-telegram-modal-btn"
     type="button"
     class="group relative flex items-center justify-center w-14 h-14 bg-[#229ED9] hover:bg-[#1e88ba] text-white rounded-full shadow-xl hover:shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer"
-    aria-label="Hubungi Andre di Telegram"
+    aria-label={t('lead.buttonLabel')}
   >
     <!-- Ripple / Pulse glow -->
     <span class="absolute top-0 right-0 flex h-3.5 w-3.5">
@@ -55,7 +63,7 @@ const {
     </button>
 
     <!-- Header -->
-    <div class="flex items-center gap-3.5 mb-4">
+    <div class="flex items-center gap-3.5 mb-3">
       <div class="w-12 h-12 rounded-2xl bg-[#229ED9]/10 text-[#229ED9] flex items-center justify-center shrink-0 border border-[#229ED9]/20">
         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
           <path d="m20.665 3.717-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701h-.002l-.313 4.674c.459 0 .66-.21.916-.459l2.199-2.138 4.573 3.378c.843.465 1.449.226 1.658-.78l2.997-14.128c.307-1.233-.473-1.794-1.206-1.514Z"/>
@@ -63,16 +71,16 @@ const {
       </div>
       <div>
         <h3 id="modal-title" class="text-lg sm:text-xl font-bold text-zinc-900 dark:text-zinc-100 leading-tight">
-          Mulai Chat di Telegram
+          {t('lead.modalTitle')}
         </h3>
         <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
-          Terhubung langsung dengan Andre
+          Andre Wahyu Hermawan
         </p>
       </div>
     </div>
 
     <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mb-5 leading-relaxed">
-      Silakan isi data singkat di bawah ini untuk memulai sesi konsultasi di Telegram:
+      {t('lead.modalSubtitle')}
     </p>
 
     <!-- Lead Capture Form -->
@@ -80,7 +88,7 @@ const {
       <!-- Nama Lengkap -->
       <div>
         <label for="lead-name" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">
-          Nama Lengkap <span class="text-rose-500">*</span>
+          {t('lead.nameLabel')} <span class="text-rose-500">*</span>
         </label>
         <div class="relative">
           <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-400">
@@ -94,7 +102,7 @@ const {
             name="name"
             type="text"
             required
-            placeholder="Contoh: Budi Santoso"
+            placeholder={t('lead.namePlaceholder')}
             class="w-full pl-10 pr-3.5 py-2.5 rounded-xl text-sm border border-zinc-200 dark:border-zinc-700 bg-zinc-50/50 dark:bg-zinc-800/60 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#229ED9] focus:border-transparent transition-all"
           />
         </div>
@@ -103,7 +111,7 @@ const {
       <!-- Alamat Email -->
       <div>
         <label for="lead-email" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">
-          Alamat Email <span class="text-rose-500">*</span>
+          {t('lead.emailLabel')} <span class="text-rose-500">*</span>
         </label>
         <div class="relative">
           <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-400">
@@ -117,7 +125,7 @@ const {
             name="email"
             type="email"
             required
-            placeholder="nama@email.com"
+            placeholder={t('lead.emailPlaceholder')}
             class="w-full pl-10 pr-3.5 py-2.5 rounded-xl text-sm border border-zinc-200 dark:border-zinc-700 bg-zinc-50/50 dark:bg-zinc-800/60 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#229ED9] focus:border-transparent transition-all"
           />
         </div>
@@ -126,7 +134,7 @@ const {
       <!-- Nomor WhatsApp -->
       <div>
         <label for="lead-whatsapp" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">
-          Nomor WhatsApp <span class="text-rose-500">*</span>
+          {t('lead.whatsappLabel')} <span class="text-rose-500">*</span>
         </label>
         <div class="relative">
           <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-400">
@@ -139,7 +147,7 @@ const {
             name="whatsapp"
             type="tel"
             required
-            placeholder="08123456789 atau 628..."
+            placeholder={t('lead.whatsappPlaceholder')}
             class="w-full pl-10 pr-3.5 py-2.5 rounded-xl text-sm border border-zinc-200 dark:border-zinc-700 bg-zinc-50/50 dark:bg-zinc-800/60 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#229ED9] focus:border-transparent transition-all"
           />
         </div>
@@ -151,7 +159,7 @@ const {
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
           <path d="m9 12 2 2 4-4"/>
         </svg>
-        <span>Data Anda 100% aman dan dijaga kerahasiaannya.</span>
+        <span>{t('lead.privacy')}</span>
       </div>
 
       <!-- Submit Button -->
@@ -160,7 +168,7 @@ const {
         type="submit"
         class="w-full mt-2 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold bg-[#229ED9] hover:bg-[#1e88ba] active:scale-[0.98] text-white shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
       >
-        <span id="submit-text">Lanjutkan ke Telegram</span>
+        <span id="submit-text">{t('lead.submit')}</span>
         <svg id="submit-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M5 12h14"/>
           <path d="m12 5 7 7-7 7"/>
@@ -175,7 +183,7 @@ const {
   </div>
 </div>
 
-<script is:inline define:vars={{ telegramUrl, webhookUrl }}>
+<script is:inline define:vars={{ telegramUrl, webhookUrl, submittingText, normalSubmitText }}>
   (function() {
     const floatingBtnContainer = document.getElementById('floating-telegram-container');
     const openBtn = document.getElementById('open-telegram-modal-btn');
@@ -271,7 +279,7 @@ const {
 
       // Loading UI
       if (submitBtn) submitBtn.disabled = true;
-      if (submitText) submitText.textContent = 'Menghubungkan ke Telegram...';
+      if (submitText) submitText.textContent = submittingText;
       if (submitIcon) submitIcon.classList.add('hidden');
       if (submitSpinner) submitSpinner.classList.remove('hidden');
 
@@ -294,7 +302,7 @@ const {
         setTimeout(() => {
           form.reset();
           if (submitBtn) submitBtn.disabled = false;
-          if (submitText) submitText.textContent = 'Lanjutkan ke Telegram';
+          if (submitText) submitText.textContent = normalSubmitText;
           if (submitIcon) submitIcon.classList.remove('hidden');
           if (submitSpinner) submitSpinner.classList.add('hidden');
           closeModal();

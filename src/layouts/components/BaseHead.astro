@@ -5,6 +5,7 @@ import '../../styles/global.css';
 import Favicon from '@src/assets/img/favicon.png';
 import site, { primaryColorInfo } from '@src/data/site';
 import profile from '@src/data/profile';
+import { getSwitchLocaleUrl, type SupportedLocale } from '../../i18n/ui';
 
 interface Props {
 	title: string;
@@ -17,6 +18,11 @@ interface Props {
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const currentLocale = (Astro.currentLocale || 'id') as SupportedLocale;
+const ogLocale = currentLocale === 'en' ? 'en_US' : 'id_ID';
+
+const idAlternateURL = new URL(getSwitchLocaleUrl(Astro.url.pathname, 'id'), Astro.site);
+const enAlternateURL = new URL(getSwitchLocaleUrl(Astro.url.pathname, 'en'), Astro.site);
 
 const {
 	title,
@@ -65,6 +71,11 @@ const siteName = site.title || 'Andre Wahyu Hermawan';
 <!-- Canonical URL -->
 <link rel='canonical' href={canonicalURL} />
 
+<!-- International Alternate Hreflang Tags -->
+<link rel='alternate' hreflang='id' href={idAlternateURL} />
+<link rel='alternate' hreflang='en' href={enAlternateURL} />
+<link rel='alternate' hreflang='x-default' href={idAlternateURL} />
+
 <!-- Dynamic Primary Color Theme CSS Variables -->
 <style is:inline set:html={`
 :root {
@@ -97,7 +108,7 @@ const siteName = site.title || 'Andre Wahyu Hermawan';
 <meta property='og:image:height' content='630' />
 <meta property='og:image:alt' content={title} />
 <meta property='og:site_name' content={siteName} />
-<meta property='og:locale' content='id_ID' />
+<meta property='og:locale' content={ogLocale} />
 
 {type === 'article' && articleDate && (
 	<meta property='article:published_time' content={articleDate.toISOString()} />

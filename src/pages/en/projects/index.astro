@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ProjectList from '../../../components/ProjectList.astro';
+import Schema from '../../../components/Schema.astro';
+import { projects } from '../../../data/projects';
+
+const title = "Client Projects & Portfolio";
+const description = "Explore client project portfolio, high-converting landing pages, and web applications engineered by Andre Wahyu Hermawan.";
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') || 'https://andrean-lp.github.io';
+
+// Schema.org: CollectionPage (EN)
+const collectionSchema = {
+	"@context": "https://schema.org",
+	"@type": "CollectionPage",
+	"name": title,
+	"description": description,
+	"url": `${siteUrl}/en/projects/`,
+	"inLanguage": "en",
+};
+
+// Schema.org: BreadcrumbList (EN)
+const breadcrumbSchema = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	"itemListElement": [
+		{
+			"@type": "ListItem",
+			"position": 1,
+			"name": "Home",
+			"item": `${siteUrl}/en/`,
+		},
+		{
+			"@type": "ListItem",
+			"position": 2,
+			"name": "Projects",
+			"item": `${siteUrl}/en/projects/`,
+		}
+	]
+};
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+>
+	<Schema item={collectionSchema} />
+	<Schema item={breadcrumbSchema} />
+  <div class='container'>
+    <div class="mb-10">
+      <h1 class="text-3xl font-bold mb-2">{title}</h1>
+      <p class="text-zinc-700 dark:text-zinc-300 text-lg">{description}</p>
+    </div>
+    <ProjectList projects={projects}/>
+  </div>
+</BaseLayout>

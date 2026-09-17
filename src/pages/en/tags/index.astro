@@ -1,0 +1,112 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Schema from '../../../components/Schema.astro';
+import { slugify } from '../../../utils';
+
+type BlogPost = CollectionEntry<'blog'>;
+interface Tag {
+	value: string;
+	label: string;
+	postCount: number;
+}
+
+function groupTagsByFirstLetter(tags: Tag[]) {
+  const grouped = tags.reduce((acc, tag) => {
+    const firstLetter = tag.label[0].toUpperCase();
+    if (!acc[firstLetter]) {
+      acc[firstLetter] = [];
+    }
+    acc[firstLetter].push(tag);
+    return acc;
+  }, {} as Record<string, Tag[]>);
+
+  return Object.entries(grouped)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([letter, tags]) => ({
+      letter,
+      tags: tags.sort((a, b) => a.label.localeCompare(b.label)),
+    }));
+}
+
+const allPosts: BlogPost[] = await getCollection('blog');
+const mappedTags: { [key: string]: Tag } = {};
+for (const post of allPosts) {
+	for (const tag of post.data?.tags || []) {
+		const tagValue = slugify(tag);
+		if (mappedTags[tagValue]) {
+			mappedTags[tagValue].postCount += 1;
+		} else {
+			const _tag: Tag = {
+				value: tagValue,
+				label: tag,
+				postCount: 1
+			};
+			mappedTags[tagValue] = _tag;
+		}
+	}
+}
+const groupedTags  = groupTagsByFirstLetter(Object.values(mappedTags))
+const title = `All Tags & Topics`;
+const description = 'Article topics: explore actionable guides and insights on landing page strategy, CRO, and web performance by category.';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') || 'https://andrean-lp.github.io';
+
+// Schema.org: BreadcrumbList
+const breadcrumbSchema = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	"itemListElement": [
+		{
+			"@type": "ListItem",
+			"position": 1,
+			"name": "Home",
+			"item": `${siteUrl}/en/`,
+		},
+		{
+			"@type": "ListItem",
+			"position": 2,
+			"name": "Tags",
+			"item": `${siteUrl}/en/tags/`,
+		}
+	]
+};
+---
+
+<BaseLayout title={title} description={description}>
+	<Schema item={breadcrumbSchema} />
+	<div class='container'>
+    <div class="mb-10">
+      <h1 class="text-3xl font-bold mb-2">{title}</h1>
+      <p class="text-zinc-700 dark:text-zinc-300 text-lg">{description}</p>
+    </div>
+    <div>
+      {groupedTags.length > 0 ? (
+        groupedTags.map(({ letter, tags }) => (
+          <div class="flex gap-2 border-b dark:border-b-zinc-700 py-3 mb-5 capitalize">
+            <h2 class="text-2xl font-bold text-zinc-800 dark:text-zinc-200 w-7 shrink-0">{letter}</h2>
+            <div class='flex gap-2 flex-wrap'>
+              {
+                (tags || [] )?.map((tag: Tag) => (
+                  <a
+                    class='border border-zinc-300 dark:border-zinc-700 rounded-2xl
+                      text-sm text-zinc-700 dark:text-zinc-300 no-underline px-3 py-1
+                      transition-all duration-700
+                    hover:border-zinc-700 dark:hover:border-zinc-300'
+                    href={`/tags/${slugify(tag.value)}/`}>
+                    {tag.label} ({tag.postCount})
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+        ))
+      ) : (
+        <div class="text-center py-16 text-zinc-500 dark:text-zinc-400">
+          <p class="text-base">No topics or tags published yet.</p>
+        </div>
+      )}
+    </div>
+	</div>
+</BaseLayout>

@@ -1,0 +1,66 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Schema from '../../../components/Schema.astro';
+import PostsByYear from '../../../components/PostsByYear.astro';
+
+type BlogPost = CollectionEntry<'blog'>;
+const title = 'Articles & Insights';
+const description = 'In-depth guides, case studies, and actionable insights on landing page strategy, conversion rate optimization (CRO), and web performance.';
+
+const posts = (await getCollection('blog')).sort((a: BlogPost, b: BlogPost) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') || 'https://andrean-lp.github.io';
+
+// Schema.org: CollectionPage
+const collectionSchema = {
+	"@context": "https://schema.org",
+	"@type": "CollectionPage",
+	"name": title,
+	"description": description,
+	"url": `${siteUrl}/en/posts/`,
+	"inLanguage": "en",
+};
+
+// Schema.org: BreadcrumbList
+const breadcrumbSchema = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	"itemListElement": [
+		{
+			"@type": "ListItem",
+			"position": 1,
+			"name": "Home",
+			"item": `${siteUrl}/en/`,
+		},
+		{
+			"@type": "ListItem",
+			"position": 2,
+			"name": "Posts",
+			"item": `${siteUrl}/en/posts/`,
+		}
+	]
+};
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+>
+	<Schema item={collectionSchema} />
+	<Schema item={breadcrumbSchema} />
+  <div class='container'>
+    <div class="mb-10">
+      <h1 class="text-3xl font-bold mb-2">{title}</h1>
+      <p class="text-zinc-700 dark:text-zinc-300 text-lg">{description}</p>
+    </div>
+    {posts.length > 0 ? (
+      <PostsByYear posts={posts}/>
+    ) : (
+      <div class="text-center py-16 text-zinc-500 dark:text-zinc-400">
+        <p class="text-base">No articles published yet.</p>
+      </div>
+    )}
+  </div>
+</BaseLayout>
