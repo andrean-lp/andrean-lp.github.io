@@ -306,7 +306,15 @@ const normalSubmitText = t('lead.submit');
         if (redirected) return;
         redirected = true;
         
-        window.open(telegramUrl, '_blank', 'noopener,noreferrer');
+        let popup = null;
+        try {
+          popup = window.open(telegramUrl, '_blank', 'noopener,noreferrer');
+        } catch (_) {}
+
+        // Fallback jika popup diblokir oleh browser mobile (iOS Safari / Android)
+        if (!popup || popup.closed || typeof popup.closed === 'undefined') {
+          window.location.href = telegramUrl;
+        }
         
         setTimeout(() => {
           form.reset();

@@ -1,4 +1,4 @@
-﻿import faqData from './faq.json';
+import faqData from './faq.json';
 
 export interface FaqItem {
   question: string;

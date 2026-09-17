@@ -1,6 +1,4 @@
 ---
-// Alias rute bahasa Indonesia untuk /testimonials/
-import TestimonialsPage from '../testimonials/index.astro';
+// Redirect alias bahasa Indonesia ke rute standar /testimonials/ untuk mencegah duplicate content di SEO
+return Astro.redirect('/testimonials/');
 ---
-
-<TestimonialsPage />
