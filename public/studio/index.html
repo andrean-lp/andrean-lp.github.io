@@ -612,6 +612,19 @@
   </script>
   <!-- Menggunakan decap-cms versi 3.0.12 yang stabil tanpa bug React removeChild -->
   <script src="https://unpkg.com/decap-cms@3.0.12/dist/decap-cms.js"></script>
+  <script>
+    // Daftarkan widget 'date' sebagai alias ke 'datetime' agar kompatibel jika ada konfigurasi menggunakan widget 'date'
+    if (window.CMS) {
+      try {
+        const dt = window.CMS.getWidget('datetime');
+        if (dt) {
+          window.CMS.registerWidget('date', dt.control, dt.preview);
+        }
+      } catch (e) {
+        console.warn('Gagal registrasi alias widget date:', e);
+      }
+    }
+  </script>
 
   <!-- Otomatis hapus gambar saat artikel dihapus atau favicon diganti baru -->
   <script>

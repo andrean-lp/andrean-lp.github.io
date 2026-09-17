@@ -18,7 +18,7 @@ collections:
     fields:
       - { label: "Judul Artikel (H1 & SEO Title)", name: "title", widget: "string", hint: "Judul utama artikel. Otomatis menjadi heading H1 serta terhubung langsung ke SEO (Google & Pratinjau Sosial Media)." }
       - { label: "Description", name: "description", widget: "string" }
-      - { label: "Publish Date", name: "pubDate", widget: "date", format: "YYYY-MM-DD", default: "{{now}}" }
+      - { label: "Publish Date", name: "pubDate", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, default: "{{now}}" }
       - { label: "Tags", name: "tags", widget: "list", required: false }
       - { label: "Cover Image", name: "coverImage", widget: "image", required: false, hint: "Ukuran maksimal 1 MB (otomatis WebP). Saat artikel dihapus, file gambarnya akan otomatis ikut terhapus dari server." }
       - { label: "Alt Text Cover Image (SEO)", name: "coverAlt", widget: "string", required: false, hint: "Deskripsi gambar untuk Google Image Search & aksesibilitas. Jika dikosongkan, otomatis menggunakan Judul Artikel." }
@@ -90,7 +90,7 @@ collections:
               - { label: "Role / Nama Bisnis", name: "roleOrCompany", widget: "string", required: false, hint: "Contoh: Founder Brand Skincare / CEO PT Maju" }
               - { label: "Kategori Testimoni", name: "category", widget: "select", options: ["WhatsApp", "Google Review", "Diskusi Client", "Hasil Konversi", "Lainnya"], default: "WhatsApp", hint: "Kategori untuk filter tab di halaman testimoni" }
               - { label: "Gambar Bukti Testimoni", name: "image", widget: "image", hint: "Upload screenshot WhatsApp, foto review Google, foto diskusi, atau grafik hasil. Otomatis dikompres & dikonversi ke WebP." }
-              - { label: "Tanggal", name: "date", widget: "date", format: "YYYY-MM-DD", required: false }
+              - { label: "Tanggal", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false }
 
   - name: "digital_products_collection"
     label: "Digital Products"
