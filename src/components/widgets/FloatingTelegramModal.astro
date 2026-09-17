@@ -166,6 +166,10 @@ const normalSubmitText = t('lead.submit');
       <button
         id="lead-submit-btn"
         type="submit"
+        data-telegram-url={telegramUrl}
+        data-webhook-url={webhookUrl}
+        data-submitting-text={submittingText}
+        data-normal-text={normalSubmitText}
         class="w-full mt-2 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold bg-[#229ED9] hover:bg-[#1e88ba] active:scale-[0.98] text-white shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
       >
         <span id="submit-text">{t('lead.submit')}</span>
@@ -183,7 +187,7 @@ const normalSubmitText = t('lead.submit');
   </div>
 </div>
 
-<script is:inline define:vars={{ telegramUrl, webhookUrl, submittingText, normalSubmitText }}>
+<script is:inline>
   (function() {
     const floatingBtnContainer = document.getElementById('floating-telegram-container');
     const openBtn = document.getElementById('open-telegram-modal-btn');
@@ -197,6 +201,11 @@ const normalSubmitText = t('lead.submit');
     const submitSpinner = document.getElementById('submit-spinner');
 
     if (!floatingBtnContainer || !openBtn || !modal || !form) return;
+
+    const telegramUrl = submitBtn?.getAttribute('data-telegram-url') || 'https://t.me/andrean_lp';
+    const webhookUrl = submitBtn?.getAttribute('data-webhook-url') || '';
+    const submittingText = submitBtn?.getAttribute('data-submitting-text') || 'Mengirim...';
+    const normalSubmitText = submitBtn?.getAttribute('data-normal-text') || 'Lanjut ke Telegram';
 
     // Show floating button when scrolled >= 20% or after 3 seconds
     let isVisible = false;

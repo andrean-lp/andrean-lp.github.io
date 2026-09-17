@@ -200,12 +200,9 @@ const breadcrumbSchema = {
       const emptyState = document.getElementById('empty-state');
       const masonryGrid = document.getElementById('masonry-grid');
 
-      let currentCategory = 'All';
-
       filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
           const cat = btn.getAttribute('data-category') || 'All';
-          currentCategory = cat;
 
           filterBtns.forEach(b => {
             b.classList.remove('bg-zinc-900', 'text-white', 'dark:bg-white', 'dark:text-zinc-900', 'shadow-sm');

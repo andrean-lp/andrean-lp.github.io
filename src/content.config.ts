@@ -9,8 +9,8 @@ const blog = defineCollection({
     coverAlt: z.string().optional(),
     slug: z.string().optional(),
 		description: z.string(),
-		// Transform string to Date object
-		pubDate: z.coerce.date(),
+		// Transform string to Date object with safe default
+		pubDate: z.coerce.date().default(() => new Date()),
 		updatedDate: z.coerce.date().optional(),
     tags: z.array(z.string()).optional(),
 		coverImage: z.union([image(), z.string()]).optional()

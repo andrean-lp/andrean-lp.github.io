@@ -4,8 +4,9 @@ description: Memahami angka, konteks, dan cara menentukan target yang realistis
   untuk bisnis kamu
 tags:
   - Conversion Rate Optimization
-coverImage: berapa-conversion-rate-yang-bagus-untuk-landing-page.webp
-coverAlt: ""
+pubDate: 2026-09-17
+coverImage: ./berapa-conversion-rate-yang-bagus-untuk-landing-page.webp
+coverAlt: "Berapa conversion rate yang bagus untuk landing page"
 ---
 Pernah melihat landing page yang katanya punya conversion rate 10%?
 
