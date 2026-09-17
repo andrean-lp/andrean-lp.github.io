@@ -1,5 +1,5 @@
 ---
-title: Berapa Conversion Rate yang Bagus Untuk Landing Page ?
+title: Berapa Conversion Rate Yang Bagus Untuk Landing Page ?
 pubDate: "{{now}}"
 tags:
   - Conversion Rate Optimization
