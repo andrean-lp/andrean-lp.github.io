@@ -23,7 +23,7 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap({
-      filter: (page) => !page.includes('/studio/'),
+      filter: (page) => !page.includes('/studio/') && !page.endsWith('/side-projects/') && !page.endsWith('/testimoni/'),
       changefreq: 'weekly',
       priority: 0.7,
       lastmod: new Date(),
