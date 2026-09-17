@@ -18,7 +18,7 @@ export default defineConfig({
     }
   },
   build: {
-    inlineStylesheets: 'always'
+    inlineStylesheets: 'auto'
   },
   integrations: [
     mdx(),
@@ -28,7 +28,9 @@ export default defineConfig({
       priority: 0.7,
       lastmod: new Date(),
     }),
-    tailwind(),
+    tailwind({
+      applyBaseStyles: false
+    }),
   ],
   markdown: {
     extendDefaultPlugins: true,
