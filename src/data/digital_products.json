@@ -1,6 +1,6 @@
 {
   "show": true,
-  "sectionTitle": "Produk Digital",
+  "sectionTitle": "Digital Products",
   "sectionSubtitle": "Tools, template, dan panduan praktis untuk mendongkrak konversi bisnis Anda.",
   "products": [
     {
@@ -10,7 +10,7 @@
       "description": "50+ checklist elemen esensial landing page yang terbukti melipatgandakan tingkat konversi dan RoAS iklan.",
       "image": "/images/erni-cover.webp",
       "buyUrl": "https://wa.me/6285187437036?text=Halo%20Andre,%20saya%20tertarik%20membeli%20High-Converting%20Landing%20Page%20Checklist.",
-      "ctaText": "Dapatkan Checklist"
+      "ctaText": "Buy Now"
     },
     {
       "id": "prod-2",
@@ -19,7 +19,7 @@
       "description": "Kumpulan 100+ formula headline dan hook copywriting persuasif siap pakai untuk memikat calon pembeli seketika.",
       "image": "/images/storiq-cover.webp",
       "buyUrl": "https://wa.me/6285187437036?text=Halo%20Andre,%20saya%20tertarik%20membeli%20Swipe%20File%20100%2B%20Headline%20Penjualan.",
-      "ctaText": "Beli Template"
+      "ctaText": "Buy Now"
     },
     {
       "id": "prod-3",
@@ -28,7 +28,7 @@
       "description": "Template landing page modern berbasis Astro & Tailwind dengan skor Google PageSpeed 100/100 dan integrasi CMS.",
       "image": "/images/erni-cover.webp",
       "buyUrl": "https://wa.me/6285187437036?text=Halo%20Andre,%20saya%20tertarik%20membeli%20Astro%20Landing%20Page%20Starter%20Kit.",
-      "ctaText": "Dapatkan Source Code"
+      "ctaText": "Buy Now"
     }
   ]
 }

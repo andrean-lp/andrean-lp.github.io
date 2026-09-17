@@ -2,7 +2,7 @@
 import digitalProductsData from '../data/digital_products.json';
 
 const show = digitalProductsData.show ?? true;
-const sectionTitle = digitalProductsData.sectionTitle || 'Produk Digital';
+const sectionTitle = digitalProductsData.sectionTitle || 'Digital Products';
 const sectionSubtitle = digitalProductsData.sectionSubtitle || '';
 const products = digitalProductsData.products || [];
 
@@ -12,14 +12,8 @@ if (!show || products.length === 0) {
 ---
 
 <div id="digital-products" class="mb-14 scroll-mt-20">
-  <div class="flex justify-between items-center gap-2 mb-3">
+  <div class="mb-3">
     <h2 class="text-lg font-bold text-zinc-900 dark:text-zinc-100">{sectionTitle}</h2>
-    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary/10 text-primary dark:bg-primary/20 dark:text-zinc-200 text-xs font-semibold">
-      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
-      </svg>
-      <span>Instant Access</span>
-    </span>
   </div>
 
   {sectionSubtitle && (
@@ -78,7 +72,7 @@ if (!show || products.length === 0) {
             rel="noopener noreferrer"
             class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-primary text-white hover:opacity-90 active:scale-[0.98] transition-all duration-200 shadow-2xs hover:shadow-xs group/btn"
           >
-            <span>{prod.ctaText || 'Dapatkan'}</span>
+            <span>{prod.ctaText || 'Buy Now'}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 group-hover/btn:translate-x-0.5 transition-transform">
               <path d="M5 12h14"/>
               <path d="m12 5 7 7-7 7"/>

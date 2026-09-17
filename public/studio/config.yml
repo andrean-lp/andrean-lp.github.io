@@ -93,14 +93,14 @@ collections:
               - { label: "Tanggal", name: "date", widget: "date", format: "YYYY-MM-DD", required: false }
 
   - name: "digital_products_collection"
-    label: "Produk Digital"
+    label: "Digital Products"
     files:
-      - label: "Pengaturan Produk Digital"
+      - label: "Pengaturan Digital Products"
         name: "digital_products_data"
         file: "src/data/digital_products.json"
         fields:
           - { label: "Tampilkan di Homepage?", name: "show", widget: "boolean", default: true }
-          - { label: "Judul Section", name: "sectionTitle", widget: "string", default: "Produk Digital" }
+          - { label: "Judul Section", name: "sectionTitle", widget: "string", default: "Digital Products" }
           - { label: "Sub-judul / Deskripsi Section", name: "sectionSubtitle", widget: "string", default: "Tools, template, dan panduan praktis untuk mendongkrak konversi bisnis Anda.", required: false }
           - label: "Daftar Produk Digital"
             name: "products"
@@ -113,7 +113,7 @@ collections:
               - { label: "Deskripsi Produk", name: "description", widget: "text", hint: "Penjelasan ringkas manfaat dan value produk" }
               - { label: "Gambar Mockup / Cover", name: "image", widget: "image", required: false, hint: "Upload cover produk (otomatis dikompres ke WebP)" }
               - { label: "Link Pembelian / Download", name: "buyUrl", widget: "string", hint: "Link checkout (Lynk.id, Mayar, Gumroad, Shopee, atau WhatsApp)" }
-              - { label: "Teks Tombol Aksi", name: "ctaText", widget: "string", default: "Dapatkan Sekarang", required: false }
+              - { label: "Teks Tombol Aksi", name: "ctaText", widget: "string", default: "Buy Now", required: false }
 
   - name: "faq_collection"
     label: "FAQ / Tanya Jawab"
