@@ -902,5 +902,211 @@
       setInterval(injectCleanupButton, 5000);
     })();
   </script>
+
+  <!-- Fitur Autocomplete Tag & Quick-Pick Pill untuk Studio CMS -->
+  <script>
+    (function() {
+      const STORAGE_KEY_TAGS = 'studio_all_known_tags';
+      const DEFAULT_TAGS = [
+        'Conversion Rate Optimization',
+        'Landing Page',
+        'Copywriting',
+        'A/B Testing',
+        'Web Performance',
+        'User Psychology',
+        'Lead Generation',
+        'UI/UX Design',
+        'Analytics & Data',
+        'Case Study',
+        'Mobile Optimization',
+        'Call to Action (CTA)'
+      ];
+
+      function getKnownTags() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY_TAGS) || '[]');
+          const combined = Array.from(new Set([...DEFAULT_TAGS, ...saved]));
+          return combined;
+        } catch {
+          return DEFAULT_TAGS;
+        }
+      }
+
+      function saveNewTag(tag) {
+        if (!tag || typeof tag !== 'string') return;
+        const clean = tag.trim();
+        if (!clean) return;
+        const current = getKnownTags();
+        if (!current.includes(clean)) {
+          current.push(clean);
+          localStorage.setItem(STORAGE_KEY_TAGS, JSON.stringify(current));
+          updateDatalist();
+        }
+      }
+
+      // Ambil tag-tag dari GitHub jika ada token
+      async function syncTagsFromGithub() {
+        const token = localStorage.getItem('studio_saved_pat');
+        if (!token) return;
+        try {
+          const res = await fetch('https://api.github.com/repos/andrean-lp/andrean-lp.github.io/git/trees/main?recursive=1', {
+            headers: { Authorization: `token ${token}` }
+          });
+          if (!res.ok) return;
+          const data = await res.json();
+          const blogFiles = (data.tree || []).filter(item => 
+            item.type === 'blob' && 
+            item.path.startsWith('src/content/blog/') && 
+            item.path.endsWith('.md')
+          );
+
+          for (const item of blogFiles) {
+            try {
+              const blobRes = await fetch(`https://api.github.com/repos/andrean-lp/andrean-lp.github.io/git/blobs/${item.sha}`, {
+                headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3.raw' }
+              });
+              if (blobRes.ok) {
+                const text = await blobRes.text();
+                const match = text.match(/tags:\s*([\s\S]*?)(?=\n[a-zA-Z0-9_-]+:|$)/);
+                if (match && match[1]) {
+                  const tagLines = match[1].split('\n');
+                  for (const line of tagLines) {
+                    const t = line.replace(/^\s*-\s*/, '').trim().replace(/^['"]|['"]$/g, '');
+                    if (t) saveNewTag(t);
+                  }
+                }
+              }
+            } catch {}
+          }
+        } catch (e) {
+          console.warn('Gagal sinkron tag dari GitHub:', e);
+        }
+      }
+
+      setTimeout(syncTagsFromGithub, 3000);
+
+      // Buat atau perbarui elemen <datalist>
+      function updateDatalist() {
+        let dl = document.getElementById('cms-tag-suggestions');
+        if (!dl) {
+          dl = document.createElement('datalist');
+          dl.id = 'cms-tag-suggestions';
+          document.body.appendChild(dl);
+        }
+        const tags = getKnownTags();
+        dl.innerHTML = tags.map(t => `<option value="${t}"></option>`).join('');
+      }
+
+      updateDatalist();
+
+      function setNativeValue(element, value) {
+        const valueSetter = Object.getOwnPropertyDescriptor(element, 'value')?.set;
+        const prototype = Object.getPrototypeOf(element);
+        const prototypeValueSetter = Object.getOwnPropertyDescriptor(prototype, 'value')?.set;
+        
+        if (prototypeValueSetter && valueSetter !== prototypeValueSetter) {
+          prototypeValueSetter.call(element, value);
+        } else if (valueSetter) {
+          valueSetter.call(element, value);
+        } else {
+          element.value = value;
+        }
+        element.dispatchEvent(new Event('input', { bubbles: true }));
+        element.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+
+      function injectTagHelper() {
+        const labels = Array.from(document.querySelectorAll('label, div, span'));
+        const tagLabel = labels.find(el => {
+          const t = (el.innerText || el.textContent || '').trim().toLowerCase();
+          return t === 'tags (optional)' || t === 'tags';
+        });
+
+        if (!tagLabel) return;
+
+        let container = tagLabel.closest('div[class*="ControlPane"]') || tagLabel.parentElement;
+        if (!container) return;
+
+        const inputs = Array.from(container.querySelectorAll('input[type="text"]'));
+        if (inputs.length === 0) return;
+
+        inputs.forEach(input => {
+          if (!input.hasAttribute('list')) {
+            input.setAttribute('list', 'cms-tag-suggestions');
+            input.setAttribute('placeholder', 'Pilih tag yang ada atau ketik tag baru...');
+            input.addEventListener('change', () => {
+              if (input.value) saveNewTag(input.value);
+            });
+            input.addEventListener('blur', () => {
+              if (input.value) saveNewTag(input.value);
+            });
+          }
+        });
+
+        if (container.querySelector('#tag-pill-container')) return;
+
+        const pillContainer = document.createElement('div');
+        pillContainer.id = 'tag-pill-container';
+        pillContainer.style.cssText = 'display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding:10px 12px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px;font-family:sans-serif;box-sizing:border-box;';
+
+        const title = document.createElement('div');
+        title.style.cssText = 'width:100%;font-size:12px;font-weight:600;color:#475569;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;';
+        title.innerHTML = '<span>⚡ Klik tag rekomendasi untuk memilih instan (atau ketik langsung di kolom atas untuk tag baru):</span>';
+        pillContainer.appendChild(title);
+
+        const tags = getKnownTags();
+        tags.slice(0, 10).forEach(tag => {
+          const pill = document.createElement('button');
+          pill.type = 'button';
+          pill.innerText = '+ ' + tag;
+          pill.style.cssText = 'background:#ffffff;border:1px solid #cbd5e1;border-radius:9999px;padding:4px 10px;font-size:12px;color:#1e293b;cursor:pointer;transition:all 0.15s ease;font-weight:500;box-shadow:0 1px 2px rgba(0,0,0,0.05);';
+          pill.onmouseenter = () => {
+            pill.style.borderColor = '#2563eb';
+            pill.style.color = '#2563eb';
+            pill.style.background = '#eff6ff';
+          };
+          pill.onmouseleave = () => {
+            pill.style.borderColor = '#cbd5e1';
+            pill.style.color = '#1e293b';
+            pill.style.background = '#ffffff';
+          };
+          pill.onclick = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const currentInputs = Array.from(container.querySelectorAll('input[type="text"]'));
+            const emptyInput = currentInputs.find(inp => !inp.value || inp.value.trim() === '');
+
+            if (emptyInput) {
+              setNativeValue(emptyInput, tag);
+              emptyInput.focus();
+            } else {
+              const addBtn = container.querySelector('button');
+              if (addBtn) {
+                addBtn.click();
+                setTimeout(() => {
+                  const updatedInputs = Array.from(container.querySelectorAll('input[type="text"]'));
+                  const newEmpty = updatedInputs.find(inp => !inp.value || inp.value.trim() === '');
+                  if (newEmpty) {
+                    setNativeValue(newEmpty, tag);
+                    newEmpty.focus();
+                  }
+                }, 120);
+              } else if (currentInputs.length > 0) {
+                setNativeValue(currentInputs[currentInputs.length - 1], tag);
+              }
+            }
+
+            saveNewTag(tag);
+          };
+          pillContainer.appendChild(pill);
+        });
+
+        container.appendChild(pillContainer);
+      }
+
+      setInterval(injectTagHelper, 800);
+    })();
+  </script>
 </body>
 </html>
