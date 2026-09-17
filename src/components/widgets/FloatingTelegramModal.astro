@@ -11,24 +11,23 @@ const {
 ---
 
 <!-- Floating Telegram Button -->
-<div id="floating-telegram-container" class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2 translate-y-20 opacity-0 pointer-events-none transition-all duration-300">
+<div id="floating-telegram-container" class="fixed bottom-6 right-6 z-50 translate-y-20 opacity-0 pointer-events-none transition-all duration-300">
   <button
     id="open-telegram-modal-btn"
     type="button"
-    class="group relative flex items-center gap-2.5 bg-[#229ED9] hover:bg-[#1e88ba] text-white pl-4 pr-5 py-3.5 rounded-full shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
+    class="group relative flex items-center justify-center w-14 h-14 bg-[#229ED9] hover:bg-[#1e88ba] text-white rounded-full shadow-xl hover:shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer"
     aria-label="Hubungi Andre di Telegram"
   >
     <!-- Ripple / Pulse glow -->
-    <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+    <span class="absolute top-0 right-0 flex h-3.5 w-3.5">
       <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-300 opacity-75"></span>
       <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-400 border-2 border-white dark:border-zinc-900"></span>
     </span>
 
     <!-- Telegram Paper Plane Icon -->
-    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" class="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor" class="translate-x-[-1px] translate-y-[1px] transition-transform group-hover:scale-110">
       <path d="m20.665 3.717-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701h-.002l-.313 4.674c.459 0 .66-.21.916-.459l2.199-2.138 4.573 3.378c.843.465 1.449.226 1.658-.78l2.997-14.128c.307-1.233-.473-1.794-1.206-1.514Z"/>
     </svg>
-    <span class="text-xs sm:text-sm font-semibold tracking-wide">Chat Telegram</span>
   </button>
 </div>
 
