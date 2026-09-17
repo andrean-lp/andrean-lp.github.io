@@ -1,6 +1,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import sharp from 'sharp';
+let sharp;
+try {
+  const sharpModule = await import('sharp');
+  sharp = sharpModule.default || sharpModule;
+} catch (e) {
+  console.log('[Image Optimizer] Info: sharp is not available in current environment, skipping optimization step.');
+  process.exit(0);
+}
 
 const SKIP_OPTIMIZATION = new Set([
   'pagespeed-score.png',

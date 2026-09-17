@@ -112,8 +112,8 @@ collections:
               - { label: "Badge / Kategori", name: "badge", widget: "string", required: false, hint: "Contoh: Notion & PDF, Template, Source Code, E-Book" }
               - { label: "Deskripsi Produk", name: "description", widget: "text", hint: "Penjelasan ringkas manfaat dan value produk" }
               - { label: "Gambar Mockup / Cover", name: "image", widget: "image", required: false, hint: "Upload cover produk (otomatis dikompres ke WebP)" }
-              - { label: "Link Pembelian / Download", name: "buyUrl", widget: "string", hint: "Link checkout (Lynk.id, Mayar, Gumroad, Shopee, atau WhatsApp)" }
-              - { label: "Teks Tombol Aksi", name: "ctaText", widget: "string", default: "Buy Now", required: false }
+              - { label: "Link Tombol (URL Checkout / WA / Download)", name: "buyUrl", widget: "string", hint: "Link tujuan saat tombol diklik. Bebas diisi link checkout Lynk.id, Mayar, Shopee, Gumroad, link WhatsApp (https://wa.me/...), atau web lainnya." }
+              - { label: "Tulisan Tombol", name: "ctaText", widget: "string", default: "Buy Now", required: false, hint: "Teks pada tombol (bawaan: Buy Now. Bisa diubah bebas per produk)." }
 
   - name: "faq_collection"
     label: "FAQ / Tanya Jawab"
