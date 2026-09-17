@@ -102,6 +102,8 @@ collections:
           - { label: "Tampilkan di Homepage?", name: "show", widget: "boolean", default: true }
           - { label: "Judul Section", name: "sectionTitle", widget: "string", default: "Digital Products" }
           - { label: "Sub-judul / Deskripsi Section", name: "sectionSubtitle", widget: "string", default: "Tools, template, dan panduan praktis untuk mendongkrak konversi bisnis Anda.", required: false }
+          - { label: "Teks Tombol Kanan Atas", name: "sectionCtaText", widget: "string", default: "All Products", required: false, hint: "Teks tombol kecil di samping kanan judul section" }
+          - { label: "Link Tombol Kanan Atas", name: "sectionCtaUrl", widget: "string", default: "https://clicky.id/andrean-lp", required: false, hint: "Link tujuan saat tombol kanan atas diklik (contoh: https://clicky.id/andrean-lp)" }
           - label: "Daftar Produk Digital"
             name: "products"
             widget: "list"

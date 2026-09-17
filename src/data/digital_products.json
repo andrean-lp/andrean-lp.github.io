@@ -2,6 +2,8 @@
   "show": true,
   "sectionTitle": "Digital Products",
   "sectionSubtitle": "Tools, template, dan panduan praktis untuk mendongkrak konversi bisnis Anda.",
+  "sectionCtaText": "All Products",
+  "sectionCtaUrl": "https://clicky.id/andrean-lp",
   "products": [
     {
       "id": "prod-1",

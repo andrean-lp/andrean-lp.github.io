@@ -4,6 +4,8 @@ import digitalProductsData from '../data/digital_products.json';
 const show = digitalProductsData.show ?? true;
 const sectionTitle = digitalProductsData.sectionTitle || 'Digital Products';
 const sectionSubtitle = digitalProductsData.sectionSubtitle || '';
+const sectionCtaText = digitalProductsData.sectionCtaText || 'All Products';
+const sectionCtaUrl = digitalProductsData.sectionCtaUrl || 'https://clicky.id/andrean-lp';
 const products = digitalProductsData.products || [];
 
 if (!show || products.length === 0) {
@@ -12,8 +14,23 @@ if (!show || products.length === 0) {
 ---
 
 <div id="digital-products" class="mb-14 scroll-mt-20">
-  <div class="mb-3">
+  <div class="flex justify-between items-center gap-2 mb-3">
     <h2 class="text-lg font-bold text-zinc-900 dark:text-zinc-100">{sectionTitle}</h2>
+    {sectionCtaUrl && (
+      <a 
+        href={sectionCtaUrl} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary text-white hover:opacity-90 active:scale-[0.98] transition-all duration-200 shadow-2xs hover:shadow-xs group"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 group-hover:scale-110 transition-transform">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+          <path d="M3 6h18"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span>{sectionCtaText}</span>
+      </a>
+    )}
   </div>
 
   {sectionSubtitle && (
