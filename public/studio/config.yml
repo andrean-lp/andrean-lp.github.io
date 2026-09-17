@@ -21,7 +21,6 @@ collections:
       - { label: "Publish Date", name: "pubDate", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, default: "{{now}}" }
       - { label: "Tags", name: "tags", widget: "list", required: false }
       - { label: "Cover Image", name: "coverImage", widget: "image", required: false, hint: "Ukuran maksimal 1 MB (otomatis WebP). Saat artikel dihapus, file gambarnya akan otomatis ikut terhapus dari server." }
-      - { label: "Alt Text Cover Image (SEO)", name: "coverAlt", widget: "string", required: false, hint: "Deskripsi gambar untuk Google Image Search & aksesibilitas. Jika dikosongkan, otomatis menggunakan Judul Artikel." }
       - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "projects_collection"
