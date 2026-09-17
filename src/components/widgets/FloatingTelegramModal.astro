@@ -1,0 +1,326 @@
+---
+interface Props {
+  telegramUrl?: string;
+  webhookUrl?: string;
+}
+
+const { 
+  telegramUrl = 'https://t.me/andrean_lp', 
+  webhookUrl = '' 
+} = Astro.props;
+---
+
+<!-- Floating Telegram Button -->
+<div id="floating-telegram-container" class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2 translate-y-20 opacity-0 pointer-events-none transition-all duration-300">
+  <button
+    id="open-telegram-modal-btn"
+    type="button"
+    class="group relative flex items-center gap-2.5 bg-[#229ED9] hover:bg-[#1e88ba] text-white pl-4 pr-5 py-3.5 rounded-full shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
+    aria-label="Hubungi Andre di Telegram"
+  >
+    <!-- Ripple / Pulse glow -->
+    <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-300 opacity-75"></span>
+      <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-400 border-2 border-white dark:border-zinc-900"></span>
+    </span>
+
+    <!-- Telegram Paper Plane Icon -->
+    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" class="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+      <path d="m20.665 3.717-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701h-.002l-.313 4.674c.459 0 .66-.21.916-.459l2.199-2.138 4.573 3.378c.843.465 1.449.226 1.658-.78l2.997-14.128c.307-1.233-.473-1.794-1.206-1.514Z"/>
+    </svg>
+    <span class="text-xs sm:text-sm font-semibold tracking-wide">Chat Telegram</span>
+  </button>
+</div>
+
+<!-- Lead Capture Modal Backdrop -->
+<div
+  id="telegram-lead-modal"
+  class="fixed inset-0 z-50 hidden items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-xs transition-opacity duration-300"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-title"
+>
+  <!-- Modal Card -->
+  <div class="relative w-full max-w-md bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 shadow-2xl transform transition-all duration-300 scale-95 opacity-0 modal-card">
+    <!-- Close Button (X) -->
+    <button
+      id="close-telegram-modal-btn"
+      type="button"
+      class="absolute top-4 right-4 sm:top-5 sm:right-5 p-2 rounded-full text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+      aria-label="Tutup popup"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+
+    <!-- Header -->
+    <div class="flex items-center gap-3.5 mb-4">
+      <div class="w-12 h-12 rounded-2xl bg-[#229ED9]/10 text-[#229ED9] flex items-center justify-center shrink-0 border border-[#229ED9]/20">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+          <path d="m20.665 3.717-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701h-.002l-.313 4.674c.459 0 .66-.21.916-.459l2.199-2.138 4.573 3.378c.843.465 1.449.226 1.658-.78l2.997-14.128c.307-1.233-.473-1.794-1.206-1.514Z"/>
+        </svg>
+      </div>
+      <div>
+        <h3 id="modal-title" class="text-lg sm:text-xl font-bold text-zinc-900 dark:text-zinc-100 leading-tight">
+          Mulai Chat di Telegram
+        </h3>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+          Terhubung langsung dengan Andre
+        </p>
+      </div>
+    </div>
+
+    <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mb-5 leading-relaxed">
+      Silakan isi data singkat di bawah ini untuk memulai sesi konsultasi di Telegram:
+    </p>
+
+    <!-- Lead Capture Form -->
+    <form id="telegram-lead-form" class="space-y-4">
+      <!-- Nama Lengkap -->
+      <div>
+        <label for="lead-name" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">
+          Nama Lengkap <span class="text-rose-500">*</span>
+        </label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <input
+            id="lead-name"
+            name="name"
+            type="text"
+            required
+            placeholder="Contoh: Budi Santoso"
+            class="w-full pl-10 pr-3.5 py-2.5 rounded-xl text-sm border border-zinc-200 dark:border-zinc-700 bg-zinc-50/50 dark:bg-zinc-800/60 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#229ED9] focus:border-transparent transition-all"
+          />
+        </div>
+      </div>
+
+      <!-- Alamat Email -->
+      <div>
+        <label for="lead-email" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">
+          Alamat Email <span class="text-rose-500">*</span>
+        </label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="20" height="16" x="2" y="4" rx="2"/>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+          </div>
+          <input
+            id="lead-email"
+            name="email"
+            type="email"
+            required
+            placeholder="nama@email.com"
+            class="w-full pl-10 pr-3.5 py-2.5 rounded-xl text-sm border border-zinc-200 dark:border-zinc-700 bg-zinc-50/50 dark:bg-zinc-800/60 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#229ED9] focus:border-transparent transition-all"
+          />
+        </div>
+      </div>
+
+      <!-- Nomor WhatsApp -->
+      <div>
+        <label for="lead-whatsapp" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">
+          Nomor WhatsApp <span class="text-rose-500">*</span>
+        </label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <input
+            id="lead-whatsapp"
+            name="whatsapp"
+            type="tel"
+            required
+            placeholder="08123456789 atau 628..."
+            class="w-full pl-10 pr-3.5 py-2.5 rounded-xl text-sm border border-zinc-200 dark:border-zinc-700 bg-zinc-50/50 dark:bg-zinc-800/60 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#229ED9] focus:border-transparent transition-all"
+          />
+        </div>
+      </div>
+
+      <!-- Privacy Note -->
+      <div class="flex items-center gap-1.5 pt-1 text-[11px] text-zinc-400 dark:text-zinc-500">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-500 shrink-0">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
+          <path d="m9 12 2 2 4-4"/>
+        </svg>
+        <span>Data Anda 100% aman dan dijaga kerahasiaannya.</span>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        id="lead-submit-btn"
+        type="submit"
+        class="w-full mt-2 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold bg-[#229ED9] hover:bg-[#1e88ba] active:scale-[0.98] text-white shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
+      >
+        <span id="submit-text">Lanjutkan ke Telegram</span>
+        <svg id="submit-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"/>
+          <path d="m12 5 7 7-7 7"/>
+        </svg>
+        <!-- Loading Spinner (hidden by default) -->
+        <svg id="submit-spinner" class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      </button>
+    </form>
+  </div>
+</div>
+
+<script is:inline define:vars={{ telegramUrl, webhookUrl }}>
+  (function() {
+    const floatingBtnContainer = document.getElementById('floating-telegram-container');
+    const openBtn = document.getElementById('open-telegram-modal-btn');
+    const closeBtn = document.getElementById('close-telegram-modal-btn');
+    const modal = document.getElementById('telegram-lead-modal');
+    const modalCard = modal ? modal.querySelector('.modal-card') : null;
+    const form = document.getElementById('telegram-lead-form');
+    const submitBtn = document.getElementById('lead-submit-btn');
+    const submitText = document.getElementById('submit-text');
+    const submitIcon = document.getElementById('submit-icon');
+    const submitSpinner = document.getElementById('submit-spinner');
+
+    if (!floatingBtnContainer || !openBtn || !modal || !form) return;
+
+    // Show floating button when scrolled >= 20% or after 3 seconds
+    let isVisible = false;
+    function showFloatingButton() {
+      if (isVisible) return;
+      isVisible = true;
+      floatingBtnContainer.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+      floatingBtnContainer.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+    }
+
+    function checkScroll() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrollPercentage = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+      if (scrollPercentage >= 20) {
+        showFloatingButton();
+      }
+    }
+
+    window.addEventListener('scroll', checkScroll, { passive: true });
+    setTimeout(showFloatingButton, 3000);
+
+    // Modal open/close handlers
+    function openModal() {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      setTimeout(() => {
+        if (modalCard) {
+          modalCard.classList.remove('scale-95', 'opacity-0');
+          modalCard.classList.add('scale-100', 'opacity-100');
+        }
+      }, 10);
+      document.body.style.overflow = 'hidden';
+      const nameInput = document.getElementById('lead-name');
+      if (nameInput) nameInput.focus();
+    }
+
+    function closeModal() {
+      if (modalCard) {
+        modalCard.classList.remove('scale-100', 'opacity-100');
+        modalCard.classList.add('scale-95', 'opacity-0');
+      }
+      setTimeout(() => {
+        modal.classList.remove('flex');
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+      }, 200);
+    }
+
+    openBtn.addEventListener('click', openModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+    // Close on backdrop click
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Close on Escape key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeModal();
+      }
+    });
+
+    // Form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const nameInput = document.getElementById('lead-name');
+      const emailInput = document.getElementById('lead-email');
+      const waInput = document.getElementById('lead-whatsapp');
+
+      const name = nameInput ? nameInput.value.trim() : '';
+      const email = emailInput ? emailInput.value.trim() : '';
+      const whatsapp = waInput ? waInput.value.trim() : '';
+
+      if (!name || !email || !whatsapp) return;
+
+      // Loading UI
+      if (submitBtn) submitBtn.disabled = true;
+      if (submitText) submitText.textContent = 'Menghubungkan ke Telegram...';
+      if (submitIcon) submitIcon.classList.add('hidden');
+      if (submitSpinner) submitSpinner.classList.remove('hidden');
+
+      const payload = {
+        name,
+        email,
+        whatsapp,
+        page: window.location.href,
+        userAgent: navigator.userAgent,
+        timestamp: new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })
+      };
+
+      let redirected = false;
+      function redirectToTelegram() {
+        if (redirected) return;
+        redirected = true;
+        
+        window.open(telegramUrl, '_blank', 'noopener,noreferrer');
+        
+        setTimeout(() => {
+          form.reset();
+          if (submitBtn) submitBtn.disabled = false;
+          if (submitText) submitText.textContent = 'Lanjutkan ke Telegram';
+          if (submitIcon) submitIcon.classList.remove('hidden');
+          if (submitSpinner) submitSpinner.classList.add('hidden');
+          closeModal();
+        }, 500);
+      }
+
+      const timer = setTimeout(redirectToTelegram, 1200);
+
+      if (webhookUrl && webhookUrl.startsWith('http')) {
+        try {
+          await fetch(webhookUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+          });
+        } catch (err) {
+          console.warn('[Lead Capture] Webhook notice:', err);
+        }
+      }
+
+      clearTimeout(timer);
+      redirectToTelegram();
+    });
+  })();
+</script>

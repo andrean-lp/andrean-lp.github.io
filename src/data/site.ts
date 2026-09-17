@@ -8,6 +8,8 @@ export interface SiteData {
 	favicon?: string;
 	footer?: string;
 	whatsapp?: string;
+	telegram?: string;
+	leadWebhookUrl?: string;
 	primaryColor?: string;
 	[key: string]: any;
 }

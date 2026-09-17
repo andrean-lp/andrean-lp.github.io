@@ -5,5 +5,7 @@
   "favicon": "/images/landing-page-specialist-indonesia.webp",
   "footer": "Copyright © {year} Andre Wahyu Hermawan. All rights reserved.",
   "whatsapp": "6285187437036",
+  "telegram": "https://t.me/andrean_lp",
+  "leadWebhookUrl": "",
   "primaryColor": "rgb(37, 99, 235)"
 }
