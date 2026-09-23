@@ -1,4 +1,5 @@
 import { loadEnv } from 'vite';
+import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 
 const { GITHUB_PERSONAL_ACCESS_TOKEN } = loadEnv(process.env.NODE_ENV || 'production', process.cwd(), '');
 
@@ -58,5 +59,21 @@ export const extractDescription = (body?: string, explicitDesc?: string, maxLeng
 
 	if (clean.length <= maxLength) return clean;
 	return clean.slice(0, maxLength - 3).trim() + '...';
+};
+
+let _markdownProcessorPromise: Promise<any> | null = null;
+
+export const getMarkdownProcessor = () => {
+	if (!_markdownProcessorPromise) {
+		_markdownProcessorPromise = createMarkdownProcessor();
+	}
+	return _markdownProcessorPromise;
+};
+
+export const renderMarkdown = async (content?: string): Promise<string> => {
+	if (!content) return '';
+	const processor = await getMarkdownProcessor();
+	const result = await processor.render(content);
+	return result.code;
 };
 

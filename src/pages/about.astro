@@ -7,12 +7,11 @@ import Schema from '../components/Schema.astro';
 import profile from '../data/profile';
 import about from '../data/about.json';
 import { SITE_TITLE } from '../consts';
-import { createMarkdownProcessor } from '@astrojs/markdown-remark';
+import { renderMarkdown } from '../utils';
 
-const mdProcessor = await createMarkdownProcessor();
-const rawShortDescHtml = (await mdProcessor.render(about.shortDesc || '')).code;
+const rawShortDescHtml = await renderMarkdown(about.shortDesc || '');
 const shortDescHtml = rawShortDescHtml.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
-const rawContentHtml = (await mdProcessor.render(about.content || '')).code;
+const rawContentHtml = await renderMarkdown(about.content || '');
 const contentHtml = rawContentHtml.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') || 'https://andrean-lp.github.io';

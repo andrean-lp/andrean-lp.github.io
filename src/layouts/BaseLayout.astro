@@ -13,9 +13,10 @@ interface Props {
 	updatedDate?: Date;
 	type?: 'website' | 'article';
 	tags?: string[];
+	noindex?: boolean;
 }
 
-const { title, description, image, articleDate, updatedDate, type = 'website', tags } = Astro.props;
+const { title, description, image, articleDate, updatedDate, type = 'website', tags, noindex = false } = Astro.props;
 const currentLocale = Astro.currentLocale || 'id';
 ---
 
@@ -30,6 +31,7 @@ const currentLocale = Astro.currentLocale || 'id';
 			updatedDate={updatedDate}
 			type={type}
 			tags={tags}
+			noindex={noindex}
 		/>
 	</head>
 	<body

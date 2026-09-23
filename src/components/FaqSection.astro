@@ -1,7 +1,7 @@
 ---
 import faq from '../data/faq';
 import type { FaqItem } from '../data/faq';
-import { createMarkdownProcessor } from '@astrojs/markdown-remark';
+import { renderMarkdown } from '../utils';
 
 interface Props {
   show?: boolean;
@@ -18,10 +18,9 @@ const {
 } = Astro.props;
 
 // Render markdown for each answer so bold/links from CMS work seamlessly
-const mdProcessor = await createMarkdownProcessor();
 const processedItems = await Promise.all(
   items.map(async (item: FaqItem) => {
-    const rawHtml = (await mdProcessor.render(item.answer || '')).code;
+    const rawHtml = await renderMarkdown(item.answer || '');
     return {
       question: item.question,
       htmlAnswer: rawHtml

@@ -14,6 +14,14 @@ const blog = defineCollection({
 			if (!val || val === '' || (typeof val === 'string' && val.trim() === '')) {
 				return new Date();
 			}
+			if (typeof val === 'string') {
+				const trimmed = val.trim();
+				const match = trimmed.match(/\b(\d{4}-\d{2}-\d{2})\b/);
+				if (match) {
+					const d = new Date(match[1]);
+					if (!isNaN(d.getTime())) return d;
+				}
+			}
 			const d = new Date(val as any);
 			return isNaN(d.getTime()) ? new Date() : d;
 		}, z.date()),

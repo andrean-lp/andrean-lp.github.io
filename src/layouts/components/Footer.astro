@@ -1,15 +1,14 @@
 ---
 import profile from '@src/data/profile';
 import site from '@src/data/site';
-import { createMarkdownProcessor } from '@astrojs/markdown-remark';
+import { renderMarkdown } from '@src/utils';
 
 const today = new Date();
 
 const defaultFooter = `Copyright © {year} ${site.title || 'Andre Wahyu Hermawan'}. All rights reserved.`;
 const rawFooterText = (site.footer || defaultFooter).replace(/\{year\}/g, today.getFullYear().toString());
 
-const mdProcessor = await createMarkdownProcessor();
-const rawFooterHtml = (await mdProcessor.render(rawFooterText)).code;
+const rawFooterHtml = await renderMarkdown(rawFooterText);
 const footerHtml = rawFooterHtml
 	.replace(/^<p>/, '')
 	.replace(/<\/p>\s*$/, '')

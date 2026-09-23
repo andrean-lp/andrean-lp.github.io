@@ -1,6 +1,6 @@
 ---
 title: Kenapa Landing Page Sudah Banyak Pengunjung, Tapi Sedikit Yang Beli ?
-pubDate: "{{now}}"
+pubDate: 2026-09-17
 tags:
   - Conversion Rate Optimization
 ---

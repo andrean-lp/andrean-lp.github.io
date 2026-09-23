@@ -1,5 +1,5 @@
 ---
-import { createMarkdownProcessor } from '@astrojs/markdown-remark';
+import { renderMarkdown } from '../../utils';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Schema from '../../components/Schema.astro';
 import featuredData from '../../data/featured_case_study.json';
@@ -27,8 +27,6 @@ interface Props {
 
 const { project, nextProject } = Astro.props as Props;
 
-const mdProcessor = await createMarkdownProcessor();
-
 const title: string = project.title || 'Side Project';
 const category: string = project.category || 'Side Project';
 const tagline: string = project.tagline || '';
@@ -37,17 +35,17 @@ const previewLink: string = project.previewLink || '';
 const type: string = project.type || 'Side Project';
 
 // Process markdown contents
-const aboutHtml = project.about ? (await mdProcessor.render(project.about)).code : '';
-const problemHtml = project.problem ? (await mdProcessor.render(project.problem)).code : '';
-const solutionHtml = project.solution ? (await mdProcessor.render(project.solution)).code : '';
-const impactHtml = project.impact ? (await mdProcessor.render(project.impact)).code : '';
-const techStackHtml = project.techStackDescription ? (await mdProcessor.render(project.techStackDescription)).code : '';
+const aboutHtml = await renderMarkdown(project.about);
+const problemHtml = await renderMarkdown(project.problem);
+const solutionHtml = await renderMarkdown(project.solution);
+const impactHtml = await renderMarkdown(project.impact);
+const techStackHtml = await renderMarkdown(project.techStackDescription);
 
 // Features
 const rawFeatures: string[] = project.features || [];
 const features = await Promise.all(
   rawFeatures.map(async (feat: string) => {
-    return (await mdProcessor.render(feat)).code;
+    return await renderMarkdown(feat);
   })
 );
 

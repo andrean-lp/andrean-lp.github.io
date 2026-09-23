@@ -5,7 +5,7 @@ import '../../styles/global.css';
 import Favicon from '@src/assets/img/favicon.png';
 import site, { primaryColorInfo } from '@src/data/site';
 import profile from '@src/data/profile';
-import { getSwitchLocaleUrl, type SupportedLocale } from '../../i18n/ui';
+import { getSwitchLocaleUrl, hasAlternateLocale, type SupportedLocale } from '../../i18n/ui';
 
 interface Props {
 	title: string;
@@ -15,12 +15,14 @@ interface Props {
 	updatedDate?: Date;
 	type?: 'website' | 'article';
 	tags?: string[];
+	noindex?: boolean;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const currentLocale = (Astro.currentLocale || 'id') as SupportedLocale;
 const ogLocale = currentLocale === 'en' ? 'en_US' : 'id_ID';
 
+const hasEnAlternate = hasAlternateLocale(Astro.url.pathname, 'en');
 const idAlternateURL = new URL(getSwitchLocaleUrl(Astro.url.pathname, 'id'), Astro.site);
 const enAlternateURL = new URL(getSwitchLocaleUrl(Astro.url.pathname, 'en'), Astro.site);
 
@@ -32,6 +34,7 @@ const {
 	updatedDate,
 	type = 'website',
 	tags = [],
+	noindex = false,
 } = Astro.props;
 
 const ogImageURL = new URL(image, Astro.site);
@@ -66,14 +69,20 @@ const siteName = site.title || 'Andre Wahyu Hermawan';
 <meta name='referrer' content='strict-origin-when-cross-origin' />
 
 <!-- Robots Directive -->
-<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+{noindex ? (
+	<meta name='robots' content='noindex, nofollow' />
+) : (
+	<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+)}
 
 <!-- Canonical URL -->
 <link rel='canonical' href={canonicalURL} />
 
 <!-- International Alternate Hreflang Tags -->
 <link rel='alternate' hreflang='id' href={idAlternateURL} />
-<link rel='alternate' hreflang='en' href={enAlternateURL} />
+{hasEnAlternate && (
+	<link rel='alternate' hreflang='en' href={enAlternateURL} />
+)}
 <link rel='alternate' hreflang='x-default' href={idAlternateURL} />
 
 <!-- Dynamic Primary Color Theme CSS Variables -->

@@ -77,31 +77,79 @@ export function useTranslations(lang: SupportedLocale = defaultLocale) {
   };
 }
 
+const SUPPORTED_EN_EXACT_ROUTES = new Set([
+  '/',
+  '/about',
+  '/posts',
+  '/projects',
+  '/tags',
+  '/testimonials',
+]);
+
+/**
+ * Checks if a 1:1 localized alternate version exists for the given pathname.
+ * Useful for omitting 404 hreflang tags on pages that only exist in Indonesian.
+ */
+export function hasAlternateLocale(currentPathname: string, targetLocale: SupportedLocale): boolean {
+  if (targetLocale === 'id') {
+    // Every English page has a direct counterpart in Indonesian
+    return true;
+  }
+  
+  // Normalize pathname: remove trailing slash
+  const cleanPath = currentPathname.replace(/\/+$/, '') || '/';
+  
+  // If already on /en, it obviously has an English page
+  if (cleanPath === '/en' || cleanPath.startsWith('/en/')) {
+    return true;
+  }
+
+  return SUPPORTED_EN_EXACT_ROUTES.has(cleanPath);
+}
+
 /**
  * Returns the path for the requested target locale given the current pathname
  * e.g. /about/ -> /en/about/ (when target is 'en')
  * e.g. /en/about/ -> /about/ (when target is 'id')
+ * With smart fallbacks for Indonesian-only pages (posts -> /en/posts/, etc.) to avoid 404s
  */
 export function getSwitchLocaleUrl(currentPathname: string, targetLocale: SupportedLocale): string {
   // Normalize pathname: remove trailing slash for consistency during parse
-  let cleanPath = currentPathname.replace(/\/+$/, '');
-  
+  const cleanPath = currentPathname.replace(/\/+$/, '') || '/';
   const isEn = cleanPath === '/en' || cleanPath.startsWith('/en/');
 
   if (targetLocale === 'en') {
     if (isEn) {
       return currentPathname.endsWith('/') ? currentPathname : `${currentPathname}/`;
     }
-    // Prepend /en
-    const pathWithoutLocale = cleanPath === '' ? '' : cleanPath;
-    return `/en${pathWithoutLocale}/`;
+
+    if (SUPPORTED_EN_EXACT_ROUTES.has(cleanPath)) {
+      return cleanPath === '/' ? '/en/' : `/en${cleanPath}/`;
+    }
+
+    // Smart fallbacks for Indonesian-only pages to prevent 404 when clicking [EN]
+    if (cleanPath.startsWith('/side-projects')) {
+      return '/en/projects/';
+    }
+    if (cleanPath.startsWith('/tags')) {
+      return '/en/tags/';
+    }
+    if (cleanPath === '/404' || cleanPath === '/404.html') {
+      return '/en/';
+    }
+    // Individual blog posts (e.g. /2026-09-17-.../) fallback to English articles archive
+    return '/en/posts/';
   } else {
     // targetLocale is 'id'
     if (!isEn) {
+      if (cleanPath === '/404' || cleanPath === '/404.html') {
+        return '/';
+      }
       return currentPathname.endsWith('/') ? currentPathname : `${currentPathname}/`;
     }
     // Strip /en prefix
-    const pathWithoutEn = cleanPath.replace(/^\/en/, '');
-    return (pathWithoutEn === '' ? '/' : `${pathWithoutEn}/`);
+    const pathWithoutEn = cleanPath.replace(/^\/en(\/|$)/, '/');
+    return pathWithoutEn.endsWith('/') ? pathWithoutEn : `${pathWithoutEn}/`;
   }
 }
+

@@ -16,7 +16,7 @@ import FaqSection from '../components/FaqSection.astro';
 import testimonialsData from '../data/testimonials.json';
 import TestimonialLightbox from '../components/TestimonialLightbox.astro';
 import DigitalProductsSection from '../components/DigitalProductsSection.astro';
-import { createMarkdownProcessor } from '@astrojs/markdown-remark';
+import { renderMarkdown } from '../utils';
 
 type BlogPost = CollectionEntry<'blog'>;
 
@@ -24,8 +24,7 @@ const top6Projects = projects.slice(0, 6);
 const top3Testimonials = (testimonialsData.items || []).slice(0, 3);
 const posts = (await getCollection('blog')).sort((a: BlogPost, b: BlogPost) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 5);
 
-const mdProcessor = await createMarkdownProcessor();
-const rawBioHtml = (await mdProcessor.render(profile.bio || '')).code;
+const rawBioHtml = await renderMarkdown(profile.bio || '');
 const bioHtml = rawBioHtml.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
 const siteTitle = SITE_TAGLINE ? `${SITE_TITLE} - ${SITE_TAGLINE}` : SITE_TITLE;
 

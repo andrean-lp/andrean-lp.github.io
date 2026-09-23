@@ -1,6 +1,6 @@
 ---
 title: Berapa Conversion Rate Yang Bagus Untuk Landing Page ?
-pubDate: "{{now}}"
+pubDate: 2026-09-17
 tags:
   - Conversion Rate Optimization
 coverImage: berapa-conversion-rate-yang-bagus-untuk-landing-page.webp

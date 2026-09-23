@@ -1,5 +1,5 @@
 ---
-import { createMarkdownProcessor } from '@astrojs/markdown-remark';
+import { renderMarkdown } from '../utils';
 import featuredData from '../data/featured_case_study.json';
 
 const show = featuredData.show ?? true;
@@ -12,8 +12,6 @@ if (!show || rawProjects.length === 0) {
   return;
 }
 
-const mdProcessor = await createMarkdownProcessor();
-
 const projects = await Promise.all(
   rawProjects.map(async (p: any) => {
     const slug = p.slug || (p.title ? p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') : '');
@@ -24,9 +22,9 @@ const projects = await Promise.all(
       coverImage: p.coverImage || '',
       detailsUrl,
       previewLink: p.previewLink || '',
-      problemHtml: p.problem ? (await mdProcessor.render(p.problem)).code : '',
-      solutionHtml: p.solution ? (await mdProcessor.render(p.solution)).code : '',
-      impactHtml: p.impact ? (await mdProcessor.render(p.impact)).code : '',
+      problemHtml: await renderMarkdown(p.problem),
+      solutionHtml: await renderMarkdown(p.solution),
+      impactHtml: await renderMarkdown(p.impact),
       technologies: (p.technologies || [])
         .map((t: any) => (typeof t === 'string' ? t : t?.name || ''))
         .filter(Boolean),
