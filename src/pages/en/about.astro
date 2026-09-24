@@ -160,14 +160,14 @@ const breadcrumbSchema = {
                         <h3 class="text-base sm:text-lg font-bold text-zinc-900 dark:text-zinc-100 leading-snug">
                           {mentor.name}
                         </h3>
-                        {mentor.role && (
+                        {(mentor.role_en || mentor.role) && (
                           <p class="text-xs sm:text-sm font-semibold text-primary mt-1 mb-2">
-                            {mentor.role}
+                            {mentor.role_en || mentor.role}
                           </p>
                         )}
-                        {mentor.reason && (
+                        {(mentor.reason_en || mentor.reason) && (
                           <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                            {mentor.reason}
+                            {mentor.reason_en || mentor.reason}
                           </p>
                         )}
                       </div>
