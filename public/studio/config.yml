@@ -143,6 +143,17 @@ collections:
           - { label: "Judul Halaman", name: "title", widget: "string", default: "Tentang Saya" }
           - { label: "Deskripsi Singkat (Samping Foto)", name: "shortDesc", widget: "markdown", hint: "Muncul di samping foto. Kosongkan jika tidak perlu.", required: false }
           - { label: "Konten Utama (Bawah Foto)", name: "content", widget: "markdown", hint: "Cerita lengkap Anda. Mendukung gambar, link, dan format paragraf.", required: false }
+          - { label: "Judul Section Tokoh Rujukan", name: "mentorsTitle", widget: "string", default: "Tokoh Sumber Referensi", required: false }
+          - { label: "Sub-judul Section Tokoh", name: "mentorsSubtitle", widget: "string", default: "Para pakar dan praktisi yang menjadi rujukan utama saya dalam mendalami copywriting, sales psychology, arsitektur landing page, dan eksperimen CRO.", required: false }
+          - label: "Daftar Tokoh Sumber Referensi"
+            name: "mentors"
+            widget: "list"
+            summary: "{{fields.name}} — {{fields.role}}"
+            fields:
+              - { label: "Foto Tokoh", name: "photo", widget: "image", required: false, hint: "Upload foto tokoh (otomatis WebP). Jika dikosongkan, avatar inisial nama akan otomatis ditampilkan." }
+              - { label: "Nama Tokoh (Bold)", name: "name", widget: "string", hint: "Nama tokoh, contoh: Russell Brunson" }
+              - { label: "Profesi / Bidang Keahlian", name: "role", widget: "string", hint: "Contoh: Copywriting, Story Selling, Funnel" }
+              - { label: "Alasan Menjadikan Rujukan", name: "reason", widget: "text", hint: "Penjelasan mengapa tokoh ini dijadikan rujukan" }
 
   - name: "profile_collection"
     label: "Profil & Biodata"

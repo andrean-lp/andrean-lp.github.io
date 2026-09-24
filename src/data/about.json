@@ -1,5 +1,39 @@
 {
   "title": "Tentang Saya",
   "shortDesc": "Halo! Saya **Andre Wahyu Hermawan**, seorang Landing Page Strategist & CRO Specialist dari Indonesia. Saya berdedikasi menciptakan landing page modern yang tidak hanya memanjakan mata, tapi juga terbukti efektif meningkatkan konversi penjualan dan leads.",
-  "content": "Sebagai seorang praktisi digital, saya memadukan tiga pilar utama dalam setiap proyek: **Copywriting Persuasif**, **User Experience (UX) yang Mengalir**, dan **Performa Teknis Ekstrem (100/100 Google PageSpeed)**.\n\nBagi saya, landing page bukan sekadar brosur online atau galeri visual, melainkan sebuah sistem penjualan otomatis yang harus mampu menjawab keraguan calon klien, menyampaikan solusi dengan tajam, dan mempermudah aksi konversi.\n\n### Fokus Keahlian & Layanan\n* **Arsitektur Landing Page Berkonversi Tinggi**: Merancang struktur informasi dari headline hingga penawaran utama.\n* **Conversion Rate Optimization (CRO)**: Audit friksi, evaluasi user journey, dan perancangan eksperimen A/B testing.\n* **Speed & Performance Optimization**: Menjamin landing page dimuat instan (< 1 detik) untuk memaksimalkan ROI iklan Meta Ads & Google Ads.\n* **Tracking & Analytics Setup**: Integrasi Meta Pixel, Google Analytics 4, dan event tracking klik WhatsApp/Form.\n\nTertarik mendiskusikan optimasi landing page bisnis Anda? Mari terhubung melalui WhatsApp atau LinkedIn!"
+  "content": "Sebagai seorang praktisi digital, saya memadukan tiga pilar utama dalam setiap proyek: **Copywriting Persuasif**, **User Experience (UX) yang Mengalir**, dan **Performa Teknis Ekstrem (100/100 Google PageSpeed)**.\n\nBagi saya, landing page bukan sekadar brosur online atau galeri visual, melainkan sebuah sistem penjualan otomatis yang harus mampu menjawab keraguan calon klien, menyampaikan solusi dengan tajam, dan mempermudah aksi konversi.\n\n### Fokus Keahlian & Layanan\n* **Arsitektur Landing Page Berkonversi Tinggi**: Merancang struktur informasi dari headline hingga penawaran utama.\n* **Conversion Rate Optimization (CRO)**: Audit friksi, evaluasi user journey, dan perancangan eksperimen A/B testing.\n* **Speed & Performance Optimization**: Menjamin landing page dimuat instan (< 1 detik) untuk memaksimalkan ROI iklan Meta Ads & Google Ads.\n* **Tracking & Analytics Setup**: Integrasi Meta Pixel, Google Analytics 4, dan event tracking klik WhatsApp/Form.\n\nTertarik mendiskusikan optimasi landing page bisnis Anda? Mari terhubung melalui WhatsApp atau LinkedIn!",
+  "mentorsTitle": "Tokoh Sumber Referensi",
+  "mentorsSubtitle": "Para pakar dan praktisi yang menjadi rujukan utama saya dalam mendalami copywriting, sales psychology, arsitektur landing page, dan eksperimen CRO.",
+  "mentors": [
+    {
+      "name": "Russell Brunson",
+      "role": "Copywriting, Story Selling, Funnel",
+      "reason": "Referensi untuk sales message, Hook → Story → Offer, audience-message fit, funnel context, dan next step.",
+      "photo": ""
+    },
+    {
+      "name": "Oli Gardner",
+      "role": "Landing Page, Conversion-Centered Design",
+      "reason": "Referensi untuk landing page optimization, conversion-centered design, clarity, heuristic analysis, dan page experience.",
+      "photo": ""
+    },
+    {
+      "name": "Peep Laja",
+      "role": "Conversion Rate Optimization (CRO)",
+      "reason": "Referensi untuk research, experimentation, hypothesis, ResearchXL/PXL, dan disiplin evaluasi eksperimen.",
+      "photo": ""
+    },
+    {
+      "name": "David JP Phillips",
+      "role": "Storytelling & Communication",
+      "reason": "Referensi yang sudah diidentifikasi untuk storytelling dan communication; knowledge khususnya belum menjadi bagian utama repository saat ini.",
+      "photo": ""
+    },
+    {
+      "name": "Kang Aviv / PsikologiBisnis",
+      "role": "Website Psychology, Sales Psychology, Visual Psychology",
+      "reason": "Referensi untuk website psychology, persuasion, pricing, visual psychology, social proof, CTA, dan elemen conversion lainnya.",
+      "photo": ""
+    }
+  ]
 }

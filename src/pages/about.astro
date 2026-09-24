@@ -111,6 +111,76 @@ const breadcrumbSchema = {
             <div class="text-lg space-y-4" set:html={contentHtml}></div>
           </Prose>
         </div>
+
+        {about.mentors && about.mentors.length > 0 && (
+          <div class="mt-16 pt-8 border-t border-zinc-200 dark:border-zinc-800 not-prose">
+            <div class="mb-8">
+              <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
+                {about.mentorsTitle || "Tokoh Sumber Referensi"}
+              </h2>
+              {about.mentorsSubtitle && (
+                <p class="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 mt-2 leading-relaxed">
+                  {about.mentorsSubtitle}
+                </p>
+              )}
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {about.mentors.map((mentor: any) => {
+                const initials = mentor.name
+                  ? mentor.name
+                      .split(/[\s/]+/)
+                      .filter(Boolean)
+                      .slice(0, 2)
+                      .map((n: string) => n[0])
+                      .join('')
+                      .toUpperCase()
+                  : '?';
+
+                return (
+                  <div class="p-5 sm:p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/60 dark:bg-zinc-900/40 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all flex items-start gap-4 sm:gap-5 shadow-2xs">
+                    {/* Foto Tokoh / Avatar Inisial */}
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden bg-primary/10 border-2 border-primary/20 flex items-center justify-center shrink-0 text-primary font-bold text-base sm:text-lg select-none shadow-xs">
+                      {mentor.photo && mentor.photo.trim() !== '' ? (
+                        <img 
+                          src={mentor.photo} 
+                          alt={mentor.name} 
+                          width="64" 
+                          height="64" 
+                          loading="lazy" 
+                          decoding="async" 
+                          class="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span>{initials}</span>
+                      )}
+                    </div>
+
+                    {/* Informasi Tokoh */}
+                    <div class="grow min-w-0">
+                      {/* Nama Tokoh (Bold) */}
+                      <h3 class="text-base sm:text-lg font-bold text-zinc-900 dark:text-zinc-100 leading-snug">
+                        {mentor.name}
+                      </h3>
+                      {/* Profesi / Bidang Keahlian */}
+                      {mentor.role && (
+                        <p class="text-xs sm:text-sm font-semibold text-primary mt-1 mb-2">
+                          {mentor.role}
+                        </p>
+                      )}
+                      {/* Keterangan Alasan Rujukan */}
+                      {mentor.reason && (
+                        <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                          {mentor.reason}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </article>
     </main>
   </div>
