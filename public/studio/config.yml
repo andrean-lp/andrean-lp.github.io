@@ -69,26 +69,7 @@ collections:
               - { label: "Deskripsi Tech Stack", name: "techStackDescription", widget: "markdown", required: false, hint: "Penjelasan mendalam mengapa teknologi tersebut dipilih" }
               - { label: "Technologies / Tools", name: "technologies", widget: "list", required: false }
 
-  - name: "testimonials_collection"
-    label: "Testimoni & Review"
-    files:
-      - label: "Daftar Testimoni Klien"
-        name: "testimonials_data"
-        file: "src/data/testimonials.json"
-        fields:
-          - { label: "Judul Halaman", name: "pageTitle", widget: "string", default: "Kisah Sukses & Hasil Nyata" }
-          - { label: "Badge Atas Halaman", name: "pageBadge", widget: "string", default: "Bukti / Testimoni", required: false }
-          - { label: "Sub-judul / Deskripsi Halaman", name: "pageSubtitle", widget: "string", default: "Bukan saya yang bilang tapi mereka 😊" }
-          - label: "Daftar Testimoni"
-            name: "items"
-            widget: "list"
-            summary: "{{fields.clientName}} ({{fields.category}})"
-            fields:
-              - { label: "Nama Klien / User", name: "clientName", widget: "string", required: false, hint: "Contoh: Rian Pratama atau Nama Perusahaan" }
-              - { label: "Role / Nama Bisnis", name: "roleOrCompany", widget: "string", required: false, hint: "Contoh: Founder Brand Skincare / CEO PT Maju" }
-              - { label: "Kategori Testimoni", name: "category", widget: "select", options: ["WhatsApp", "Google Review", "Diskusi Client", "Hasil Konversi", "Lainnya"], default: "WhatsApp", hint: "Kategori untuk filter tab di halaman testimoni" }
-              - { label: "Gambar Bukti Testimoni", name: "image", widget: "image", hint: "Upload screenshot WhatsApp, foto review Google, foto diskusi, atau grafik hasil. Otomatis dikompres & dikonversi ke WebP." }
-              - { label: "Tanggal", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false }
+
 
   - name: "digital_products_collection"
     label: "Digital Products"

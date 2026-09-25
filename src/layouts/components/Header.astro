@@ -15,7 +15,6 @@ const switchEnUrl = getSwitchLocaleUrl(currentPath, 'en');
 
 const isEn = currentLocale === 'en';
 const homeHref = isEn ? '/en/' : '/';
-const testimonialsHref = isEn ? '/en/testimonials/' : '/testimonials/';
 const aboutHref = isEn ? '/en/about/' : '/about/';
 const projectsHref = isEn ? '/en/projects/' : '/projects/';
 const postsHref = isEn ? '/en/posts/' : '/posts/';
@@ -99,11 +98,6 @@ const tagsHref = isEn ? '/en/tags/' : '/tags/';
         <div class="px-2.5 text-sm">
           <HeaderLink class="py-3 flex items-center" href={homeHref} aria-label={t('nav.home')}>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-          </HeaderLink>
-        </div>
-        <div class="px-2.5 text-sm">
-          <HeaderLink class="py-3 flex items-center" href={testimonialsHref} aria-label={t('nav.testimonials')} title={t('nav.testimonials')}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square-quote"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 12a2 2 0 0 0 2-2V8H8"/><path d="M14 12a2 2 0 0 0 2-2V8h-2"/></svg>
           </HeaderLink>
         </div>
         <div class="px-2.5 text-sm">

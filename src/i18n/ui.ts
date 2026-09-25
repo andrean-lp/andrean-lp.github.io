@@ -10,7 +10,6 @@ export const ui = {
   id: {
     // Navigation
     'nav.home': 'Beranda',
-    'nav.testimonials': 'Testimoni',
     'nav.about': 'Tentang Saya',
     'nav.projects': 'Proyek',
     'nav.posts': 'Tulisan / Artikel',
@@ -33,7 +32,6 @@ export const ui = {
     // Common CTA & Badges
     'cta.allProducts': 'All Products',
     'cta.allProjects': 'All Projects',
-    'cta.allTestimonials': 'Semua Testimoni',
     'cta.allPosts': 'Semua Artikel',
     'cta.livePreview': 'Live Preview',
     'cta.buyNow': 'Buy Now →',
@@ -41,7 +39,6 @@ export const ui = {
   en: {
     // Navigation
     'nav.home': 'Home',
-    'nav.testimonials': 'Testimonials',
     'nav.about': 'About Me',
     'nav.projects': 'Projects',
     'nav.posts': 'Articles & Blog',
@@ -64,7 +61,6 @@ export const ui = {
     // Common CTA & Badges
     'cta.allProducts': 'All Products',
     'cta.allProjects': 'All Projects',
-    'cta.allTestimonials': 'All Testimonials',
     'cta.allPosts': 'All Articles',
     'cta.livePreview': 'Live Preview',
     'cta.buyNow': 'Buy Now →',
@@ -83,7 +79,6 @@ const SUPPORTED_EN_EXACT_ROUTES = new Set([
   '/posts',
   '/projects',
   '/tags',
-  '/testimonials',
 ]);
 
 /**
