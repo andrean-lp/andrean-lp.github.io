@@ -6,6 +6,17 @@ backend:
 media_folder: "public/images"
 public_folder: "/images"
 
+media_library:
+  name: cloudinary
+  output_filename_only: false
+  config:
+    cloud_name: "kcsdwgfp"
+    api_key: "672821771898599"
+    default_transformations:
+      - [{auto: "webp"}, {quality: "auto"}]
+    # Force uploads to Portofolio folder
+    folder: "Portofolio"
+
 collections:
   - name: "blog"
     label: "Blog Posts"

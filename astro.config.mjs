@@ -20,6 +20,9 @@ export default defineConfig({
   build: {
     inlineStylesheets: 'auto'
   },
+  image: {
+    domains: ['res.cloudinary.com']
+  },
   integrations: [
     mdx(),
     sitemap({
