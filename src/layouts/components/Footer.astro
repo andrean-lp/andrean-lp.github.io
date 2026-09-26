@@ -6,7 +6,7 @@ import { renderMarkdown } from '@src/utils';
 const today = new Date();
 
 const defaultFooter = `Copyright © {year} ${site.title || 'Andre Wahyu Hermawan'}. All rights reserved.`;
-const rawFooterText = (site.footer || defaultFooter).replace(/\{year\}/g, today.getFullYear().toString());
+const rawFooterText = (site.footer || defaultFooter).replace(/\{year\}/g, `<span id="dynamic-year">${today.getFullYear()}</span>`);
 
 const rawFooterHtml = await renderMarkdown(rawFooterText);
 const footerHtml = rawFooterHtml
@@ -108,3 +108,10 @@ const socialItems = [
 		<div class='text-sm text-zinc-500 dark:text-zinc-400' set:html={footerHtml}></div>
 	</div>
 </footer>
+
+<script>
+	const yearSpan = document.getElementById('dynamic-year');
+	if (yearSpan) {
+		yearSpan.textContent = new Date().getFullYear().toString();
+	}
+</script>
